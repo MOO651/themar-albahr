@@ -10,8 +10,8 @@ export const CartProvider = ({ children }: any) => {
 
   // متابعة السلتين عشان نحدث العدد تلقائياً
   useEffect(() => {
-    const unsubR = onSnapshot(doc(db, "carts", "cart_riyadh"), (s) => updateCount());
-    const unsubQ = onSnapshot(doc(db, "carts", "cart_qatif"), (s) => updateCount());
+    const unsubR = onSnapshot(doc(db, "carts", "cart_riyadh"), (_) => updateCount());
+    const unsubQ = onSnapshot(doc(db, "carts", "cart_qatif"), (_) => updateCount());
     return () => { unsubR(); unsubQ(); };
   }, []);
 
