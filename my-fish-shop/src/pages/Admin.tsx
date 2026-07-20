@@ -34,11 +34,9 @@ const Admin = () => {
     await updateDoc(doc(db, "orders", id), { status: 'done' });
   };
 
-  // حذف طلب من الأرشيف
+  // حذف الطلب فوراً من غير أي رسائل تأكيد
   const deleteOrder = async (id: string) => {
-    if (confirm("هل أنت متأكد من حذف هذا الطلب نهائياً من الأرشيف؟")) {
-      await deleteDoc(doc(db, "orders", id));
-    }
+    await deleteDoc(doc(db, "orders", id));
   };
 
   const addProduct = async () => {
