@@ -7,7 +7,6 @@ import Riyadh from './pages/Riyadh';
 import Qatif from './pages/Qatif';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin';
-import ProductManager from './pages/ProductManager'; // 1. أضفنا استيراد صفحة إدارة المنتجات
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
               <Route path="/qatif" element={<Qatif />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/admin" element={<Admin />} />
-              <Route path="/manager" element={<ProductManager />} /> {/* 2. أضفنا مسار الإدارة */}
             </Routes>
           </main>
           
