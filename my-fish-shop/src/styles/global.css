@@ -1,0 +1,7 @@
+body {
+  margin: 0;
+  background-color: #f8fbfd; /* أبيض مائل للزرقة الفاتحة جداً */
+  background-image: radial-gradient(#d1eaf7 1px, transparent 1px);
+  background-size: 30px 30px; /* بيعمل نقط خفيفة زي فقاعات الماية */
+  font-family: sans-serif;
+}
