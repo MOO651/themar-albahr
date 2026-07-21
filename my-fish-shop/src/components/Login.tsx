@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // استيراد أدوات التوجيه
 import logo from '../assets/logo.png';
 
 export default function Login() {
   const [phone, setPhone] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // حالة لإظهار رسالة النجاح
+  const [successMessage, setSuccessMessage] = useState('');
+  
+  const navigate = useNavigate(); // تهيئة أداة التوجيه
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +23,17 @@ export default function Login() {
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault();
     if (otp === '1234') {
-      setSuccessMessage('تم تسجيل الدخول بنجاح! أهلاً بك في ثمار البحر 🎉');
+      // 1. حفظ رقم العميل في التخزين المحلي للمتجر
+      localStorage.setItem('customer_phone', '05' + phone.slice(-9));
+      
+      // 2. إظهار رسالة النجاح
+      setSuccessMessage('تم تسجيل الدخول بنجاح! جاري تحويلك للرئيسية...');
+
+      // 3. التحويل التلقائي للصفحة الرئيسية بعد ثانية ونصف
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+      
     } else {
       alert('رمز التحقق غير صحيح (استخدم 1234 للتجربة)');
     }
@@ -62,7 +75,7 @@ export default function Login() {
           </p>
         </div>
 
-        {/* إشعار النجاح العصري من غير Alert */}
+        {/* إشعار النجاح العصري */}
         {successMessage && (
           <div style={{
             backgroundColor: '#f0fdf4',
@@ -72,8 +85,7 @@ export default function Login() {
             border: '1px solid #dcfce7',
             fontSize: '14px',
             fontWeight: '600',
-            marginBottom: '20px',
-            animation: 'fadeIn 0.3s ease-in-out'
+            marginBottom: '20px'
           }}>
             {successMessage}
           </div>
