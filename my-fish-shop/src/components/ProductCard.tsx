@@ -40,7 +40,7 @@ const ProductCard = ({ product, branch }: { product: any; branch: 'riyadh' | 'qa
       </div>
 
       <h3 style={{ margin: "10px 0", fontSize: "20px", color: "#1e293b", fontWeight: "700" }}>{product.name}</h3>
-      {/* تعديل عرض السعر ليظهر الرقم أولاً ثم ر.س */}
+      {/* عرض السعر: الرقم أولاً ثم ر.س */}
       <p style={{ margin: "5px 0", fontSize: "18px", color: "#0ea5e9", fontWeight: "bold" }}>{product.price} ر.س</p>
       
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "15px", margin: "20px 0" }}>
