@@ -1,6 +1,7 @@
 // src/firebase/config.ts
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore"; // أضفنا دي
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth"; // أضفنا استيراد الـ Auth
 
 const firebaseConfig = {
   apiKey: "AIzaSyD5FU2qael_6US7X5tykY3OT5iT2uGquhE",
@@ -13,4 +14,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app); // عملنا Export للـ db عشان نستخدمها في الـ Context
+export const db = getFirestore(app); 
+export const auth = getAuth(app); // أضفنا تصدير الـ Auth عشان تسجيل الدخول

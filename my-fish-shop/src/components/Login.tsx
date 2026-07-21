@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { auth } from '../firebase/config'; // تم تعديل المسار ليتوافق مع config.ts
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
 export default function Login() {
   const [phone, setPhone] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
 
-  // أول ما الصفحة تفتح، نتأكد لو العميل مسجل قبل كدا نحوله للرئيسية فوراً
   useEffect(() => {
     const savedPhone = localStorage.getItem('customer_phone');
     if (savedPhone) {
@@ -18,36 +20,63 @@ export default function Login() {
     }
   }, [navigate]);
 
-  const handleSendOtp = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (phone.length >= 9) {
-      setOtpSent(true);
-      setSuccessMessage('');
-    } else {
-      alert('الرجاء إدخال رقم جوال صحيح');
+  const setupRecaptcha = () => {
+    if (!(window as any).recaptchaVerifier) {
+      (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible',
+        callback: () => {}
+      });
     }
   };
 
-  const handleVerifyOtp = (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (otp === '1234') {
-      const fullPhone = '05' + phone.slice(-9);
-      // 1. حفظ رقم العميل في التخزين المحلي
+    if (phone.length < 9) {
+      alert('الرجاء إدخال رقم جوال صحيح');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      setupRecaptcha();
+      const recaptchaVerifier = (window as any).recaptchaVerifier;
+      const formattedPhone = '+966' + phone.replace(/^0+/, '');
+
+      const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
+      (window as any).confirmationResult = confirmationResult;
+      
+      setLoading(false);
+      setOtpSent(true);
+      setSuccessMessage('');
+    } catch (error) {
+      console.error('خطأ في إرسال الرمز:', error);
+      alert('فشل إرسال رمز التحقق، تأكد من الرقم أو حاول لاحقاً.');
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const confirmationResult = (window as any).confirmationResult;
+      const result = await confirmationResult.confirm(otp);
+      const user = result.user;
+
+      const fullPhone = user.phoneNumber || ('+966' + phone.slice(-9));
       localStorage.setItem('customer_phone', fullPhone);
       
-      // 2. إطلاق حدث لتحديث الـ Navbar فوراً من غير ريفريش
       window.dispatchEvent(new Event('authChange'));
-      
-      // 3. إظهار رسالة النجاح
       setSuccessMessage('تم تسجيل الدخول بنجاح! جاري تحويلك للرئيسية...');
 
-      // 4. التحويل التلقائي للصفحة الرئيسية بعد ثانية ونصف
       setTimeout(() => {
         navigate('/');
       }, 1500);
-      
-    } else {
-      alert('رمز التحقق غير صحيح (استخدم 1234 للتجربة)');
+
+    } catch (error) {
+      console.error('رمز التحقق خطأ:', error);
+      alert('رمز التحقق غير صحيح، تأكد من الكود المرسل.');
+      setLoading(false);
     }
   };
 
@@ -72,7 +101,6 @@ export default function Login() {
         textAlign: 'center'
       }}>
         
-        {/* اللوجو والعنوان */}
         <div style={{ marginBottom: '20px' }}>
           <img 
             src={logo} 
@@ -87,7 +115,8 @@ export default function Login() {
           </p>
         </div>
 
-        {/* إشعار النجاح العصري */}
+        <div id="recaptcha-container"></div>
+
         {successMessage && (
           <div style={{
             backgroundColor: '#f0fdf4',
@@ -127,6 +156,7 @@ export default function Login() {
 
             <button
               type="submit"
+              disabled={loading}
               style={{
                 width: '100%',
                 backgroundColor: '#0ea5e9',
@@ -137,17 +167,18 @@ export default function Login() {
                 fontSize: '15px',
                 fontWeight: '600',
                 cursor: 'pointer',
-                marginTop: '10px'
+                marginTop: '10px',
+                opacity: loading ? 0.7 : 1
               }}
             >
-              إرسال رمز التحقق
+              {loading ? 'جاري الإرسال...' : 'إرسال رمز التحقق'}
             </button>
           </form>
         ) : (
           <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             <div style={{ backgroundColor: '#f0fdf4', padding: '12px', borderRadius: '10px', border: '1px solid #dcfce7', textAlign: 'center' }}>
               <p style={{ fontSize: '13px', color: '#166534', margin: 0 }}>
-                تم إرسال الرمز إلى: <strong dir="ltr">05{phone.slice(-9)}</strong>
+                تم إرسال الرمز الحقيقي إلى الرقم: <strong dir="ltr">05{phone.slice(-9)}</strong>
               </p>
               <button
                 type="button"
@@ -164,10 +195,10 @@ export default function Login() {
               </label>
               <input
                 type="text"
-                placeholder="1234"
+                placeholder="------"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
-                maxLength={4}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
+                maxLength={6}
                 style={{
                   width: '100%',
                   padding: '12px',
@@ -180,13 +211,11 @@ export default function Login() {
                 }}
                 required
               />
-              <p style={{ fontSize: '12px', color: '#64748b', marginTop: '6px', textAlign: 'center' }}>
-                استخدم الرمز <strong style={{ color: '#16a34a' }}>1234</strong> للتجربة
-              </p>
             </div>
 
             <button
               type="submit"
+              disabled={loading}
               style={{
                 width: '100%',
                 backgroundColor: '#16a34a',
@@ -196,10 +225,11 @@ export default function Login() {
                 padding: '12px',
                 fontSize: '15px',
                 fontWeight: '600',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                opacity: loading ? 0.7 : 1
               }}
             >
-              تأكيد وتسجيل الدخول
+              {loading ? 'جاري التحقق...' : 'تأكيد وتسجيل الدخول'}
             </button>
           </form>
         )}
