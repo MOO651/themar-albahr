@@ -5,11 +5,13 @@ export default function Login() {
   const [phone, setPhone] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); // حالة لإظهار رسالة النجاح
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
     if (phone.length >= 9) {
       setOtpSent(true);
+      setSuccessMessage('');
     } else {
       alert('الرجاء إدخال رقم جوال صحيح');
     }
@@ -18,7 +20,7 @@ export default function Login() {
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault();
     if (otp === '1234') {
-      alert('تم تسجيل الدخول بنجاح! أهلاً بك في ثمار البحر');
+      setSuccessMessage('تم تسجيل الدخول بنجاح! أهلاً بك في ثمار البحر 🎉');
     } else {
       alert('رمز التحقق غير صحيح (استخدم 1234 للتجربة)');
     }
@@ -45,7 +47,7 @@ export default function Login() {
         textAlign: 'center'
       }}>
         
-        {/* اللوجو بحجم مناسب ومرتب */}
+        {/* اللوجو والعنوان */}
         <div style={{ marginBottom: '20px' }}>
           <img 
             src={logo} 
@@ -59,6 +61,23 @@ export default function Login() {
             أهلاً بك في <span style={{ color: '#0ea5e9', fontWeight: '600' }}>ثمار البحر</span>
           </p>
         </div>
+
+        {/* إشعار النجاح العصري من غير Alert */}
+        {successMessage && (
+          <div style={{
+            backgroundColor: '#f0fdf4',
+            color: '#166534',
+            padding: '12px',
+            borderRadius: '10px',
+            border: '1px solid #dcfce7',
+            fontSize: '14px',
+            fontWeight: '600',
+            marginBottom: '20px',
+            animation: 'fadeIn 0.3s ease-in-out'
+          }}>
+            {successMessage}
+          </div>
+        )}
 
         {!otpSent ? (
           <form onSubmit={handleSendOtp} style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'right' }}>
@@ -94,7 +113,6 @@ export default function Login() {
                 fontSize: '15px',
                 fontWeight: '600',
                 cursor: 'pointer',
-                transition: 'background 0.2s',
                 marginTop: '10px'
               }}
             >
