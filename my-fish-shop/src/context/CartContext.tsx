@@ -1,68 +1,95 @@
 import { createContext, useState, useEffect } from "react";
-import { db } from "../firebase/config";
-import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 
 export const CartContext = createContext<any>(null);
 
 export const CartProvider = ({ children }: any) => {
   const [message, setMessage] = useState<string | null>(null);
-  const [totalItems, setTotalItems] = useState(0); // العداد الجديد
+  
+  // بنجيب السلة الخاصة بالفرعين من الـ localStorage لو موجودة، أو نبدأ بسلة فاضية
+  const [riyadhItems, setRiyadhItems] = useState<any[]>(() => {
+    const saved = localStorage.getItem("riyadh_cart");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  // متابعة السلتين عشان نحدث العدد تلقائياً
+  const [qatifItems, setQatifItems] = useState<any[]>(() => {
+    const saved = localStorage.getItem("qatif_cart");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // حفظ سلة الرياض في localStorage كل ما تتغير
   useEffect(() => {
-    const unsubR = onSnapshot(doc(db, "carts", "cart_riyadh"), (_) => updateCount());
-    const unsubQ = onSnapshot(doc(db, "carts", "cart_qatif"), (_) => updateCount());
-    return () => { unsubR(); unsubQ(); };
-  }, []);
+    localStorage.setItem("riyadh_cart", JSON.stringify(riyadhItems));
+  }, [riyadhItems]);
 
-  const updateCount = async () => {
-    const snapR = await getDoc(doc(db, "carts", "cart_riyadh"));
-    const snapQ = await getDoc(doc(db, "carts", "cart_qatif"));
-    
-    const itemsR = snapR.exists() ? snapR.data().items : [];
-    const itemsQ = snapQ.exists() ? snapQ.data().items : [];
-    
-    const total = [...itemsR, ...itemsQ].reduce((sum, item) => sum + item.quantity, 0);
-    setTotalItems(total);
-  };
+  // حفظ سلة القطيف في localStorage كل ما تتغير
+  useEffect(() => {
+    localStorage.setItem("qatif_cart", JSON.stringify(qatifItems));
+  }, [qatifItems]);
+
+  // حساب إجمالي المنتجات في السلتين مع بعض عشان العداد العلوي
+  const totalItems = [...riyadhItems, ...qatifItems].reduce((sum, item) => sum + item.quantity, 0);
 
   const showToast = (msg: string) => {
     setMessage(msg);
     setTimeout(() => setMessage(null), 2500);
   };
 
-  const addToCart = async (product: any, branch: 'riyadh' | 'qatif', quantity: number) => {
-    const branchId = branch === 'riyadh' ? 'cart_riyadh' : 'cart_qatif';
-    const docRef = doc(db, "carts", branchId);
-    
-    try {
-      const docSnap = await getDoc(docRef);
-      let currentItems = docSnap.exists() ? docSnap.data().items : [];
-      
-      const index = currentItems.findIndex((i: any) => i.id === product.id);
-      if (index > -1) {
-        currentItems[index].quantity += quantity;
-      } else {
-        currentItems.push({ ...product, quantity: quantity });
-      }
-      
-      await setDoc(docRef, { items: currentItems });
-      showToast(`تمت إضافة ${product.name} للسلة بنجاح!`);
-    } catch (error) {
-      console.error("خطأ:", error);
+  // إضافة منتج للسلة الخاصة بالفرع بتاعه على هذا الجهاز فقط
+  const addToCart = (product: any, branch: 'riyadh' | 'qatif', quantity: number) => {
+    if (branch === 'riyadh') {
+      setRiyadhItems(prevItems => {
+        const index = prevItems.findIndex((i: any) => i.id === product.id);
+        if (index > -1) {
+          const updated = [...prevItems];
+          updated[index].quantity += quantity;
+          return updated;
+        } else {
+          return [...prevItems, { ...product, quantity }];
+        }
+      });
+    } else {
+      setQatifItems(prevItems => {
+        const index = prevItems.findIndex((i: any) => i.id === product.id);
+        if (index > -1) {
+          const updated = [...prevItems];
+          updated[index].quantity += quantity;
+          return updated;
+        } else {
+          return [...prevItems, { ...product, quantity }];
+        }
+      });
     }
+
+    showToast(`تمت إضافة ${product.name} للسلة بنجاح!`);
+  };
+
+  // دالة لتحديث أو حذف العناصر لو محتاجها في صفحة السلة
+  const updateQuantity = (id: string, branch: 'riyadh' | 'qatif', newQty: number) => {
+    const setter = branch === 'riyadh' ? setRiyadhItems : setQatifItems;
+    setter(prev => prev.map(item => item.id === id ? { ...item, quantity: newQty } : item));
+  };
+
+  const removeFromCart = (id: string, branch: 'riyadh' | 'qatif') => {
+    const setter = branch === 'riyadh' ? setRiyadhItems : setQatifItems;
+    setter(prev => prev.filter(item => item.id !== id));
   };
 
   return (
-    // ضفنا totalItems هنا عشان نقدر نستخدمه في أي مكان
-    <CartContext.Provider value={{ addToCart, totalItems }}>
+    <CartContext.Provider value={{ 
+      addToCart, 
+      totalItems, 
+      riyadhItems, 
+      qatifItems, 
+      updateQuantity, 
+      removeFromCart 
+    }}>
       {children}
       
       {message && (
         <div style={{
-          position: "fixed", top: "20px", right: "20px", backgroundColor: "#28a745",
-          color: "white", padding: "15px 25px", borderRadius: "8px",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.2)", zIndex: 1000
+          position: "fixed", top: "20px", right: "20px", backgroundColor: "#22c55e",
+          color: "white", padding: "12px 24px", borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.15)", zIndex: 1000, fontWeight: "bold", fontSize: "15px"
         }}>
           {message}
         </div>
