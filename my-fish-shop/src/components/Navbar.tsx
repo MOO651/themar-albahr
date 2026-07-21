@@ -21,13 +21,13 @@ const Navbar = () => {
       display: 'flex', 
       justifyContent: 'space-between', 
       alignItems: 'center', 
-      padding: '15px 20px', // صغرناها عشان تبقى مناسبة للموبايل والكمبيوتر
+      padding: '15px 20px',
       backgroundColor: '#ffffff',
       boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
       position: 'sticky',
       top: 0,
       zIndex: 1000,
-      flexWrap: 'wrap', // عشان لو الشاشة ضاقت العناصر تنزل برفق وما تطلعش بره
+      flexWrap: 'wrap',
       gap: '10px'
     }}>
       
@@ -39,12 +39,29 @@ const Navbar = () => {
         </span>
       </div>
 
-      {/* الروابط والسلة */}
+      {/* الروابط والسلة وتسجيل الدخول */}
       <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Link to="/" style={linkStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9' } onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>الرئيسية</Link>
         <Link to="/riyadh" style={linkStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9' } onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>الرياض</Link>
         <Link to="/qatif" style={linkStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9' } onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>القطيف</Link>
         
+        {/* زر تسجيل الدخول */}
+        <Link to="/login" style={{ 
+          ...linkStyle, 
+          border: '1px solid #0ea5e9',
+          color: '#0ea5e9'
+        }} 
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = '#0ea5e9';
+          e.currentTarget.style.color = 'white';
+        }} 
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent';
+          e.currentTarget.style.color = '#0ea5e9';
+        }}>
+          تسجيل الدخول
+        </Link>
+
         {/* السلة مع العداد */}
         <Link to="/cart" style={{ 
           ...linkStyle, 
