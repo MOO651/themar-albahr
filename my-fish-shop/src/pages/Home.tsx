@@ -26,20 +26,62 @@ const Home = () => {
       {/* الفروع */}
       <div style={{ padding: '20px', marginBottom: '40px' }}>
         <h2 style={{ color: '#1e293b', marginBottom: '25px' }}>اختر فرعك للبدء</h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
           <Link to="/riyadh" style={{ padding: '15px 40px', backgroundColor: '#0ea5e9', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', transition: '0.3s' }}>فرع الرياض</Link>
           <Link to="/qatif" style={{ padding: '15px 40px', backgroundColor: '#334155', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', transition: '0.3s' }}>فرع القطيف</Link>
         </div>
       </div>
 
-      {/* الميزات */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '0 20px', flexWrap: 'wrap' }}>
+      {/* الميزات المصغرة */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '0 20px', flexWrap: 'wrap', marginBottom: '60px' }}>
         {features.map((item, i) => (
           <div key={i} style={{ padding: '25px', borderRadius: '20px', width: '140px', backgroundColor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
             <div style={{ fontSize: '2rem', marginBottom: '10px' }}>{item.icon}</div>
             <div style={{ fontSize: '0.9rem', fontWeight: '600', color: '#475569' }}>{item.text}</div>
           </div>
         ))}
+      </div>
+
+      {/* أقسام المتجر التفصيلية (من نحن، لماذا نحن، اتصل بنا) */}
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px', marginBottom: '50px' }}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+          gap: '25px',
+          textAlign: 'right'
+        }}>
+          
+          {/* كارت من نحن */}
+          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
+            <h3 style={{ color: '#0ea5e9', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span>🐟</span> من نحن
+            </h3>
+            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
+              متجر ثمار البحر، وجهتك الأولى لأفضل وأفخر أنواع الأسماك الطازجة والمأكولات البحرية المنتقاة بعناية فائقة من بحارنا لتصل إلى مائدتك يومياً بأعلى معايير الجودة والنظافة.
+            </p>
+          </div>
+
+          {/* كارت لماذا نحن */}
+          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
+            <h3 style={{ color: '#0ea5e9', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span>⭐</span> لماذا نحن
+            </h3>
+            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
+              نتميز بالتوصيل السريع ضمن حافظات مبردة تحافظ على النضارة الكاملة، مع التطهير والتعقيم المستمر لضمان سلامتك، وأسعار تنافسية تضمن لك أفضل قيمة.
+            </p>
+          </div>
+
+          {/* كارت اتصل بنا */}
+          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
+            <h3 style={{ color: '#0ea5e9', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span>📞</span> اتصل بنا
+            </h3>
+            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
+              نسعد بخدمتكم وتلبية طلباتكم على مدار الساعة عبر فروعنا المتاحة في الرياض والقطيف، أو من خلال خدمة الواتساب المتاحة دائماً لخدمتكم بكل فخر.
+            </p>
+          </div>
+
+        </div>
       </div>
 
       {/* زر الواتساب العائم (Floating Button) */}
