@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
-import { collection, onSnapshot, query, orderBy, doc, updateDoc, addDoc, deleteDoc, setDoc } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy, doc, updateDoc, addDoc, deleteDoc } from "firebase/firestore";
 
 const Admin = () => {
   const [orders, setOrders] = useState<any[]>([]);
@@ -14,7 +14,7 @@ const Admin = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("qatif-frozen");
   const [imageUrl, setImageUrl] = useState("");
-  const [editingId, setEditingId] = useState<string | null>(null); // لتحديد المنتج اللي جاري تعديله
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   // جلب الطلبات
   useEffect(() => {
@@ -44,7 +44,6 @@ const Admin = () => {
     if (!name || !price || !imageUrl) return alert("يرجى إدخال جميع البيانات بما فيها رابط الصورة");
     
     if (editingId) {
-      // لو في حالة تعديل، بنحدث المنتج الحالي
       await updateDoc(doc(db, "products", editingId), {
         name,
         price: Number(price),
@@ -54,7 +53,6 @@ const Admin = () => {
       setEditingId(null);
       alert("تم تعديل المنتج بنجاح! ✅");
     } else {
-      // لو إضافة منتج جديد
       await addDoc(collection(db, "products"), { 
         name, 
         price: Number(price), 
@@ -64,13 +62,11 @@ const Admin = () => {
       alert("تم إضافة المنتج بنجاح! 🐟");
     }
 
-    // تفريغ الحقول
     setName(""); 
     setPrice(""); 
     setImageUrl("");
   };
 
-  // تجهيز بيانات المنتج للتعديل
   const startEditing = (p: any) => {
     setEditingId(p.id);
     setName(p.name);
@@ -79,7 +75,6 @@ const Admin = () => {
     setImageUrl(p.imageUrl);
   };
 
-  // إلغاء التعديل
   const cancelEditing = () => {
     setEditingId(null);
     setName(""); 
@@ -87,7 +82,6 @@ const Admin = () => {
     setImageUrl("");
   };
 
-  // شاشة تسجيل الدخول
   if (!isAuthenticated) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: '#f9fafb' }}>
@@ -114,10 +108,9 @@ const Admin = () => {
     <div style={{ padding: "30px", direction: 'rtl', backgroundColor: '#f9fafb', minHeight: '100vh' }}>
       <h1 style={{ textAlign: "center", color: '#1e293b', marginBottom: '30px' }}>لوحة التحكم والتحكم بالمنتجات 📊</h1>
       
-      {/* تقسيم الصفحة لقسمين رئيسيين بجانب بعض */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '25px', alignItems: 'start' }}>
         
-        {/* القسم الأيمن: إدارة المنتجات (إضافة / تعديل) */}
+        {/* القسم الأيمن: إدارة المنتجات */}
         <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
           <h2 style={{ color: '#1e293b', marginBottom: '15px', fontSize: '20px' }}>
             {editingId ? "✏️ تعديل المنتج" : "إضافة منتج جديد 🐟"}
