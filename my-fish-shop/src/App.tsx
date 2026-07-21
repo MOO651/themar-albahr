@@ -7,6 +7,7 @@ import Riyadh from './pages/Riyadh';
 import Qatif from './pages/Qatif';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin';
+import Login from './components/Login'; // استيراد صفحة تسجيل الدخول
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/qatif" element={<Qatif />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/login" element={<Login />} /> {/* مسار صفحة تسجيل الدخول */}
             </Routes>
           </main>
           
