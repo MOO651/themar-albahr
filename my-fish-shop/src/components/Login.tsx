@@ -10,7 +10,7 @@ export default function Login() {
   
   const navigate = useNavigate();
 
-  // أول ما الصفحة تفتح، نتاكد لو العميل مسجل قبل كدا نحوله للرئيسية فوراً
+  // أول ما الصفحة تفتح، نتأكد لو العميل مسجل قبل كدا نحوله للرئيسية فوراً
   useEffect(() => {
     const savedPhone = localStorage.getItem('customer_phone');
     if (savedPhone) {
@@ -32,10 +32,16 @@ export default function Login() {
     e.preventDefault();
     if (otp === '1234') {
       const fullPhone = '05' + phone.slice(-9);
+      // 1. حفظ رقم العميل في التخزين المحلي
       localStorage.setItem('customer_phone', fullPhone);
       
+      // 2. إطلاق حدث لتحديث الـ Navbar فوراً من غير ريفريش
+      window.dispatchEvent(new Event('authChange'));
+      
+      // 3. إظهار رسالة النجاح
       setSuccessMessage('تم تسجيل الدخول بنجاح! جاري تحويلك للرئيسية...');
 
+      // 4. التحويل التلقائي للصفحة الرئيسية بعد ثانية ونصف
       setTimeout(() => {
         navigate('/');
       }, 1500);
@@ -66,6 +72,7 @@ export default function Login() {
         textAlign: 'center'
       }}>
         
+        {/* اللوجو والعنوان */}
         <div style={{ marginBottom: '20px' }}>
           <img 
             src={logo} 
@@ -80,6 +87,7 @@ export default function Login() {
           </p>
         </div>
 
+        {/* إشعار النجاح العصري */}
         {successMessage && (
           <div style={{
             backgroundColor: '#f0fdf4',

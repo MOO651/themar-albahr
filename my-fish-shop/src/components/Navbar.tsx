@@ -8,14 +8,28 @@ const Navbar = () => {
   const [customerPhone, setCustomerPhone] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // متابعة حالة تسجيل الدخول للعميل
-  useEffect(() => {
+  // دالة لجلب رقم الجوال من التخزين المحلي
+  const checkUserSession = () => {
     const phone = localStorage.getItem('customer_phone');
     setCustomerPhone(phone);
+  };
+
+  useEffect(() => {
+    checkUserSession();
+
+    // الاستماع لأي تغير بيحصل في الجلسة عشان يحدث نفسه فوراً
+    window.addEventListener('storage', checkUserSession);
+    window.addEventListener('authChange', checkUserSession);
+
+    return () => {
+      window.removeEventListener('storage', checkUserSession);
+      window.removeEventListener('authChange', checkUserSession);
+    };
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('customer_phone');
+    window.dispatchEvent(new Event('authChange')); // إرسال تنبيه بتحديث حالة الدخول
     setCustomerPhone(null);
     navigate('/');
   };
@@ -45,7 +59,6 @@ const Navbar = () => {
       gap: '10px'
     }}>
       
-      {/* اللوجو واسم الموقع */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <img src={logo} alt="Logo" style={{ height: '45px', transition: 'transform 0.3s' }} />
         <span style={{ fontSize: '22px', fontWeight: '800', color: '#0f172a', letterSpacing: '1px' }}>
@@ -53,13 +66,11 @@ const Navbar = () => {
         </span>
       </div>
 
-      {/* الروابط والسلة وتسجيل الدخول */}
       <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-        <Link to="/" style={linkStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9' } onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>الرئيسية</Link>
-        <Link to="/riyadh" style={linkStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9' } onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>الرياض</Link>
-        <Link to="/qatif" style={linkStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9' } onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>القطيف</Link>
+        <Link to="/" style={linkStyle}>الرئيسية</Link>
+        <Link to="/riyadh" style={linkStyle}>الرياض</Link>
+        <Link to="/qatif" style={linkStyle}>القطيف</Link>
         
-        {/* لو مسجل دخول يظهر رقمه وزر خروج، لو مش مسجل يظهر زر تسجيل الدخول */}
         {customerPhone ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '8px' }}>
             <span style={{ fontSize: '13px', color: '#334155', fontWeight: '600' }}>
@@ -76,7 +87,6 @@ const Navbar = () => {
                 fontWeight: 'bold',
                 padding: '2px 6px'
               }}
-              title="تسجيل الخروج"
             >
               خروج
             </button>
@@ -86,20 +96,11 @@ const Navbar = () => {
             ...linkStyle, 
             border: '1px solid #0ea5e9',
             color: '#0ea5e9'
-          }} 
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#0ea5e9';
-            e.currentTarget.style.color = 'white';
-          }} 
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#0ea5e9';
           }}>
             تسجيل الدخول
           </Link>
         )}
 
-        {/* السلة مع العداد */}
         <Link to="/cart" style={{ 
           ...linkStyle, 
           backgroundColor: '#0ea5e9', 
