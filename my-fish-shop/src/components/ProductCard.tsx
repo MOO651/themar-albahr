@@ -40,8 +40,11 @@ const ProductCard = ({ product, branch }: { product: any; branch: 'riyadh' | 'qa
       </div>
 
       <h3 style={{ margin: "10px 0", fontSize: "20px", color: "#1e293b", fontWeight: "700" }}>{product.name}</h3>
-      {/* عرض السعر: الرقم أولاً ثم ر.س */}
-      <p style={{ margin: "5px 0", fontSize: "18px", color: "#0ea5e9", fontWeight: "bold" }}>{product.price} ر.س</p>
+      
+      {/* عرض السعر بالأرقام العربية والتنسيق الصحيح */}
+      <p style={{ margin: "5px 0", fontSize: "18px", color: "#0ea5e9", fontWeight: "bold" }}>
+        {Number(product.price).toLocaleString('ar-SA')} ر.س
+      </p>
       
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "15px", margin: "20px 0" }}>
         <button onClick={decrement} style={{ padding: "5px 15px", borderRadius: "8px", border: "none", backgroundColor: "#e2e8f0", cursor: "pointer" }}>-</button>
