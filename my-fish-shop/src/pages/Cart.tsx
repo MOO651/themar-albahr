@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "../context/CartContext";
 import { db } from "../firebase/config";
-import { doc, onSnapshot, setDoc, collection, addDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 const Cart = () => {
-  const [riyadhItems, setRiyadhItems] = useState<any[]>([]);
-  const [qatifItems, setQatifItems] = useState<any[]>([]);
+  const { riyadhItems, qatifItems, updateQuantity, removeFromCart } = useContext(CartContext);
   const [notes, setNotes] = useState<{ [key: string]: string }>({});
   
   // فصل بيانات العميل لكل فرع لوحده لتجنب أي تداخل
   const [riyadhCustomer, setRiyadhCustomer] = useState({ name: '', phone: '', address: '' });
   const [qatifCustomer, setQatifCustomer] = useState({ name: '', phone: '', address: '' });
 
-  useEffect(() => {
-    const unsubR = onSnapshot(doc(db, "carts", "cart_riyadh"), (s) => setRiyadhItems(s.exists() ? s.data().items : []));
-    const unsubQ = onSnapshot(doc(db, "carts", "cart_qatif"), (s) => setQatifItems(s.exists() ? s.data().items : []));
-    return () => { unsubR(); unsubQ(); };
-  }, []);
-
-  const updateQuantity = async (branch: string, productId: string, delta: number) => {
-    const branchId = branch === 'riyadh' ? 'cart_riyadh' : 'cart_qatif';
-    const items = branch === 'riyadh' ? [...riyadhItems] : [...qatifItems];
-    const index = items.findIndex((i) => i.id === productId);
-    if (index > -1) {
-      items[index].quantity += delta;
-      if (items[index].quantity < 1) items.splice(index, 1);
-      await setDoc(doc(db, "carts", branchId), { items });
+  const handleQuantityChange = (branch: 'riyadh' | 'qatif', productId: string, delta: number) => {
+    const items = branch === 'riyadh' ? riyadhItems : qatifItems;
+    const currentItem = items.find((i: any) => i.id === productId);
+    if (currentItem) {
+      const newQty = currentItem.quantity + delta;
+      if (newQty < 1) {
+        removeFromCart(productId, branch);
+      } else {
+        updateQuantity(productId, branch, newQty);
+      }
     }
   };
 
@@ -64,7 +60,7 @@ const Cart = () => {
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
-  const renderSection = (items: any[], branch: string, title: string, color: string) => {
+  const renderSection = (items: any[], branch: 'riyadh' | 'qatif', title: string, color: string) => {
     const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const customer = branch === 'riyadh' ? riyadhCustomer : qatifCustomer;
     const setCustomer = branch === 'riyadh' ? setRiyadhCustomer : setQatifCustomer;
@@ -79,9 +75,9 @@ const Cart = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontWeight: '600' }}>{item.name}</div>
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <button onClick={() => updateQuantity(branch, item.id, -1)} style={{ border:'none', cursor:'pointer', padding:'5px 10px', borderRadius:'5px' }}>-</button>
+                    <button onClick={() => handleQuantityChange(branch, item.id, -1)} style={{ border:'none', cursor:'pointer', padding:'5px 10px', borderRadius:'5px', backgroundColor: '#e2e8f0' }}>-</button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(branch, item.id, 1)} style={{ border:'none', cursor:'pointer', padding:'5px 10px', borderRadius:'5px' }}>+</button>
+                    <button onClick={() => handleQuantityChange(branch, item.id, 1)} style={{ border:'none', cursor:'pointer', padding:'5px 10px', borderRadius:'5px', backgroundColor: '#e2e8f0' }}>+</button>
                   </div>
                 </div>
                 <input type="text" placeholder="ملاحظة إضافية" style={{ width: '100%', marginTop: '8px', padding: '8px', borderRadius: '6px', border: '1px solid #e2e8f0' }} onChange={(e) => setNotes({...notes, [item.id]: e.target.value})}/>
