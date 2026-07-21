@@ -1,10 +1,24 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { CartContext } from '../context/CartContext';
 
 const Navbar = () => {
   const { totalItems } = useContext(CartContext);
+  const [customerPhone, setCustomerPhone] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  // متابعة حالة تسجيل الدخول للعميل
+  useEffect(() => {
+    const phone = localStorage.getItem('customer_phone');
+    setCustomerPhone(phone);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('customer_phone');
+    setCustomerPhone(null);
+    navigate('/');
+  };
 
   const linkStyle = {
     textDecoration: 'none',
@@ -45,22 +59,45 @@ const Navbar = () => {
         <Link to="/riyadh" style={linkStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9' } onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>الرياض</Link>
         <Link to="/qatif" style={linkStyle} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9' } onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>القطيف</Link>
         
-        {/* زر تسجيل الدخول */}
-        <Link to="/login" style={{ 
-          ...linkStyle, 
-          border: '1px solid #0ea5e9',
-          color: '#0ea5e9'
-        }} 
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#0ea5e9';
-          e.currentTarget.style.color = 'white';
-        }} 
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
-          e.currentTarget.style.color = '#0ea5e9';
-        }}>
-          تسجيل الدخول
-        </Link>
+        {/* لو مسجل دخول يظهر رقمه وزر خروج، لو مش مسجل يظهر زر تسجيل الدخول */}
+        {customerPhone ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '8px' }}>
+            <span style={{ fontSize: '13px', color: '#334155', fontWeight: '600' }}>
+              👤 <span dir="ltr">{customerPhone}</span>
+            </span>
+            <button
+              onClick={handleLogout}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#ef4444',
+                fontSize: '12px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                padding: '2px 6px'
+              }}
+              title="تسجيل الخروج"
+            >
+              خروج
+            </button>
+          </div>
+        ) : (
+          <Link to="/login" style={{ 
+            ...linkStyle, 
+            border: '1px solid #0ea5e9',
+            color: '#0ea5e9'
+          }} 
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#0ea5e9';
+            e.currentTarget.style.color = 'white';
+          }} 
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.color = '#0ea5e9';
+          }}>
+            تسجيل الدخول
+          </Link>
+        )}
 
         {/* السلة مع العداد */}
         <Link to="/cart" style={{ 

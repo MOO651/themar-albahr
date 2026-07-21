@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // استيراد أدوات التوجيه
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 export default function Login() {
@@ -8,7 +8,15 @@ export default function Login() {
   const [otp, setOtp] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   
-  const navigate = useNavigate(); // تهيئة أداة التوجيه
+  const navigate = useNavigate();
+
+  // أول ما الصفحة تفتح، نتاكد لو العميل مسجل قبل كدا نحوله للرئيسية فوراً
+  useEffect(() => {
+    const savedPhone = localStorage.getItem('customer_phone');
+    if (savedPhone) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,13 +31,11 @@ export default function Login() {
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault();
     if (otp === '1234') {
-      // 1. حفظ رقم العميل في التخزين المحلي للمتجر
-      localStorage.setItem('customer_phone', '05' + phone.slice(-9));
+      const fullPhone = '05' + phone.slice(-9);
+      localStorage.setItem('customer_phone', fullPhone);
       
-      // 2. إظهار رسالة النجاح
       setSuccessMessage('تم تسجيل الدخول بنجاح! جاري تحويلك للرئيسية...');
 
-      // 3. التحويل التلقائي للصفحة الرئيسية بعد ثانية ونصف
       setTimeout(() => {
         navigate('/');
       }, 1500);
@@ -60,7 +66,6 @@ export default function Login() {
         textAlign: 'center'
       }}>
         
-        {/* اللوجو والعنوان */}
         <div style={{ marginBottom: '20px' }}>
           <img 
             src={logo} 
@@ -75,7 +80,6 @@ export default function Login() {
           </p>
         </div>
 
-        {/* إشعار النجاح العصري */}
         {successMessage && (
           <div style={{
             backgroundColor: '#f0fdf4',
