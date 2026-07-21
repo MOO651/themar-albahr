@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import { auth } from '../firebase/config'; // تم تعديل المسار ليتوافق مع config.ts
-import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import { auth } from '../firebase/config';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 export default function Login() {
-  const [phone, setPhone] = useState('');
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  
+  const [needsPhone, setNeedsPhone] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,71 +19,60 @@ export default function Login() {
     }
   }, [navigate]);
 
-  const setupRecaptcha = () => {
-    if (!(window as any).recaptchaVerifier) {
-      (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'invisible',
-        callback: () => {}
-      });
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      setCurrentUser(user);
+
+      // فحص هل المستخدم مسجل رقمه من قبل في الـ localStorage
+      const savedUserPhones = JSON.parse(localStorage.getItem('users_phones') || '{}');
+      
+      if (savedUserPhones[user.email!]) {
+        // لو عنده رقم قديم، نسجله وندخله على طول
+        localStorage.setItem('customer_phone', savedUserPhones[user.email!]);
+        window.dispatchEvent(new Event('authChange'));
+        setSuccessMessage('تم تسجيل الدخول بنجاح! جاري تحويلك...');
+        setTimeout(() => navigate('/'), 1200);
+      } else {
+        // لو أول مرة، نظهر له شاشة إدخال رقم الجوال إجبارياً
+        setLoading(false);
+        setNeedsPhone(true);
+      }
+
+    } catch (error) {
+      console.error('خطأ في تسجيل الدخول بجوجل:', error);
+      alert('فشل تسجيل الدخول، حاول مرة أخرى.');
+      setLoading(false);
     }
   };
 
-  const handleSendOtp = async (e: React.FormEvent) => {
+  const handleSavePhoneAndProceed = (e: React.FormEvent) => {
     e.preventDefault();
-    if (phone.length < 9) {
+    if (phoneNumber.length < 9) {
       alert('الرجاء إدخال رقم جوال صحيح');
       return;
     }
 
-    setLoading(true);
-    try {
-      setupRecaptcha();
-      const recaptchaVerifier = (window as any).recaptchaVerifier;
-      const formattedPhone = '+966' + phone.replace(/^0+/, '');
-
-      const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, recaptchaVerifier);
-      (window as any).confirmationResult = confirmationResult;
-      
-      setLoading(false);
-      setOtpSent(true);
-      setSuccessMessage('');
-    } catch (error) {
-      console.error('خطأ في إرسال الرمز:', error);
-      // التعديل الآمن: لو الـ SMS فشلت، نسجل الرقم دايركت وندخل الموقع من غير ما نقف
-      setLoading(false);
-      const fullPhone = '+966' + phone.replace(/^0+/, '');
-      localStorage.setItem('customer_phone', fullPhone);
-      window.dispatchEvent(new Event('authChange'));
-      setSuccessMessage('تم تخطي الرسالة وتسجيل الدخول برقمك بنجاح! جاري تحويلك...');
-      setTimeout(() => {
-        navigate('/');
-      }, 1200);
+    const formattedPhone = '+966' + phoneNumber.replace(/^0+/, '');
+    
+    // حفظ الرقم الحالي ورطبه بالإيميل
+    localStorage.setItem('customer_phone', formattedPhone);
+    
+    if (currentUser && currentUser.email) {
+      const savedUserPhones = JSON.parse(localStorage.getItem('users_phones') || '{}');
+      savedUserPhones[currentUser.email] = formattedPhone;
+      localStorage.setItem('users_phones', JSON.stringify(savedUserPhones));
     }
-  };
 
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const confirmationResult = (window as any).confirmationResult;
-      const result = await confirmationResult.confirm(otp);
-      const user = result.user;
+    window.dispatchEvent(new Event('authChange'));
+    setSuccessMessage('تم حفظ رقم الجوال وتسجيل الدخول بنجاح!');
 
-      const fullPhone = user.phoneNumber || ('+966' + phone.slice(-9));
-      localStorage.setItem('customer_phone', fullPhone);
-      
-      window.dispatchEvent(new Event('authChange'));
-      setSuccessMessage('تم تسجيل الدخول بنجاح! جاري تحويلك للرئيسية...');
-
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
-
-    } catch (error) {
-      console.error('رمز التحقق خطأ:', error);
-      alert('رمز التحقق غير صحيح، تأكد من الكود المرسل.');
-      setLoading(false);
-    }
+    setTimeout(() => {
+      navigate('/');
+    }, 1200);
   };
 
   return (
@@ -108,21 +96,19 @@ export default function Login() {
         textAlign: 'center'
       }}>
         
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '25px' }}>
           <img 
             src={logo} 
             alt="ثمار البحر" 
             style={{ height: '70px', margin: '0 auto 15px auto', objectFit: 'contain' }} 
           />
           <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#0f172a', margin: '0 0 8px 0' }}>
-            تسجيل الدخول
+            {needsPhone ? 'إدخال رقم الجوال إجباري' : 'تسجيل الدخول'}
           </h2>
           <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
-            أهلاً بك في <span style={{ color: '#0ea5e9', fontWeight: '600' }}>ثمار البحر</span>
+            {needsPhone ? 'يرجى إدخال رقم جوالك لنتمكن من إتمام طلباتك والتواصل معك' : 'أهلاً بك في ثمار البحر'}
           </p>
         </div>
-
-        <div id="recaptcha-container"></div>
 
         {successMessage && (
           <div style={{
@@ -139,11 +125,41 @@ export default function Login() {
           </div>
         )}
 
-        {!otpSent ? (
-          <form onSubmit={handleSendOtp} style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'right' }}>
+        {!needsPhone ? (
+          <button
+            onClick={handleGoogleLogin}
+            disabled={loading}
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px',
+              backgroundColor: '#ffffff',
+              color: '#334155',
+              border: '1px solid #cbd5e1',
+              borderRadius: '12px',
+              padding: '12px',
+              fontSize: '16px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+              opacity: loading ? 0.7 : 1
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.19v3.15C3.18 21.38 7.23 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.61H1.19C.43 8.15 0 9.89 0 11.7s.43 3.55 1.19 5.09l4.08-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.62 1.19 6.61l4.08 3.15c.95-2.85 3.6-4.96 6.73-4.96z"/>
+            </svg>
+            {loading ? 'جاري تسجيل الدخول...' : 'التسجيل باستخدام جوجل'}
+          </button>
+        ) : (
+          <form onSubmit={handleSavePhoneAndProceed} style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'right' }}>
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#334155', marginBottom: '6px' }}>
-                رقم الجوال
+                رقم الجوال الشخصي (إجباري)
               </label>
               <div style={{ display: 'flex', border: '1px solid #cbd5e1', borderRadius: '10px', overflow: 'hidden', backgroundColor: '#fff' }}>
                 <span style={{ padding: '10px 12px', backgroundColor: '#f1f5f9', color: '#475569', fontSize: '14px', borderLeft: '1px solid #cbd5e1' }}>
@@ -152,8 +168,8 @@ export default function Login() {
                 <input
                   type="tel"
                   placeholder="5xxxxxxxx"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))}
                   maxLength={10}
                   style={{ width: '100%', padding: '10px 14px', border: 'none', outline: 'none', fontSize: '14px', direction: 'ltr', textAlign: 'right' }}
                   required
@@ -163,7 +179,6 @@ export default function Login() {
 
             <button
               type="submit"
-              disabled={loading}
               style={{
                 width: '100%',
                 backgroundColor: '#0ea5e9',
@@ -174,72 +189,14 @@ export default function Login() {
                 fontSize: '15px',
                 fontWeight: '600',
                 cursor: 'pointer',
-                marginTop: '10px',
-                opacity: loading ? 0.7 : 1
+                marginTop: '10px'
               }}
             >
-              {loading ? 'جاري الإرسال...' : 'إرسال رمز التحقق'}
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <div style={{ backgroundColor: '#f0fdf4', padding: '12px', borderRadius: '10px', border: '1px solid #dcfce7', textAlign: 'center' }}>
-              <p style={{ fontSize: '13px', color: '#166534', margin: 0 }}>
-                تم محاولة إرسال الرمز إلى الرقم: <strong dir="ltr">05{phone.slice(-9)}</strong>
-              </p>
-              <button
-                type="button"
-                onClick={() => setOtpSent(false)}
-                style={{ background: 'none', border: 'none', color: '#0ea5e9', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline', marginTop: '4px' }}
-              >
-                تعديل الرقم
-              </button>
-            </div>
-
-            <div style={{ textAlign: 'right' }}>
-              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#334155', marginBottom: '6px' }}>
-                أدخل رمز التحقق (OTP)
-              </label>
-              <input
-                type="text"
-                placeholder="------"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
-                maxLength={6}
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: '10px',
-                  fontSize: '18px',
-                  textAlign: 'center',
-                  letterSpacing: '8px',
-                  outline: 'none'
-                }}
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              style={{
-                width: '100%',
-                backgroundColor: '#16a34a',
-                color: 'white',
-                border: 'none',
-                borderRadius: '10px',
-                padding: '12px',
-                fontSize: '15px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                opacity: loading ? 0.7 : 1
-              }}
-            >
-              {loading ? 'جاري التحقق...' : 'تأكيد وتسجيل الدخول'}
+              حفظ والمتابعة إلى المتجر
             </button>
           </form>
         )}
+
       </div>
     </div>
   );
