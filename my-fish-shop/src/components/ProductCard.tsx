@@ -32,7 +32,6 @@ const ProductCard = ({ product, branch }: { product: any; branch: 'riyadh' | 'qa
         marginBottom: "20px", borderRadius: "15px", display: "flex",
         alignItems: "center", justifyContent: "center", overflow: "hidden"
       }}>
-        {/* هنا التعديل عشان يقرأ رابط الصورة من Firebase */}
         {product.imageUrl ? (
           <img src={product.imageUrl} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         ) : (
@@ -41,7 +40,8 @@ const ProductCard = ({ product, branch }: { product: any; branch: 'riyadh' | 'qa
       </div>
 
       <h3 style={{ margin: "10px 0", fontSize: "20px", color: "#1e293b", fontWeight: "700" }}>{product.name}</h3>
-      <p style={{ margin: "5px 0", fontSize: "18px", color: "#0ea5e9", fontWeight: "bold" }}>{product.price} ريال</p>
+      {/* تعديل عرض السعر ليظهر الرقم أولاً ثم ر.س */}
+      <p style={{ margin: "5px 0", fontSize: "18px", color: "#0ea5e9", fontWeight: "bold" }}>{product.price} ر.س</p>
       
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "15px", margin: "20px 0" }}>
         <button onClick={decrement} style={{ padding: "5px 15px", borderRadius: "8px", border: "none", backgroundColor: "#e2e8f0", cursor: "pointer" }}>-</button>

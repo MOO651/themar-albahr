@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
-import { collection, onSnapshot, query, orderBy, doc, updateDoc, addDoc, deleteDoc } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy, doc, updateDoc, addDoc, deleteDoc, setDoc } from "firebase/firestore";
 
 const Admin = () => {
   const [orders, setOrders] = useState<any[]>([]);
@@ -8,12 +8,13 @@ const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
 
-  // حالات إدارة المنتجات
+  // حالات إدارة المنتجات والتعديل
   const [products, setProducts] = useState<any[]>([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("qatif-frozen");
   const [imageUrl, setImageUrl] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null); // لتحديد المنتج اللي جاري تعديله
 
   // جلب الطلبات
   useEffect(() => {
@@ -34,15 +35,56 @@ const Admin = () => {
     await updateDoc(doc(db, "orders", id), { status: 'done' });
   };
 
-  // حذف الطلب فوراً من غير أي رسائل تأكيد
   const deleteOrder = async (id: string) => {
     await deleteDoc(doc(db, "orders", id));
   };
 
-  const addProduct = async () => {
+  // إضافة أو تعديل منتج
+  const handleSaveProduct = async () => {
     if (!name || !price || !imageUrl) return alert("يرجى إدخال جميع البيانات بما فيها رابط الصورة");
-    await addDoc(collection(db, "products"), { name, price: Number(price), category, imageUrl });
-    setName(""); setPrice(""); setImageUrl("");
+    
+    if (editingId) {
+      // لو في حالة تعديل، بنحدث المنتج الحالي
+      await updateDoc(doc(db, "products", editingId), {
+        name,
+        price: Number(price),
+        category,
+        imageUrl
+      });
+      setEditingId(null);
+      alert("تم تعديل المنتج بنجاح! ✅");
+    } else {
+      // لو إضافة منتج جديد
+      await addDoc(collection(db, "products"), { 
+        name, 
+        price: Number(price), 
+        category, 
+        imageUrl 
+      });
+      alert("تم إضافة المنتج بنجاح! 🐟");
+    }
+
+    // تفريغ الحقول
+    setName(""); 
+    setPrice(""); 
+    setImageUrl("");
+  };
+
+  // تجهيز بيانات المنتج للتعديل
+  const startEditing = (p: any) => {
+    setEditingId(p.id);
+    setName(p.name);
+    setPrice(p.price);
+    setCategory(p.category || "qatif-frozen");
+    setImageUrl(p.imageUrl);
+  };
+
+  // إلغاء التعديل
+  const cancelEditing = () => {
+    setEditingId(null);
+    setName(""); 
+    setPrice(""); 
+    setImageUrl("");
   };
 
   // شاشة تسجيل الدخول
@@ -75,9 +117,11 @@ const Admin = () => {
       {/* تقسيم الصفحة لقسمين رئيسيين بجانب بعض */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '25px', alignItems: 'start' }}>
         
-        {/* القسم الأيمن: إدارة المنتجات */}
+        {/* القسم الأيمن: إدارة المنتجات (إضافة / تعديل) */}
         <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
-          <h2 style={{ color: '#1e293b', marginBottom: '15px', fontSize: '20px' }}>إدارة المنتجات 🐟</h2>
+          <h2 style={{ color: '#1e293b', marginBottom: '15px', fontSize: '20px' }}>
+            {editingId ? "✏️ تعديل المنتج" : "إضافة منتج جديد 🐟"}
+          </h2>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
             <input placeholder="اسم المنتج" value={name} onChange={(e) => setName(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }} />
@@ -90,7 +134,16 @@ const Admin = () => {
               <option value="riyadh-fresh">الرياض - تسوية</option>
             </select>
             
-            <button onClick={addProduct} style={{ padding: '10px', backgroundColor: '#0ea5e9', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>إضافة منتج</button>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button onClick={handleSaveProduct} style={{ flex: 1, padding: '10px', backgroundColor: editingId ? '#10b981' : '#0ea5e9', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
+                {editingId ? "حفظ التعديلات" : "إضافة منتج"}
+              </button>
+              {editingId && (
+                <button onClick={cancelEditing} style={{ padding: '10px 15px', backgroundColor: '#64748b', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                  إلغاء
+                </button>
+              )}
+            </div>
           </div>
 
           <div style={{ maxHeight: '350px', overflowY: 'auto' }}>
@@ -100,7 +153,10 @@ const Admin = () => {
                   <img src={p.imageUrl} style={{ width: '35px', height: '35px', borderRadius: '4px', objectFit: 'cover' }} alt="" />
                   <span style={{ fontSize: '14px' }}>{p.name} - <strong>{p.price} ر.س</strong></span>
                 </div>
-                <button onClick={() => deleteDoc(doc(db, "products", p.id))} style={{ padding: '4px 8px', backgroundColor: '#fee2e2', color: '#ef4444', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>حذف</button>
+                <div style={{ display: 'flex', gap: '5px' }}>
+                  <button onClick={() => startEditing(p)} style={{ padding: '4px 8px', backgroundColor: '#e0f2fe', color: '#0284c7', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}>تعديل</button>
+                  <button onClick={() => deleteDoc(doc(db, "products", p.id))} style={{ padding: '4px 8px', backgroundColor: '#fee2e2', color: '#ef4444', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>حذف</button>
+                </div>
               </div>
             ))}
           </div>
@@ -110,7 +166,6 @@ const Admin = () => {
         <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
           <h2 style={{ color: '#1e293b', marginBottom: '15px', fontSize: '20px', textAlign: 'center' }}>متابعة الطلبات 📦</h2>
           
-          {/* تبديل بين الجديد والأرشيف */}
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <button onClick={() => setShowArchived(false)} style={{ padding: '8px 15px', backgroundColor: !showArchived ? '#0ea5e9' : '#e2e8f0', color: !showArchived ? 'white' : '#64748b', border: 'none', borderRadius: '6px', cursor: 'pointer', marginLeft: '5px', fontSize: '14px' }}>الطلبات الجديدة</button>
             <button onClick={() => setShowArchived(true)} style={{ padding: '8px 15px', backgroundColor: showArchived ? '#22c55e' : '#e2e8f0', color: showArchived ? 'white' : '#64748b', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '14px' }}>الأرشيف</button>

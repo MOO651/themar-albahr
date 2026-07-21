@@ -6,8 +6,10 @@ const Cart = () => {
   const [riyadhItems, setRiyadhItems] = useState<any[]>([]);
   const [qatifItems, setQatifItems] = useState<any[]>([]);
   const [notes, setNotes] = useState<{ [key: string]: string }>({});
-  // تم إضافة حقل الاسم هنا
-  const [customerInfo, setCustomerInfo] = useState({ name: '', phone: '', address: '' });
+  
+  // فصل بيانات العميل لكل فرع لوحده لتجنب أي تداخل
+  const [riyadhCustomer, setRiyadhCustomer] = useState({ name: '', phone: '', address: '' });
+  const [qatifCustomer, setQatifCustomer] = useState({ name: '', phone: '', address: '' });
 
   useEffect(() => {
     const unsubR = onSnapshot(doc(db, "carts", "cart_riyadh"), (s) => setRiyadhItems(s.exists() ? s.data().items : []));
@@ -26,15 +28,15 @@ const Cart = () => {
     }
   };
 
-  const saveOrderToAdmin = async (branch: string, items: any[], total: number) => {
+  const saveOrderToAdmin = async (branch: string, items: any[], total: number, customer: any) => {
     try {
       await addDoc(collection(db, "orders"), {
         branch,
         items,
         total,
-        customerName: customerInfo.name, // حفظ الاسم
-        customerPhone: customerInfo.phone,
-        customerAddress: customerInfo.address,
+        customerName: customer.name,
+        customerPhone: customer.phone,
+        customerAddress: customer.address,
         timestamp: new Date().toISOString(),
         status: 'جديد'
       });
@@ -43,14 +45,14 @@ const Cart = () => {
     }
   };
 
-  const sendToWhatsApp = (branch: string, items: any[]) => {
+  const sendToWhatsApp = (branch: string, items: any[], customer: any) => {
     const phone = branch === 'riyadh' ? '966577972769' : '966595273048';
     const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-    let text = `📦 طلب جديد من ${customerInfo.name || 'عميل جديد'}` +
-      `\n\n👤 الاسم: ${customerInfo.name}` +
-      `\n📞 الجوال: ${customerInfo.phone}` +
-      `\n📍 العنوان: ${customerInfo.address}` +
+    let text = `📦 طلب جديد من ${customer.name || 'عميل جديد'}` +
+      `\n\n👤 الاسم: ${customer.name}` +
+      `\n📞 الجوال: ${customer.phone}` +
+      `\n📍 العنوان: ${customer.address}` +
       `\n\nالطلبات:`;
 
     items.forEach(i => {
@@ -64,6 +66,8 @@ const Cart = () => {
 
   const renderSection = (items: any[], branch: string, title: string, color: string) => {
     const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const customer = branch === 'riyadh' ? riyadhCustomer : qatifCustomer;
+    const setCustomer = branch === 'riyadh' ? setRiyadhCustomer : setQatifCustomer;
 
     return (
       <div style={{ flex: 1, minWidth: '350px', backgroundColor: "#fff", borderRadius: "20px", padding: "25px", boxShadow: "0 10px 20px rgba(0,0,0,0.08)" }}>
@@ -89,12 +93,12 @@ const Cart = () => {
             </div>
 
             <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <input type="text" placeholder="الاسم الكريم" style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1' }} onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})} />
-              <input type="text" placeholder="رقم الجوال" style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1' }} onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})} />
-              <input type="text" placeholder="العنوان بالتفصيل" style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1' }} onChange={(e) => setCustomerInfo({...customerInfo, address: e.target.value})} />
+              <input type="text" placeholder="الاسم الكريم" value={customer.name} style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1' }} onChange={(e) => setCustomer({...customer, name: e.target.value})} />
+              <input type="text" placeholder="رقم الجوال" value={customer.phone} style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1' }} onChange={(e) => setCustomer({...customer, phone: e.target.value})} />
+              <input type="text" placeholder="العنوان بالتفصيل" value={customer.address} style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1' }} onChange={(e) => setCustomer({...customer, address: e.target.value})} />
             </div>
 
-            <button onClick={() => { sendToWhatsApp(branch, items); saveOrderToAdmin(branch, items, total); }} style={{ marginTop: "20px", width: "100%", padding: "16px", backgroundColor: "#25D366", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", fontSize: "16px" }}>
+            <button onClick={() => { sendToWhatsApp(branch, items, customer); saveOrderToAdmin(branch, items, total, customer); }} style={{ marginTop: "20px", width: "100%", padding: "16px", backgroundColor: "#25D366", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", fontSize: "16px" }}>
               إتمام الطلب عبر واتساب 💬
             </button>
           </>
@@ -113,4 +117,5 @@ const Cart = () => {
     </div>
   );
 };
+
 export default Cart;
