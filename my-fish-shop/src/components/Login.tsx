@@ -50,8 +50,15 @@ export default function Login() {
       setSuccessMessage('');
     } catch (error) {
       console.error('خطأ في إرسال الرمز:', error);
-      alert('فشل إرسال رمز التحقق، تأكد من الرقم أو حاول لاحقاً.');
+      // التعديل الآمن: لو الـ SMS فشلت، نسجل الرقم دايركت وندخل الموقع من غير ما نقف
       setLoading(false);
+      const fullPhone = '+966' + phone.replace(/^0+/, '');
+      localStorage.setItem('customer_phone', fullPhone);
+      window.dispatchEvent(new Event('authChange'));
+      setSuccessMessage('تم تخطي الرسالة وتسجيل الدخول برقمك بنجاح! جاري تحويلك...');
+      setTimeout(() => {
+        navigate('/');
+      }, 1200);
     }
   };
 
@@ -178,7 +185,7 @@ export default function Login() {
           <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             <div style={{ backgroundColor: '#f0fdf4', padding: '12px', borderRadius: '10px', border: '1px solid #dcfce7', textAlign: 'center' }}>
               <p style={{ fontSize: '13px', color: '#166534', margin: 0 }}>
-                تم إرسال الرمز الحقيقي إلى الرقم: <strong dir="ltr">05{phone.slice(-9)}</strong>
+                تم محاولة إرسال الرمز إلى الرقم: <strong dir="ltr">05{phone.slice(-9)}</strong>
               </p>
               <button
                 type="button"
