@@ -15,6 +15,12 @@ const Admin = () => {
   const [category, setCategory] = useState("qatif-frozen");
   const [imageUrl, setImageUrl] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null); // حالة رسالة النجاح المؤقتة
+
+  const showToast = (msg: string) => {
+    setMessage(msg);
+    setTimeout(() => setMessage(null), 2500);
+  };
 
   // جلب الطلبات
   useEffect(() => {
@@ -51,7 +57,7 @@ const Admin = () => {
         imageUrl
       });
       setEditingId(null);
-      alert("تم تعديل المنتج بنجاح! ✅");
+      showToast("تم تعديل المنتج بنجاح! ✅");
     } else {
       await addDoc(collection(db, "products"), { 
         name, 
@@ -59,7 +65,7 @@ const Admin = () => {
         category, 
         imageUrl 
       });
-      alert("تم إضافة المنتج بنجاح! 🐟");
+      showToast("تم إضافة المنتج بنجاح! 🐟");
     }
 
     setName(""); 
@@ -212,6 +218,17 @@ const Admin = () => {
         </div>
 
       </div>
+
+      {/* رسالة النجاح المؤقتة (Toast) */}
+      {message && (
+        <div style={{
+          position: "fixed", top: "20px", right: "20px", backgroundColor: "#22c55e",
+          color: "white", padding: "12px 24px", borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.15)", zIndex: 1000, fontWeight: "bold", fontSize: "15px"
+        }}>
+          {message}
+        </div>
+      )}
     </div>
   );
 };
