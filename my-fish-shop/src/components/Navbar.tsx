@@ -68,8 +68,7 @@ const Navbar = () => {
         <Link to="/" style={linkStyle}>الرئيسية</Link>
         <Link to="/riyadh" style={linkStyle}>الرياض</Link>
         <Link to="/qatif" style={linkStyle}>القطيف</Link>
-        <Link to="/jeddah-frozen" style={linkStyle}>جدة - مجمدات</Link>
-        <Link to="/jeddah-fresh" style={linkStyle}>جدة - تسوية</Link>
+        <Link to="/jeddah" style={linkStyle}>جدة</Link>
         
         {customerPhone ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '8px' }}>

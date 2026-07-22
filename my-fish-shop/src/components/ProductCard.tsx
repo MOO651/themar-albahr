@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 
-const ProductCard = ({ product, branch }: { product: any; branch: 'riyadh' | 'qatif' }) => {
+const ProductCard = ({ product, branch }: { product: any; branch: 'riyadh' | 'qatif' | 'jeddah' }) => {
   const { addToCart } = useContext(CartContext);
   const [count, setCount] = useState(1);
   const [isHovered, setIsHovered] = useState(false);

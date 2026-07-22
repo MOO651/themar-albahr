@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Riyadh from './pages/Riyadh';
 import Qatif from './pages/Qatif';
+import Jeddah from './pages/Jeddah'; // استيراد صفحة جدة
 import Cart from './pages/Cart';
 import Admin from './pages/Admin';
 import Login from './components/Login'; // استيراد صفحة تسجيل الدخول
@@ -21,6 +22,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/riyadh" element={<Riyadh />} />
               <Route path="/qatif" element={<Qatif />} />
+              <Route path="/jeddah" element={<Jeddah />} /> {/* مسار صفحة جدة */}
               <Route path="/cart" element={<Cart />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/login" element={<Login />} /> {/* مسار صفحة تسجيل الدخول */}

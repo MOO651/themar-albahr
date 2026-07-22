@@ -132,7 +132,7 @@ const Admin = () => {
               <option value="riyadh-frozen">الرياض - مجمدات</option>
               <option value="riyadh-fresh">الرياض - تسوية</option>
               <option value="jeddah-frozen">جدة - مجمدات</option>
-              <option value="jeddah-fresh">جدة - تسوية/طازج</option>
+              <option value="jeddah-fresh">جدة - الطازج</option>
             </select>
             
             <div style={{ display: 'flex', gap: '10px' }}>
