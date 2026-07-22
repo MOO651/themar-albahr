@@ -15,7 +15,7 @@ const Admin = () => {
   const [category, setCategory] = useState("qatif-frozen");
   const [imageUrl, setImageUrl] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null); // حالة رسالة النجاح المؤقتة
+  const [message, setMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
     setMessage(msg);
@@ -131,6 +131,8 @@ const Admin = () => {
               <option value="qatif-frozen">القطيف - مجمدات</option>
               <option value="riyadh-frozen">الرياض - مجمدات</option>
               <option value="riyadh-fresh">الرياض - تسوية</option>
+              <option value="jeddah-frozen">جدة - مجمدات</option>
+              <option value="jeddah-fresh">جدة - تسوية/طازج</option>
             </select>
             
             <div style={{ display: 'flex', gap: '10px' }}>
@@ -181,7 +183,7 @@ const Admin = () => {
                   border: '1px solid #e2e8f0'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: '6px', marginBottom: '8px', fontSize: '13px' }}>
-                    <span style={{ fontWeight: 'bold' }}>فرع {order.branch === 'riyadh' ? 'الرياض' : 'القطيف'}</span>
+                    <span style={{ fontWeight: 'bold' }}>فرع {order.branch}</span>
                     <span style={{ color: '#94a3b8' }}>{order.timestamp ? new Date(order.timestamp).toLocaleString('ar-SA') : ''}</span>
                   </div>
                   
@@ -219,7 +221,6 @@ const Admin = () => {
 
       </div>
 
-      {/* رسالة النجاح المؤقتة (Toast) */}
       {message && (
         <div style={{
           position: "fixed", top: "20px", right: "20px", backgroundColor: "#22c55e",

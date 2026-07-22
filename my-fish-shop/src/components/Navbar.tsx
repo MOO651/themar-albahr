@@ -8,7 +8,6 @@ const Navbar = () => {
   const [customerPhone, setCustomerPhone] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // دالة لجلب رقم الجوال من التخزين المحلي
   const checkUserSession = () => {
     const phone = localStorage.getItem('customer_phone');
     setCustomerPhone(phone);
@@ -17,7 +16,6 @@ const Navbar = () => {
   useEffect(() => {
     checkUserSession();
 
-    // الاستماع لأي تغير بيحصل في الجلسة عشان يحدث نفسه فوراً
     window.addEventListener('storage', checkUserSession);
     window.addEventListener('authChange', checkUserSession);
 
@@ -29,7 +27,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('customer_phone');
-    window.dispatchEvent(new Event('authChange')); // إرسال تنبيه بتحديث حالة الدخول
+    window.dispatchEvent(new Event('authChange'));
     setCustomerPhone(null);
     navigate('/');
   };
@@ -70,6 +68,8 @@ const Navbar = () => {
         <Link to="/" style={linkStyle}>الرئيسية</Link>
         <Link to="/riyadh" style={linkStyle}>الرياض</Link>
         <Link to="/qatif" style={linkStyle}>القطيف</Link>
+        <Link to="/jeddah-frozen" style={linkStyle}>جدة - مجمدات</Link>
+        <Link to="/jeddah-fresh" style={linkStyle}>جدة - تسوية</Link>
         
         {customerPhone ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '8px' }}>
