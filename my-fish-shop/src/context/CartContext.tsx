@@ -5,7 +5,7 @@ export const CartContext = createContext<any>(null);
 export const CartProvider = ({ children }: any) => {
   const [message, setMessage] = useState<string | null>(null);
   
-  // بنجيب السلة الخاصة بالفرعين من الـ localStorage لو موجودة، أو نبدأ بسلة فاضية
+  // سلات الفروع الثلاثة (الرياض، القطيف، جدة) من الـ localStorage
   const [riyadhItems, setRiyadhItems] = useState<any[]>(() => {
     const saved = localStorage.getItem("riyadh_cart");
     return saved ? JSON.parse(saved) : [];
@@ -16,26 +16,36 @@ export const CartProvider = ({ children }: any) => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  // حفظ سلة الرياض في localStorage كل ما تتغير
+  const [jeddahItems, setJeddahItems] = useState<any[]>(() => {
+    const saved = localStorage.getItem("jeddah_cart");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // حفظ سلة الرياض
   useEffect(() => {
     localStorage.setItem("riyadh_cart", JSON.stringify(riyadhItems));
   }, [riyadhItems]);
 
-  // حفظ سلة القطيف في localStorage كل ما تتغير
+  // حفظ سلة القطيف
   useEffect(() => {
     localStorage.setItem("qatif_cart", JSON.stringify(qatifItems));
   }, [qatifItems]);
 
-  // حساب إجمالي المنتجات في السلتين مع بعض عشان العداد العلوي
-  const totalItems = [...riyadhItems, ...qatifItems].reduce((sum, item) => sum + item.quantity, 0);
+  // حفظ سلة جدة
+  useEffect(() => {
+    localStorage.setItem("jeddah_cart", JSON.stringify(jeddahItems));
+  }, [jeddahItems]);
+
+  // حساب إجمالي المنتجات في الفروع كلها للعداد العلوي في الـ Navbar
+  const totalItems = [...riyadhItems, ...qatifItems, ...jeddahItems].reduce((sum, item) => sum + item.quantity, 0);
 
   const showToast = (msg: string) => {
     setMessage(msg);
     setTimeout(() => setMessage(null), 2500);
   };
 
-  // إضافة منتج للسلة الخاصة بالفرع بتاعه على هذا الجهاز فقط
-  const addToCart = (product: any, branch: 'riyadh' | 'qatif', quantity: number) => {
+  // إضافة منتج للسلة الخاصة بالفرع بتاعه
+  const addToCart = (product: any, branch: 'riyadh' | 'qatif' | 'jeddah', quantity: number) => {
     if (branch === 'riyadh') {
       setRiyadhItems(prevItems => {
         const index = prevItems.findIndex((i: any) => i.id === product.id);
@@ -47,8 +57,19 @@ export const CartProvider = ({ children }: any) => {
           return [...prevItems, { ...product, quantity }];
         }
       });
-    } else {
+    } else if (branch === 'qatif') {
       setQatifItems(prevItems => {
+        const index = prevItems.findIndex((i: any) => i.id === product.id);
+        if (index > -1) {
+          const updated = [...prevItems];
+          updated[index].quantity += quantity;
+          return updated;
+        } else {
+          return [...prevItems, { ...product, quantity }];
+        }
+      });
+    } else {
+      setJeddahItems(prevItems => {
         const index = prevItems.findIndex((i: any) => i.id === product.id);
         if (index > -1) {
           const updated = [...prevItems];
@@ -63,15 +84,16 @@ export const CartProvider = ({ children }: any) => {
     showToast(`تمت إضافة ${product.name} للسلة بنجاح!`);
   };
 
-  // دالة لتحديث أو حذف العناصر لو محتاجها في صفحة السلة
-  const updateQuantity = (id: string, branch: 'riyadh' | 'qatif', newQty: number) => {
-    const setter = branch === 'riyadh' ? setRiyadhItems : setQatifItems;
-    setter(prev => prev.map(item => item.id === id ? { ...item, quantity: newQty } : item));
+  // تحديث الكمية لأي فرع
+  const updateQuantity = (id: string, branch: 'riyadh' | 'qatif' | 'jeddah', newQty: number) => {
+    const setter = branch === 'riyadh' ? setRiyadhItems : branch === 'qatif' ? setQatifItems : setJeddahItems;
+    setter((prev: any[]) => prev.map((item: any) => item.id === id ? { ...item, quantity: newQty } : item));
   };
 
-  const removeFromCart = (id: string, branch: 'riyadh' | 'qatif') => {
-    const setter = branch === 'riyadh' ? setRiyadhItems : setQatifItems;
-    setter(prev => prev.filter(item => item.id !== id));
+  // حذف منتج من السلة لأي فرع
+  const removeFromCart = (id: string, branch: 'riyadh' | 'qatif' | 'jeddah') => {
+    const setter = branch === 'riyadh' ? setRiyadhItems : branch === 'qatif' ? setQatifItems : setJeddahItems;
+    setter((prev: any[]) => prev.filter((item: any) => item.id !== id));
   };
 
   return (
@@ -80,6 +102,7 @@ export const CartProvider = ({ children }: any) => {
       totalItems, 
       riyadhItems, 
       qatifItems, 
+      jeddahItems, 
       updateQuantity, 
       removeFromCart 
     }}>
