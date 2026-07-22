@@ -49,7 +49,7 @@ const Cart = () => {
   const sendToWhatsApp = (branch: string, items: any[], customer: any) => {
     let phone = '966577972769'; // رقم الرياض
     if (branch === 'qatif') phone = '966595273048'; // رقم القطيف
-    else if (branch === 'jeddah') phone = '966560350663'; // رقم جدة الجديد
+    else if (branch === 'jeddah') phone = '966560350663'; // رقم جدة
 
     const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -85,74 +85,80 @@ const Cart = () => {
 
     return (
       <div style={{ 
-        flex: 1, 
-        minWidth: '350px', 
-        maxWidth: '400px',
         backgroundColor: "#fff", 
-        borderRadius: "24px", 
-        padding: "25px", 
-        boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
-        border: '1px solid #f1f5f9',
+        borderRadius: "20px", 
+        padding: "24px", 
+        boxShadow: "0 10px 25px rgba(0,0,0,0.05)",
+        border: '1px solid #e2e8f0',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
       }}>
         <div>
-          <h2 style={{ color: color, marginBottom: "20px", textAlign: 'center', borderBottom: `2px solid ${color}`, paddingBottom: '12px', fontSize: '22px', fontWeight: '800' }}>
-            {title}
-          </h2>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '20px', borderBottom: `2px solid ${color}`, paddingBottom: '12px' }}>
+            <h2 style={{ color: color, fontSize: '20px', fontWeight: '800', margin: 0 }}>
+              {title}
+            </h2>
+            <span style={{ backgroundColor: color, color: '#fff', borderRadius: '50%', width: '26px', height: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 'bold' }}>
+              {items.reduce((acc, curr) => acc + curr.quantity, 0)}
+            </span>
+          </div>
 
           {items.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '40px 0', color: '#94a3b8' }}>
-              <p style={{ fontSize: '16px' }}>السلة فارغة في هذا الفرع 🛒</p>
+            <div style={{ textAlign: 'center', padding: '50px 20px', color: '#94a3b8' }}>
+              <div style={{ fontSize: '40px', marginBottom: '10px' }}>🛒</div>
+              <p style={{ fontSize: '15px', fontWeight: '600', margin: 0 }}>السلة فارغة في هذا الفرع</p>
+              <p style={{ fontSize: '13px', color: '#cbd5e1', marginTop: '5px' }}>أضف بعض منتجات الأسماك الطازجة للبدء!</p>
             </div>
           ) : (
             <>
-              <div style={{ maxHeight: '250px', overflowY: 'auto', marginBottom: '15px' }}>
+              <div style={{ maxHeight: '260px', overflowY: 'auto', marginBottom: '15px', paddingRight: '4px' }}>
                 {items.map((item: any) => (
                   <div key={item.id} style={{ padding: '12px 0', borderBottom: '1px solid #f1f5f9' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ fontWeight: '700', color: '#1e293b', fontSize: '15px' }}>{item.name}</div>
-                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <button onClick={() => handleQuantityChange(branch, item.id, -1)} style={{ border:'none', cursor:'pointer', padding:'6px 12px', borderRadius:'8px', backgroundColor: '#f1f5f9', fontWeight: 'bold' }}>-</button>
-                        <span style={{ fontSize: '16px', fontWeight: 'bold', minWidth: '20px', textAlign: 'center' }}>{item.quantity}</span>
-                        <button onClick={() => handleQuantityChange(branch, item.id, 1)} style={{ border:'none', cursor:'pointer', padding:'6px 12px', borderRadius:'8px', backgroundColor: '#f1f5f9', fontWeight: 'bold' }}>+</button>
+                      <div style={{ fontWeight: '700', color: '#1e293b', fontSize: '14px' }}>{item.name}</div>
+                      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        <button onClick={() => handleQuantityChange(branch, item.id, -1)} style={{ border:'none', cursor:'pointer', width:'28px', height:'28px', borderRadius:'6px', backgroundColor: '#f1f5f9', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>-</button>
+                        <span style={{ fontSize: '15px', fontWeight: 'bold', minWidth: '20px', textAlign: 'center' }}>{item.quantity}</span>
+                        <button onClick={() => handleQuantityChange(branch, item.id, 1)} style={{ border:'none', cursor:'pointer', width:'28px', height:'28px', borderRadius:'6px', backgroundColor: '#f1f5f9', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
                       </div>
                     </div>
                     <input 
                       type="text" 
-                      placeholder="ملاحظة إضافية للمنتج..." 
-                      style={{ width: '100%', marginTop: '8px', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', outline: 'none' }} 
+                      placeholder="ملاحظة إضافية (تنظيف، تقطيع...)" 
+                      style={{ width: '100%', marginTop: '8px', padding: '7px 10px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '12px', outline: 'none', backgroundColor: '#fafafa' }} 
                       onChange={(e) => setNotes({...notes, [item.id]: e.target.value})}
                     />
                   </div>
                 ))}
               </div>
 
-              <div style={{ marginTop: '15px', padding: '12px', backgroundColor: '#f8fafc', borderRadius: '12px', textAlign: 'center', fontSize: '17px', fontWeight: 'bold', color: '#334155' }}>
-                الإجمالي: <span style={{ color: color }}>{total} ر.س</span>
+              <div style={{ marginTop: '15px', padding: '12px', backgroundColor: '#f8fafc', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '16px', fontWeight: 'bold', color: '#334155' }}>
+                <span>الإجمالي:</span>
+                <span style={{ color: color, fontSize: '18px' }}>{total} ر.س</span>
               </div>
 
-              <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <input 
                   type="text" 
-                  placeholder="الاسم الكريم" 
+                  placeholder="الاسم الكريم *" 
                   value={customer.name} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '14px' }} 
+                  style={{ padding: '11px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px' }} 
                   onChange={(e) => setCustomer({...customer, name: e.target.value})} 
                 />
                 <input 
                   type="text" 
-                  placeholder="رقم الجوال" 
+                  placeholder="رقم الجوال *" 
                   value={customer.phone} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '14px' }} 
+                  style={{ padding: '11px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px' }} 
                   onChange={(e) => setCustomer({...customer, phone: e.target.value})} 
                 />
                 <input 
                   type="text" 
-                  placeholder="العنوان بالتفصيل" 
+                  placeholder="العنوان بالتفصيل *" 
                   value={customer.address} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '14px' }} 
+                  style={{ padding: '11px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px' }} 
                   onChange={(e) => setCustomer({...customer, address: e.target.value})} 
                 />
               </div>
@@ -167,16 +173,16 @@ const Cart = () => {
                   saveOrderToAdmin(branch, items, total, customer); 
                 }} 
                 style={{ 
-                  marginTop: "20px", 
+                  marginTop: "18px", 
                   width: "100%", 
-                  padding: "14px", 
+                  padding: "13px", 
                   backgroundColor: "#25D366", 
                   color: "white", 
                   border: "none", 
-                  borderRadius: "12px", 
+                  borderRadius: "10px", 
                   cursor: "pointer", 
                   fontWeight: "bold", 
-                  fontSize: "15px",
+                  fontSize: "14px",
                   boxShadow: '0 4px 12px rgba(37, 211, 102, 0.2)',
                   transition: '0.2s'
                 }}
@@ -192,11 +198,19 @@ const Cart = () => {
 
   return (
     <div style={{ padding: "40px 20px", backgroundColor: "#f8fafc", minHeight: "100vh", direction: 'rtl' }}>
-      <h1 style={{ textAlign: "center", marginBottom: "40px", color: '#1e293b', fontWeight: '800' }}>🛒 حقيبة المشتريات</h1>
-      <div style={{ display: "flex", gap: "25px", flexWrap: "wrap", justifyContent: "center", alignItems: 'flex-start' }}>
-        {renderSection(riyadhItems, 'riyadh', "سلة الرياض", "#0ea5e9")}
-        {renderSection(qatifItems, 'qatif', "سلة القطيف", "#22c55e")}
-        {renderSection(jeddahItems, 'jeddah', "سلة جدة", "#f59e0b")}
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <h1 style={{ textAlign: "center", marginBottom: "35px", color: '#1e293b', fontWeight: '800', fontSize: '28px' }}>🛒 حقيبة المشتريات</h1>
+        
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", 
+          gap: "25px", 
+          alignItems: 'start' 
+        }}>
+          {renderSection(riyadhItems, 'riyadh', "سلة الرياض", "#0ea5e9")}
+          {renderSection(qatifItems, 'qatif', "سلة القطيف", "#22c55e")}
+          {renderSection(jeddahItems, 'jeddah', "سلة جدة", "#f59e0b")}
+        </div>
       </div>
     </div>
   );
