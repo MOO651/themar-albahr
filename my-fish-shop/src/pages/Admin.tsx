@@ -45,9 +45,21 @@ const Admin = () => {
     await deleteDoc(doc(db, "orders", id));
   };
 
+  // تحويل الصورة المرفوعة من الجهاز إلى Base64
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   // إضافة أو تعديل منتج
   const handleSaveProduct = async () => {
-    if (!name || !price || !imageUrl) return alert("يرجى إدخال جميع البيانات بما فيها رابط الصورة");
+    if (!name || !price || !imageUrl) return alert("يرجى إدخال جميع البيانات واختيار الصورة");
     
     if (editingId) {
       await updateDoc(doc(db, "products", editingId), {
@@ -125,7 +137,21 @@ const Admin = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
             <input placeholder="اسم المنتج" value={name} onChange={(e) => setName(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }} />
             <input placeholder="السعر" type="number" value={price} onChange={(e) => setPrice(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }} />
-            <input placeholder="رابط الصورة" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }} />
+            
+            {/* رفع صورة من الجهاز أو وضع رابط */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <label style={{ fontSize: '13px', color: '#64748b', fontWeight: 'bold' }}>صورة المنتج (من الجهاز أو رابط):</label>
+              <input type="file" accept="image/*" onChange={handleImageUpload} style={{ padding: '6px', borderRadius: '6px', border: '1px solid #ccc', backgroundColor: '#fff' }} />
+              <input placeholder="أو أدخل رابط الصورة مباشرة" value={imageUrl.startsWith('data:') ? '' : imageUrl} onChange={(e) => setImageUrl(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc', fontSize: '13px' }} />
+            </div>
+
+            {/* معاينة الصورة المرفوعة */}
+            {imageUrl && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '5px', backgroundColor: '#f1f5f9', borderRadius: '6px' }}>
+                <img src={imageUrl} alt="معاينة" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
+                <span style={{ fontSize: '12px', color: '#334155' }}>تم اختيار الصورة بنجاح</span>
+              </div>
+            )}
             
             <select onChange={(e) => setCategory(e.target.value)} value={category} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }}>
               <option value="qatif-frozen">القطيف - مجمدات</option>
@@ -225,7 +251,7 @@ const Admin = () => {
         <div style={{
           position: "fixed", top: "20px", right: "20px", backgroundColor: "#22c55e",
           color: "white", padding: "12px 24px", borderRadius: "8px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.15)", zIndex: 1000, fontWeight: "bold", fontSize: "15px"
+          boxShadow: "0 4px 12px rgba(0,0,0,0.15)", zIndex: 1000, fontWeight: "bold", fontSize: '15px'
         }}>
           {message}
         </div>
