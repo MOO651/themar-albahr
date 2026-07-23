@@ -45,44 +45,76 @@ const Admin = () => {
     await deleteDoc(doc(db, "orders", id));
   };
 
-  // تحويل الصورة المرفوعة من الجهاز إلى Base64
+  // دالة ضغط وضبط الصورة المختارة من الجهاز لتكون خفيفة جداً ومضمونة الحفظ
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageUrl(reader.result as string);
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 250;
+        const MAX_HEIGHT = 250;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
+        setImageUrl(dataUrl);
       };
-      reader.readAsDataURL(file);
-    }
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
   };
 
   // إضافة أو تعديل منتج
   const handleSaveProduct = async () => {
     if (!name || !price || !imageUrl) return alert("يرجى إدخال جميع البيانات واختيار الصورة");
     
-    if (editingId) {
-      await updateDoc(doc(db, "products", editingId), {
-        name,
-        price: Number(price),
-        category,
-        imageUrl
-      });
-      setEditingId(null);
-      showToast("تم تعديل المنتج بنجاح! ✅");
-    } else {
-      await addDoc(collection(db, "products"), { 
-        name, 
-        price: Number(price), 
-        category, 
-        imageUrl 
-      });
-      showToast("تم إضافة المنتج بنجاح! 🐟");
-    }
+    try {
+      if (editingId) {
+        await updateDoc(doc(db, "products", editingId), {
+          name,
+          price: Number(price),
+          category,
+          imageUrl
+        });
+        setEditingId(null);
+        showToast("تم تعديل المنتج بنجاح! ✅");
+      } else {
+        await addDoc(collection(db, "products"), { 
+          name, 
+          price: Number(price), 
+          category, 
+          imageUrl 
+        });
+        showToast("تم إضافة المنتج بنجاح! 🐟");
+      }
 
-    setName(""); 
-    setPrice(""); 
-    setImageUrl("");
+      setName(""); 
+      setPrice(""); 
+      setImageUrl("");
+    } catch (error) {
+      alert("حدث خطأ في الحفظ، تأكد من الاتصال بالإنترنت.");
+    }
   };
 
   const startEditing = (p: any) => {
@@ -138,18 +170,17 @@ const Admin = () => {
             <input placeholder="اسم المنتج" value={name} onChange={(e) => setName(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }} />
             <input placeholder="السعر" type="number" value={price} onChange={(e) => setPrice(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }} />
             
-            {/* رفع صورة من الجهاز أو وضع رابط */}
+            {/* اختيار صورة من الجهاز مباشرة */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <label style={{ fontSize: '13px', color: '#64748b', fontWeight: 'bold' }}>صورة المنتج (من الجهاز أو رابط):</label>
+              <label style={{ fontSize: '13px', color: '#64748b', fontWeight: 'bold' }}>اختر صورة المنتج من الجهاز:</label>
               <input type="file" accept="image/*" onChange={handleImageUpload} style={{ padding: '6px', borderRadius: '6px', border: '1px solid #ccc', backgroundColor: '#fff' }} />
-              <input placeholder="أو أدخل رابط الصورة مباشرة" value={imageUrl.startsWith('data:') ? '' : imageUrl} onChange={(e) => setImageUrl(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc', fontSize: '13px' }} />
             </div>
 
-            {/* معاينة الصورة المرفوعة */}
+            {/* معاينة الصورة المختارة */}
             {imageUrl && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '5px', backgroundColor: '#f1f5f9', borderRadius: '6px' }}>
                 <img src={imageUrl} alt="معاينة" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
-                <span style={{ fontSize: '12px', color: '#334155' }}>تم اختيار الصورة بنجاح</span>
+                <span style={{ fontSize: '12px', color: '#334155' }}>تم اختيار وضغط الصورة بنجاح جاهزة للحفظ</span>
               </div>
             )}
             
