@@ -23,7 +23,7 @@ const Qatif = () => {
 
   return (
     <div style={{ padding: "20px", textAlign: "center" }}>
-      <h1>منتجات القطيف (المجمدات)</h1>
+      <h1>منتجات القطيف</h1>
 
       {/* خانة البحث الشيك */}
       <div style={{ margin: "25px 0" }}>
