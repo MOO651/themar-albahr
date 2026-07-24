@@ -71,14 +71,40 @@ const Home = () => {
             </p>
           </div>
 
-          {/* كارت اتصل بنا */}
-          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
-            <h3 style={{ color: '#0ea5e9', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span>📞</span> اتصل بنا
-            </h3>
-            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
-              نسعد بخدمتكم وتلبية طلباتكم على مدار الساعة عبر فروعنا المتاحة في الرياض والقطيف، أو من خلال خدمة الواتساب المتاحة دائماً لخدمتكم بكل فخر.
-            </p>
+          {/* كارت اتصل بنا (مضاف إليه زر الخريطة) */}
+          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div>
+              <h3 style={{ color: '#0ea5e9', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span>📞</span> اتصل بنا
+              </h3>
+              <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
+                نسعد بخدمتكم وتلبية طلباتكم على مدار الساعة عبر فروعنا المتاحة في الرياض والقطيف، أو من خلال خدمة الواتساب المتاحة دائماً لخدمتكم بكل فخر.
+              </p>
+            </div>
+            
+            <div style={{ marginTop: '20px' }}>
+              <a 
+                href="https://maps.app.goo.gl/bdbDFUZYofukC1Zf8" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  gap: '6px', 
+                  padding: '10px 18px', 
+                  backgroundColor: '#0ea5e9', 
+                  color: 'white', 
+                  borderRadius: '10px', 
+                  textDecoration: 'none', 
+                  fontSize: '0.9rem', 
+                  fontWeight: 'bold',
+                  boxShadow: '0 4px 10px rgba(14, 165, 233, 0.3)',
+                  transition: '0.3s'
+                }}
+              >
+                📍 موقعنا على الخريطة (فرع القطيف)
+              </a>
+            </div>
           </div>
 
         </div>
