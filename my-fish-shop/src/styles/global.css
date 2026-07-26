@@ -1,28 +1,39 @@
-/* اصلاحات جبارة لشاشات الموبايل لتتطابق مع الكمبيوتر */
+/* ================= دوال التحكم المنفصلة ================= */
+
+/* إعدادات افتراضية عامة مشتركة */
+* {
+  box-sizing: border-box !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- (أ) تخصيص الشاشات الكبيرة (الكمبيوتر) --- */
+@media screen and (min-width: 769px) {
+  body {
+    width: 100%;
+    /* حط هنا أي تصميم خاص بالكمبيوتر لو محتاج */
+  }
+}
+
+/* --- (ب) تخصيص شاشات الجوال فقط (الموبايل) --- */
 @media screen and (max-width: 768px) {
-  /* إجبار الصفحة بالكامل على عدم تجاوز عرض الشاشة */
   html, body, #root {
-    width: 100% !important;
+    width: 100vw !important;
     max-width: 100vw !important;
     overflow-x: hidden !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  /* تصحيح أي حاويات أو كاردات تخرج بره الشاشة */
-  div, section, main, header, nav {
-    box-sizing: border-box !important;
-    max-width: 100% !important;
+  /* تصغير العناوين والأزرار قليلاً لتناسب شاشة الموبايل بدقة */
+  h1 {
+    font-size: 1.5rem !important;
   }
-
-  /* تصحيح حقول البحث والأزرار لتناسب شاشة الموبايل بدقة */
-  input, button, select, textarea {
-    max-width: 100% !important;
-  }
-
-  /* ضبط الحواشي الجانبية العامة لكي لا تضغط التصميم */
-  body {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+  
+  /* منع أي صندوق أو زر من الخروج عن حدود شاشة الموبايل */
+  div, section, main, header, nav, button, input {
+    max-width: 92vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
