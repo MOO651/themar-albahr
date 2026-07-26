@@ -1,30 +1,28 @@
-/* منع أي إزاحة أو تمدد أفقي نهائياً */
-*, *::before, *::after {
-  box-sizing: border-box !important;
-}
+/* اصلاحات جبارة لشاشات الموبايل لتتطابق مع الكمبيوتر */
+@media screen and (max-width: 768px) {
+  /* إجبار الصفحة بالكامل على عدم تجاوز عرض الشاشة */
+  html, body, #root {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
-html, body {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
-  position: relative;
-  font-family: 'Tajawal', 'Segoe UI', sans-serif;
-  background-color: #f8fbfd;
-  background-image: radial-gradient(#d1eaf7 1px, transparent 1px);
-  background-size: 30px 30px;
-}
+  /* تصحيح أي حاويات أو كاردات تخرج بره الشاشة */
+  div, section, main, header, nav {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+  }
 
-#root {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
-  margin: 0 auto;
-}
+  /* تصحيح حقول البحث والأزرار لتناسب شاشة الموبايل بدقة */
+  input, button, select, textarea {
+    max-width: 100% !important;
+  }
 
-/* التأكد من أن أي صورة أو جدول أو صندوق لا يتجاوز عرض الشاشة */
-img, video, canvas, svg {
-  max-width: 100%;
-  height: auto;
+  /* ضبط الحواشي الجانبية العامة لكي لا تضغط التصميم */
+  body {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
 }
