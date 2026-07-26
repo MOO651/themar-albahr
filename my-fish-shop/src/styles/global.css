@@ -1,13 +1,15 @@
+/* ضبط العرض العام ومنع خروج أي عنصر عن حدود الشاشة */
 * {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   margin: 0;
   padding: 0;
 }
 
 html, body {
   width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  position: relative;
   font-family: 'Tajawal', 'Segoe UI', sans-serif;
   background-color: #f8fbfd;
   background-image: radial-gradient(#d1eaf7 1px, transparent 1px);
@@ -16,6 +18,11 @@ html, body {
 
 #root {
   width: 100%;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* ضمان عدم تجاوز الحاويات الرئيسية لعرض الشاشة */
+div, section, header, nav, main {
   max-width: 100%;
-  overflow-x: hidden;
 }
