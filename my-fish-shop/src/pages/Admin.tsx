@@ -178,7 +178,7 @@ const Admin = () => {
             }} 
           />
           <button 
-            onClick={() => password === "Themar1212" ? setIsAuthenticated(true) : alert("كلمة المرور خاطئة!")} 
+            onClick={() => password === "themar1212" ? setIsAuthenticated(true) : alert("كلمة المرور خاطئة!")} 
             style={{ 
               padding: '12px 30px', 
               backgroundColor: '#03045e', 
