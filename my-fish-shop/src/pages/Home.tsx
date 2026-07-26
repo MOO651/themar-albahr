@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
 
 const OceanElements: React.FC = () => (
   <div style={{
@@ -52,12 +51,6 @@ const OceanElements: React.FC = () => (
         transform: translateY(-5px) scale(1.02);
         box-shadow: 0 15px 30px rgba(0, 119, 182, 0.4) !important;
       }
-      .nav-link:hover {
-        color: #90e0ef !important;
-      }
-      .nav-login:hover {
-        background: rgba(255, 255, 255, 0.2) !important;
-      }
     `}</style>
 
     <div className="fish-node path-a" style={{ fontSize: '3rem', top: 0, left: 0 }}>🐠</div>
@@ -86,7 +79,7 @@ const Home: React.FC = () => {
   return (
     <div style={{
       position: 'relative',
-      minHeight: '100vh',
+      minHeight: 'calc(100vh - 70px)',
       background: 'linear-gradient(180deg, #03045e 0%, #0077b6 50%, #48cae4 100%)',
       overflow: 'hidden',
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
@@ -95,85 +88,11 @@ const Home: React.FC = () => {
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: '20px',
+      padding: '40px 20px',
       color: 'white'
     }}>
       
       <OceanElements />
-
-      {/* شريط التنقل (Navbar) العلوي المتناسق */}
-      <nav style={{
-        position: 'relative',
-        zIndex: 10,
-        width: '100%',
-        maxWidth: '1200px',
-        background: 'rgba(255, 255, 255, 0.1)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
-        borderRadius: '50px',
-        padding: '12px 30px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.15)',
-        marginTop: '10px'
-      }}>
-        {/* اللوجو واسم المتجر */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-          <div style={{
-            background: 'white',
-            width: '45px',
-            height: '45px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
-          }}>
-            <img src={logo} alt="Logo" style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
-          </div>
-          <span style={{ color: 'white', fontSize: '1.3rem', fontWeight: '800', letterSpacing: '0.5px' }}>ثمار البحر</span>
-        </Link>
-
-        {/* روابط التصفح */}
-        <div style={{ display: 'flex', gap: '25px', alignItems: 'center' }}>
-          <Link to="/" className="nav-link" style={{ color: 'white', textDecoration: 'none', fontSize: '1.05rem', fontWeight: '600', transition: 'color 0.3s' }}>الرئيسية</Link>
-          <Link to="/riyadh" className="nav-link" style={{ color: 'rgba(255,255,255,0.9)', textDecoration: 'none', fontSize: '1.05rem', fontWeight: '500', transition: 'color 0.3s' }}>فرع الرياض</Link>
-          <Link to="/jeddah" className="nav-link" style={{ color: 'rgba(255,255,255,0.9)', textDecoration: 'none', fontSize: '1.05rem', fontWeight: '500', transition: 'color 0.3s' }}>فرع جدة</Link>
-          <Link to="/qatif" className="nav-link" style={{ color: 'rgba(255,255,255,0.9)', textDecoration: 'none', fontSize: '1.05rem', fontWeight: '500', transition: 'color 0.3s' }}>فرع القطيف</Link>
-        </div>
-
-        {/* أزرار الدخول والسلة */}
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <button className="nav-login" style={{
-            background: 'transparent',
-            border: '1px solid rgba(255,255,255,0.4)',
-            color: 'white',
-            padding: '8px 20px',
-            borderRadius: '25px',
-            cursor: 'pointer',
-            fontSize: '0.95rem',
-            fontWeight: '600',
-            transition: 'all 0.3s'
-          }}>
-            دخول
-          </button>
-          <Link to="/cart" style={{
-            background: '#ffffff',
-            color: '#03045e',
-            padding: '8px 22px',
-            borderRadius: '25px',
-            textDecoration: 'none',
-            fontWeight: 'bold',
-            fontSize: '0.95rem',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-            transition: 'transform 0.2s'
-          }}>
-            السلة (0)
-          </Link>
-        </div>
-      </nav>
 
       {/* المحتوى الرئيسي */}
       <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', width: '100%', maxWidth: '900px', margin: 'auto 0' }}>
@@ -281,7 +200,7 @@ const Home: React.FC = () => {
         fontWeight: '500',
         opacity: '0.8',
         textShadow: '0 1px 5px rgba(0,0,0,0.2)',
-        marginBottom: '10px'
+        marginTop: '20px'
       }}>
         جميع الحقوق محفوظة © ثمار البحر 2026
       </div>

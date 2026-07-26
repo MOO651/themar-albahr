@@ -48,7 +48,7 @@ const Navbar = () => {
       justifyContent: 'space-between', 
       alignItems: 'center', 
       padding: '12px 25px',
-      backgroundColor: 'rgba(3, 4, 94, 0.75)',
+      backgroundColor: 'rgba(3, 4, 94, 0.85)',
       backdropFilter: 'blur(12px)',
       WebkitBackdropFilter: 'blur(12px)',
       borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
@@ -85,7 +85,7 @@ const Navbar = () => {
         <Link to="/" style={linkStyle}>الرئيسية</Link>
         <Link to="/riyadh" style={linkStyle}>الرياض</Link>
         <Link to="/qatif" style={linkStyle}>القطيف</Link>
-        <Link to="/jeddah" style={linkStyle}>الجدة</Link>
+        <Link to="/jeddah" style={linkStyle}>جدة</Link>
         
         {customerPhone ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: 'rgba(255, 255, 255, 0.15)', padding: '5px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)' }}>
