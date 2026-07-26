@@ -55,24 +55,33 @@ const OceanElements: React.FC = () => (
       /* تحسينات التجاوب الشاملة للموبايل */
       @media (max-width: 768px) {
         .main-title {
-          font-size: 2.2rem !important;
+          font-size: 1.8rem !important;
         }
         .main-desc {
-          font-size: 1rem !important;
+          font-size: 0.95rem !important;
           padding: 0 10px;
         }
         .section-title {
-          font-size: 1.25rem !important;
+          font-size: 1.2rem !important;
         }
         .branches-container {
           flex-direction: column !important;
-          align-items: stretch !important;
+          align-items: center !important;
           gap: 12px !important;
-          padding: 0 15px;
+          width: 100% !important;
+          padding: 0 15px !important;
+          box-sizing: border-box !important;
         }
         .pearl-btn {
-          width: 100% !important;
+          width: 90% !important;
+          max-width: 300px !important;
           justify-content: center !important;
+          box-sizing: border-box !important;
+        }
+        .features-grid {
+          grid-template-columns: 1fr !important;
+          padding: 0 15px !important;
+          box-sizing: border-box !important;
         }
       }
     `}</style>
@@ -103,23 +112,26 @@ const Home: React.FC = () => {
   return (
     <div style={{
       position: 'relative',
-      minHeight: 'calc(100vh - 70px)',
+      minHeight: '100vh',
+      width: '100%',
+      maxWidth: '100vw',
+      overflowX: 'hidden',
       background: 'linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)',
-      overflow: 'hidden',
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
       direction: 'rtl',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: '30px 15px',
-      color: 'white'
+      padding: '20px 10px',
+      color: 'white',
+      boxSizing: 'border-box'
     }}>
       
       <OceanElements />
 
       {/* المحتوى الرئيسي */}
-      <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', width: '100%', maxWidth: '900px', margin: '10px 0' }}>
+      <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', width: '100%', maxWidth: '900px', margin: '10px 0', boxSizing: 'border-box' }}>
         
         <h1 className="main-title" style={{
           fontSize: '3.2rem',
@@ -135,7 +147,7 @@ const Home: React.FC = () => {
           fontSize: '1.25rem',
           fontWeight: '600',
           lineHeight: '1.6',
-          marginBottom: '30px',
+          marginBottom: '25px',
           opacity: '0.95',
           textShadow: '0 2px 10px rgba(0,0,0,0.2)'
         }}>
@@ -158,7 +170,9 @@ const Home: React.FC = () => {
           justifyContent: 'center',
           gap: '15px',
           flexWrap: 'wrap',
-          marginBottom: '35px'
+          marginBottom: '35px',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <Link to="/riyadh" className="pearl-btn" style={{
             padding: '14px 28px',
@@ -173,7 +187,9 @@ const Home: React.FC = () => {
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px'
+            justifyContent: 'center',
+            gap: '8px',
+            boxSizing: 'border-box'
           }}>
             🏛️ فرع الرياض
           </Link>
@@ -191,7 +207,9 @@ const Home: React.FC = () => {
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px'
+            justifyContent: 'center',
+            gap: '8px',
+            boxSizing: 'border-box'
           }}>
             ⚓ فرع جدة
           </Link>
@@ -209,20 +227,23 @@ const Home: React.FC = () => {
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px'
+            justifyContent: 'center',
+            gap: '8px',
+            boxSizing: 'border-box'
           }}>
             🌴 فرع القطيف
           </Link>
         </div>
 
         {/* قسم مميزات المتجر */}
-        <div style={{
+        <div className="features-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
           gap: '15px',
           maxWidth: '850px',
           margin: '0 auto',
-          padding: '0 10px'
+          padding: '0 10px',
+          boxSizing: 'border-box'
         }}>
           <div style={featureCardStyle}>
             <div style={{ fontSize: '26px', marginBottom: '6px' }}>🐟</div>
@@ -270,7 +291,8 @@ const featureCardStyle = {
   padding: '14px',
   textAlign: 'center' as const,
   boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
-  border: '1px solid rgba(255, 255, 255, 0.4)'
+  border: '1px solid rgba(255, 255, 255, 0.4)',
+  boxSizing: 'border-box' as const
 };
 
 export default Home;

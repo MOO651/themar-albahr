@@ -21,26 +21,33 @@ const Qatif = () => {
 
   return (
     <div style={{ 
-      minHeight: "calc(100vh - 70px)",
+      minHeight: "100vh",
+      width: "100%",
+      maxWidth: "100vw",
+      overflowX: "hidden",
       background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
-      padding: "30px 15px", 
+      padding: "20px 10px", 
       textAlign: "center", 
       direction: "rtl",
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
-      color: "white"
+      color: "white",
+      boxSizing: "border-box"
     }}>
       <style>{`
         /* تحسين التجاوب للشاشات الصغيرة والموبايل */
         @media (max-width: 768px) {
           .branch-title {
-            font-size: 2.1rem !important;
+            font-size: 1.8rem !important;
           }
           .search-container {
-            padding: 0 10px;
+            width: 100% !important;
+            padding: 0 5px !important;
+            box-sizing: border-box !important;
           }
           .search-input {
             width: 100% !important;
             max-width: 100% !important;
+            box-sizing: border-box !important;
           }
         }
       `}</style>
@@ -48,15 +55,14 @@ const Qatif = () => {
       <h1 className="branch-title" style={{ 
         fontSize: "2.8rem", 
         fontWeight: "900", 
-        marginBottom: "25px",
+        marginBottom: "20px",
         textShadow: "0 3px 15px rgba(0,0,0,0.2)"
       }}>
         منتجات فرع القطيف 🌴
       </h1>
 
       {/* خانة البحث الزجاجية */}
-      className="search-container"
-      <div style={{ marginBottom: "35px", padding: "0 10px" }}>
+      <div className="search-container" style={{ marginBottom: "35px", width: "100%", display: "flex", justifyContent: "center", padding: "0 10px", boxSizing: "border-box" }}>
         <input
           type="text"
           placeholder="ابحث عن نوع السمك أو المنتج... 🔍"
@@ -75,7 +81,8 @@ const Qatif = () => {
             color: "#0077b6",
             boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
             textAlign: "right",
-            fontFamily: "'Tajawal', 'Segoe UI', sans-serif"
+            fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
+            boxSizing: "border-box"
           }}
         />
       </div>
@@ -83,11 +90,12 @@ const Qatif = () => {
       {/* عرض المنتجات المفلترة شبكياً */}
       <div style={{ 
         display: "grid", 
-        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", 
+        gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", 
         gap: "20px", 
         maxWidth: "1200px", 
         margin: "0 auto",
-        padding: "0 10px"
+        padding: "0 10px",
+        boxSizing: "border-box"
       }}>
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (

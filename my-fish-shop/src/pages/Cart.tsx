@@ -93,14 +93,16 @@ const Cart = () => {
         flexDirection: 'column',
         justifyContent: 'space-between',
         transition: 'transform 0.3s ease',
-        backdropFilter: 'blur(10px)'
+        backdropFilter: 'blur(10px)',
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
-        <div>
+        <div style={{ width: '100%', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px', borderBottom: `2px solid ${accentColor}`, paddingBottom: '12px' }}>
             <h2 style={{ color: '#0077b6', fontSize: '22px', fontWeight: '900', margin: 0 }}>
               {title}
             </h2>
-            <span style={{ backgroundColor: accentColor, color: '#fff', borderRadius: '50%', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 'bold', boxShadow: '0 4px 10px rgba(0,0,0,0.15)' }}>
+            <span style={{ backgroundColor: accentColor, color: '#fff', borderRadius: '50%', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 'bold', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', flexShrink: 0 }}>
               {items.reduce((acc, curr) => acc + curr.quantity, 0)}
             </span>
           </div>
@@ -113,11 +115,11 @@ const Cart = () => {
             </div>
           ) : (
             <>
-              <div style={{ maxHeight: '260px', overflowY: 'auto', marginBottom: '15px', paddingRight: '4px' }}>
+              <div style={{ maxHeight: '260px', overflowY: 'auto', marginBottom: '15px', paddingRight: '4px', boxSizing: 'border-box' }}>
                 {items.map((item: any) => (
-                  <div key={item.id} style={{ padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
+                  <div key={item.id} style={{ padding: '12px 0', borderBottom: '1px solid #e2e8f0', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
-                      <div style={{ fontWeight: '800', color: '#0077b6', fontSize: '15px', textAlign: 'right' }}>{item.name}</div>
+                      <div style={{ fontWeight: '800', color: '#0077b6', fontSize: '15px', textAlign: 'right', wordBreak: 'break-word' }}>{item.name}</div>
                       <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
                         <button onClick={() => handleQuantityChange(branch, item.id, -1)} style={{ border:'none', cursor:'pointer', width:'30px', height:'30px', borderRadius:'8px', backgroundColor: '#0077b6', color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>-</button>
                         <span style={{ fontSize: '16px', fontWeight: 'bold', minWidth: '20px', textAlign: 'center', color: '#0077b6' }}>{item.quantity}</span>
@@ -134,12 +136,12 @@ const Cart = () => {
                 ))}
               </div>
 
-              <div style={{ marginTop: '15px', padding: '14px', backgroundColor: '#f1f5f9', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '16px', fontWeight: 'bold', color: '#0077b6' }}>
+              <div style={{ marginTop: '15px', padding: '14px', backgroundColor: '#f1f5f9', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '16px', fontWeight: 'bold', color: '#0077b6', boxSizing: 'border-box' }}>
                 <span>الإجمالي:</span>
                 <span style={{ color: accentColor, fontSize: '20px', fontWeight: '900' }}>{total.toFixed(2)} ر.س</span>
               </div>
 
-              <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px', boxSizing: 'border-box' }}>
                 <input 
                   type="text" 
                   placeholder="الاسم الكريم *" 
@@ -184,7 +186,8 @@ const Cart = () => {
                   fontWeight: "bold", 
                   fontSize: "15px",
                   boxShadow: '0 6px 20px rgba(37, 211, 102, 0.4)',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  boxSizing: 'border-box'
                 }}
               >
                 إتمام الطلب عبر واتساب 💬
@@ -198,30 +201,40 @@ const Cart = () => {
 
   return (
     <div style={{ 
-      minHeight: "calc(100vh - 70px)",
+      minHeight: "100vh",
+      width: "100%",
+      maxWidth: "100vw",
+      overflowX: "hidden",
       background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
-      padding: "30px 15px", 
+      padding: "20px 10px", 
       direction: 'rtl',
-      fontFamily: "'Tajawal', 'Segoe UI', sans-serif"
+      fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
+      boxSizing: "border-box"
     }}>
       <style>{`
         @media (max-width: 768px) {
           .cart-title {
-            font-size: 2.2rem !important;
+            font-size: 2rem !important;
+          }
+          .cart-grid {
+            grid-template-columns: 100% !important;
+            padding: 0 5px !important;
           }
         }
       `}</style>
 
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
         <h1 className="cart-title" style={{ textAlign: "center", marginBottom: "30px", color: '#ffffff', fontWeight: '900', fontSize: '2.8rem', textShadow: "0 3px 15px rgba(0,0,0,0.3)" }}>
           🛒 حقيبة المشتريات
         </h1>
         
-        <div style={{ 
+        <div className="cart-grid" style={{ 
           display: "grid", 
           gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
           gap: "20px", 
-          alignItems: 'start' 
+          alignItems: 'start',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           {renderSection(riyadhItems, 'riyadh', "سلة الرياض", "#0077b6")}
           {renderSection(qatifItems, 'qatif', "سلة القطيف", "#0096c7")}

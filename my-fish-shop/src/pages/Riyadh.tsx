@@ -27,31 +27,43 @@ const Riyadh = () => {
 
   return (
     <div style={{ 
-      minHeight: "calc(100vh - 70px)",
+      minHeight: "100vh",
+      width: "100%",
+      maxWidth: "100vw",
+      overflowX: "hidden",
       background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
-      padding: "30px 15px", 
+      padding: "20px 10px", 
       textAlign: "center", 
       direction: "rtl",
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
-      color: "white"
+      color: "white",
+      boxSizing: "border-box"
     }}>
       <style>{`
         @media (max-width: 768px) {
           .branch-title {
-            font-size: 2.1rem !important;
+            font-size: 1.8rem !important;
           }
           .tabs-container {
             flex-direction: column !important;
-            align-items: stretch !important;
-            padding: 0 10px;
+            align-items: center !important;
+            width: 100% !important;
+            padding: 0 5px !important;
           }
           .tab-btn {
-            width: 100% !important;
+            width: 90% !important;
+            max-width: 300px !important;
             text-align: center !important;
+          }
+          .search-wrapper {
+            width: 100% !important;
+            padding: 0 10px !important;
+            box-sizing: border-box !important;
           }
           .search-input {
             width: 100% !important;
             max-width: 100% !important;
+            box-sizing: border-box !important;
           }
         }
       `}</style>
@@ -59,13 +71,13 @@ const Riyadh = () => {
       <h1 className="branch-title" style={{ 
         fontSize: "2.8rem", 
         fontWeight: "900", 
-        marginBottom: "25px",
+        marginBottom: "20px",
         textShadow: "0 3px 15px rgba(0,0,0,0.2)"
       }}>
         منتجات فرع الرياض 🏛️
       </h1>
 
-      <div className="tabs-container" style={{ marginBottom: "25px", display: "flex", justifyContent: "center", gap: "15px", flexWrap: "wrap" }}>
+      <div className="tabs-container" style={{ marginBottom: "25px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
         <button 
           onClick={() => setActiveTab("frozen")}
           className="tab-btn"
@@ -104,7 +116,7 @@ const Riyadh = () => {
         </button>
       </div>
 
-      <div style={{ marginBottom: "35px", padding: "0 10px" }}>
+      <div className="search-wrapper" style={{ marginBottom: "35px", width: "100%", display: "flex", justifyContent: "center" }}>
         <input
           type="text"
           placeholder="ابحث داخل القسم الحالي... 🔍"
@@ -123,18 +135,20 @@ const Riyadh = () => {
             color: "#0077b6",
             boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
             textAlign: "right",
-            fontFamily: "'Tajawal', 'Segoe UI', sans-serif"
+            fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
+            boxSizing: "border-box"
           }}
         />
       </div>
 
       <div style={{ 
         display: "grid", 
-        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", 
+        gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", 
         gap: "20px", 
         maxWidth: "1200px", 
         margin: "0 auto",
-        padding: "0 10px"
+        padding: "0 10px",
+        boxSizing: "border-box"
       }}>
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
