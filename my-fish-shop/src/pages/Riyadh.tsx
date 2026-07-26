@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from 'react';
 import { db } from "../firebase/config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import ProductCard from "../components/ProductCard";
+import { Link } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 
 const Riyadh = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("frozen");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const { totalItems } = useContext(CartContext);
 
   useEffect(() => {
     const q = query(
@@ -32,12 +35,13 @@ const Riyadh = () => {
       maxWidth: "100vw",
       overflowX: "hidden",
       background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
-      padding: "20px 10px", 
+      padding: "20px 10px 90px 10px", // مسافة من تحت عشان الزر العائم ما يداريش المنتجات
       textAlign: "center", 
       direction: "rtl",
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
       color: "white",
-      boxSizing: "border-box"
+      boxSizing: "border-box",
+      position: "relative"
     }}>
       <style>{`
         @media (max-width: 768px) {
@@ -67,6 +71,43 @@ const Riyadh = () => {
           }
         }
       `}</style>
+
+      {/* زر عائم سريع وثابت أسفل الشاشة للوصول السريع للسلة في أي وقت */}
+      <div style={{
+        position: "fixed",
+        bottom: "20px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: 999,
+        width: "90%",
+        maxWidth: "350px"
+      }}>
+        <Link to="/cart" style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          backgroundColor: "#03045e",
+          color: "#ffffff",
+          padding: "12px 20px",
+          borderRadius: "50px",
+          textDecoration: "none",
+          boxShadow: "0 6px 25px rgba(0,0,0,0.4)",
+          border: "2px solid rgba(72, 202, 228, 0.6)",
+          fontWeight: "bold",
+          fontSize: "1.05rem"
+        }}>
+          <span>🛒 الذهاب إلى السلة</span>
+          <span style={{
+            backgroundColor: "#ef4444",
+            color: "white",
+            borderRadius: "50px",
+            padding: "2px 10px",
+            fontSize: "0.9rem"
+          }}>
+            {totalItems} منتجات
+          </span>
+        </Link>
+      </div>
 
       <h1 className="branch-title" style={{ 
         fontSize: "2.8rem", 
