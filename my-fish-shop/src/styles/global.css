@@ -1,7 +1,21 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  background-color: #f8fbfd; /* أبيض مائل للزرقة الفاتحة جداً */
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: 'Tajawal', 'Segoe UI', sans-serif;
+  background-color: #f8fbfd;
   background-image: radial-gradient(#d1eaf7 1px, transparent 1px);
-  background-size: 30px 30px; /* بيعمل نقط خفيفة زي فقاعات الماية */
-  font-family: sans-serif;
+  background-size: 30px 30px;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
