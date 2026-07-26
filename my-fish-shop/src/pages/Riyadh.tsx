@@ -29,25 +29,46 @@ const Riyadh = () => {
     <div style={{ 
       minHeight: "calc(100vh - 70px)",
       background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
-      padding: "40px 20px", 
+      padding: "30px 15px", 
       textAlign: "center", 
       direction: "rtl",
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
       color: "white"
     }}>
-      <h1 style={{ 
+      <style>{`
+        @media (max-width: 768px) {
+          .branch-title {
+            font-size: 2.1rem !important;
+          }
+          .tabs-container {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            padding: 0 10px;
+          }
+          .tab-btn {
+            width: 100% !important;
+            text-align: center !important;
+          }
+          .search-input {
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+        }
+      `}</style>
+
+      <h1 className="branch-title" style={{ 
         fontSize: "2.8rem", 
         fontWeight: "900", 
-        marginBottom: "30px",
+        marginBottom: "25px",
         textShadow: "0 3px 15px rgba(0,0,0,0.2)"
       }}>
         منتجات فرع الرياض 🏛️
       </h1>
 
-      {/* أزرار التنقل (التبويبات) */}
-      <div style={{ marginBottom: "25px", display: "flex", justifyContent: "center", gap: "15px", flexWrap: "wrap" }}>
+      <div className="tabs-container" style={{ marginBottom: "25px", display: "flex", justifyContent: "center", gap: "15px", flexWrap: "wrap" }}>
         <button 
           onClick={() => setActiveTab("frozen")}
+          className="tab-btn"
           style={{ 
             padding: "12px 30px", 
             backgroundColor: activeTab === "frozen" ? "#ffffff" : "rgba(255, 255, 255, 0.15)", 
@@ -65,6 +86,7 @@ const Riyadh = () => {
         </button>
         <button 
           onClick={() => setActiveTab("fresh")}
+          className="tab-btn"
           style={{ 
             padding: "12px 30px", 
             backgroundColor: activeTab === "fresh" ? "#ffffff" : "rgba(255, 255, 255, 0.15)", 
@@ -82,13 +104,13 @@ const Riyadh = () => {
         </button>
       </div>
 
-      {/* خانة البحث */}
-      <div style={{ marginBottom: "40px" }}>
+      <div style={{ marginBottom: "35px", padding: "0 10px" }}>
         <input
           type="text"
           placeholder="ابحث داخل القسم الحالي... 🔍"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
           style={{
             padding: "14px 24px",
             width: "100%",
@@ -106,14 +128,20 @@ const Riyadh = () => {
         />
       </div>
 
-      {/* عرض المنتجات المفلترة */}
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px", maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ 
+        display: "grid", 
+        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", 
+        gap: "20px", 
+        maxWidth: "1200px", 
+        margin: "0 auto",
+        padding: "0 10px"
+      }}>
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
             <ProductCard key={p.id} product={p} branch="riyadh" />
           ))
         ) : (
-          <p style={{ color: "#e0fbfc", marginTop: "30px", width: "100%", fontSize: "1.2rem", fontWeight: "600" }}>
+          <p style={{ color: "#e0fbfc", marginTop: "30px", gridColumn: "1 / -1", fontSize: "1.2rem", fontWeight: "600" }}>
             عذراً، لم نجد أي منتج مطابق للبحث في هذا القسم. 🌊
           </p>
         )}

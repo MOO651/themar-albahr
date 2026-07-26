@@ -86,7 +86,7 @@ const Cart = () => {
       <div style={{ 
         backgroundColor: "rgba(255, 255, 255, 0.95)", 
         borderRadius: "20px", 
-        padding: "24px", 
+        padding: "20px", 
         boxShadow: "0 15px 35px rgba(0,0,0,0.2)",
         border: '1px solid rgba(255, 255, 255, 0.4)',
         display: 'flex',
@@ -106,7 +106,7 @@ const Cart = () => {
           </div>
 
           {items.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '50px 20px', color: '#64748b' }}>
+            <div style={{ textAlign: 'center', padding: '40px 15px', color: '#64748b' }}>
               <div style={{ fontSize: '45px', marginBottom: '10px' }}>🛒</div>
               <p style={{ fontSize: '16px', fontWeight: '700', margin: 0, color: '#1e293b' }}>السلة فارغة في هذا الفرع</p>
               <p style={{ fontSize: '13px', color: '#64748b', marginTop: '5px' }}>أضف بعض منتجات الأسماك للبدء!</p>
@@ -116,9 +116,9 @@ const Cart = () => {
               <div style={{ maxHeight: '260px', overflowY: 'auto', marginBottom: '15px', paddingRight: '4px' }}>
                 {items.map((item: any) => (
                   <div key={item.id} style={{ padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ fontWeight: '800', color: '#0077b6', fontSize: '15px' }}>{item.name}</div>
-                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
+                      <div style={{ fontWeight: '800', color: '#0077b6', fontSize: '15px', textAlign: 'right' }}>{item.name}</div>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
                         <button onClick={() => handleQuantityChange(branch, item.id, -1)} style={{ border:'none', cursor:'pointer', width:'30px', height:'30px', borderRadius:'8px', backgroundColor: '#0077b6', color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>-</button>
                         <span style={{ fontSize: '16px', fontWeight: 'bold', minWidth: '20px', textAlign: 'center', color: '#0077b6' }}>{item.quantity}</span>
                         <button onClick={() => handleQuantityChange(branch, item.id, 1)} style={{ border:'none', cursor:'pointer', width:'30px', height:'30px', borderRadius:'8px', backgroundColor: '#0077b6', color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>+</button>
@@ -127,7 +127,7 @@ const Cart = () => {
                     <input 
                       type="text" 
                       placeholder="ملاحظة إضافية (تنظيف، تقطيع...)" 
-                      style={{ width: '100%', marginTop: '8px', padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', outline: 'none', backgroundColor: '#f8fafc', color: '#0077b6' }} 
+                      style={{ width: '100%', marginTop: '8px', padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', outline: 'none', backgroundColor: '#f8fafc', color: '#0077b6', boxSizing: 'border-box' }} 
                       onChange={(e) => setNotes({...notes, [item.id]: e.target.value})}
                     />
                   </div>
@@ -144,21 +144,21 @@ const Cart = () => {
                   type="text" 
                   placeholder="الاسم الكريم *" 
                   value={customer.name} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6' }} 
+                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6', width: '100%', boxSizing: 'border-box' }} 
                   onChange={(e) => setCustomer({...customer, name: e.target.value})} 
                 />
                 <input 
                   type="text" 
                   placeholder="رقم الجوال *" 
                   value={customer.phone} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6' }} 
+                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6', width: '100%', boxSizing: 'border-box' }} 
                   onChange={(e) => setCustomer({...customer, phone: e.target.value})} 
                 />
                 <input 
                   type="text" 
                   placeholder="العنوان بالتفصيل *" 
                   value={customer.address} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6' }} 
+                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6', width: '100%', boxSizing: 'border-box' }} 
                   onChange={(e) => setCustomer({...customer, address: e.target.value})} 
                 />
               </div>
@@ -200,19 +200,27 @@ const Cart = () => {
     <div style={{ 
       minHeight: "calc(100vh - 70px)",
       background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
-      padding: "40px 20px", 
+      padding: "30px 15px", 
       direction: 'rtl',
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif"
     }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .cart-title {
+            font-size: 2.2rem !important;
+          }
+        }
+      `}</style>
+
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 style={{ textAlign: "center", marginBottom: "40px", color: '#ffffff', fontWeight: '900', fontSize: '2.8rem', textShadow: "0 3px 15px rgba(0,0,0,0.3)" }}>
+        <h1 className="cart-title" style={{ textAlign: "center", marginBottom: "30px", color: '#ffffff', fontWeight: '900', fontSize: '2.8rem', textShadow: "0 3px 15px rgba(0,0,0,0.3)" }}>
           🛒 حقيبة المشتريات
         </h1>
         
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", 
-          gap: "25px", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
+          gap: "20px", 
           alignItems: 'start' 
         }}>
           {renderSection(riyadhItems, 'riyadh', "سلة الرياض", "#0077b6")}

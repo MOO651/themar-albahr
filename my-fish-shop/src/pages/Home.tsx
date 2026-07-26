@@ -51,6 +51,30 @@ const OceanElements: React.FC = () => (
         transform: translateY(-5px) scale(1.02);
         box-shadow: 0 15px 30px rgba(0, 119, 182, 0.4) !important;
       }
+
+      /* تحسينات التجاوب الشاملة للموبايل */
+      @media (max-width: 768px) {
+        .main-title {
+          font-size: 2.2rem !important;
+        }
+        .main-desc {
+          font-size: 1rem !important;
+          padding: 0 10px;
+        }
+        .section-title {
+          font-size: 1.25rem !important;
+        }
+        .branches-container {
+          flex-direction: column !important;
+          align-items: stretch !important;
+          gap: 12px !important;
+          padding: 0 15px;
+        }
+        .pearl-btn {
+          width: 100% !important;
+          justify-content: center !important;
+        }
+      }
     `}</style>
 
     <div className="fish-node path-a" style={{ fontSize: '3rem', top: 0, left: 0 }}>🐠</div>
@@ -88,16 +112,16 @@ const Home: React.FC = () => {
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: '40px 20px',
+      padding: '30px 15px',
       color: 'white'
     }}>
       
       <OceanElements />
 
       {/* المحتوى الرئيسي */}
-      <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', width: '100%', maxWidth: '900px', margin: '20px 0' }}>
+      <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', width: '100%', maxWidth: '900px', margin: '10px 0' }}>
         
-        <h1 style={{
+        <h1 className="main-title" style={{
           fontSize: '3.2rem',
           fontWeight: '900',
           marginBottom: '15px',
@@ -107,11 +131,11 @@ const Home: React.FC = () => {
           أهلاً بكم في ثمار البحر 🌊
         </h1>
 
-        <p style={{
+        <p className="main-desc" style={{
           fontSize: '1.25rem',
           fontWeight: '600',
           lineHeight: '1.6',
-          marginBottom: '35px',
+          marginBottom: '30px',
           opacity: '0.95',
           textShadow: '0 2px 10px rgba(0,0,0,0.2)'
         }}>
@@ -119,9 +143,9 @@ const Home: React.FC = () => {
           تصلكم من بحارنا إلى مائدتكم بكل فخر.
         </p>
 
-        <h3 style={{
+        <h3 className="section-title" style={{
           fontSize: '1.5rem',
-          marginBottom: '25px',
+          marginBottom: '20px',
           fontWeight: '700',
           color: '#e0fbfc'
         }}>
@@ -129,15 +153,15 @@ const Home: React.FC = () => {
         </h3>
 
         {/* أزرار الفروع */}
-        <div style={{
+        <div className="branches-container" style={{
           display: 'flex',
           justifyContent: 'center',
-          gap: '20px',
+          gap: '15px',
           flexWrap: 'wrap',
-          marginBottom: '40px'
+          marginBottom: '35px'
         }}>
           <Link to="/riyadh" className="pearl-btn" style={{
-            padding: '14px 30px',
+            padding: '14px 28px',
             borderRadius: '50px',
             background: 'rgba(255, 255, 255, 0.95)',
             color: '#0077b6',
@@ -155,7 +179,7 @@ const Home: React.FC = () => {
           </Link>
 
           <Link to="/jeddah" className="pearl-btn" style={{
-            padding: '14px 30px',
+            padding: '14px 28px',
             borderRadius: '50px',
             background: 'rgba(255, 255, 255, 0.95)',
             color: '#0077b6',
@@ -173,7 +197,7 @@ const Home: React.FC = () => {
           </Link>
 
           <Link to="/qatif" className="pearl-btn" style={{
-            padding: '14px 30px',
+            padding: '14px 28px',
             borderRadius: '50px',
             background: 'rgba(255, 255, 255, 0.95)',
             color: '#0077b6',
@@ -191,30 +215,31 @@ const Home: React.FC = () => {
           </Link>
         </div>
 
-        {/* قسم مميزات المتجر (لإكمال الصفحة وملء الفراغات بأسلوب فخم) */}
+        {/* قسم مميزات المتجر */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
           gap: '15px',
           maxWidth: '850px',
-          margin: '0 auto'
+          margin: '0 auto',
+          padding: '0 10px'
         }}>
           <div style={featureCardStyle}>
-            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🐟</div>
-            <h4 style={{ margin: '5px 0', fontSize: '1.05rem', color: '#0077b6' }}>طازج يومياً</h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: '#555' }}>نختار لك أجود الأسماك بعناية فائقة.</p>
+            <div style={{ fontSize: '26px', marginBottom: '6px' }}>🐟</div>
+            <h4 style={{ margin: '5px 0', fontSize: '1rem', color: '#0077b6' }}>طازج يومياً</h4>
+            <p style={{ margin: 0, fontSize: '0.8rem', color: '#555' }}>نختار لك أجود الأسماك بعناية فائقة.</p>
           </div>
 
           <div style={featureCardStyle}>
-            <div style={{ fontSize: '28px', marginBottom: '8px' }}>✂️</div>
-            <h4 style={{ margin: '5px 0', fontSize: '1.05rem', color: '#0077b6' }}>تنظيف وتقطيع</h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: '#555' }}>تجهيز الأسماك حسب رغبتك مجاناً.</p>
+            <div style={{ fontSize: '26px', marginBottom: '6px' }}>✂️</div>
+            <h4 style={{ margin: '5px 0', fontSize: '1rem', color: '#0077b6' }}>تنظيف وتقطيع</h4>
+            <p style={{ margin: 0, fontSize: '0.8rem', color: '#555' }}>تجهيز الأسماك حسب رغبتك مجاناً.</p>
           </div>
 
           <div style={featureCardStyle}>
-            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🚀</div>
-            <h4 style={{ margin: '5px 0', fontSize: '1.05rem', color: '#0077b6' }}>توصيل سريع</h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: '#555' }}>نوصل طلبك محافظاً على جودته وبرودته.</p>
+            <div style={{ fontSize: '26px', marginBottom: '6px' }}>🚀</div>
+            <h4 style={{ margin: '5px 0', fontSize: '1rem', color: '#0077b6' }}>توصيل سريع</h4>
+            <p style={{ margin: 0, fontSize: '0.8rem', color: '#555' }}>نوصل طلبك محافظاً على جودته وبرودته.</p>
           </div>
         </div>
 
@@ -225,11 +250,11 @@ const Home: React.FC = () => {
         position: 'relative',
         zIndex: 3,
         color: '#e0fbfc',
-        fontSize: '0.85rem',
+        fontSize: '0.8rem',
         fontWeight: '500',
         opacity: '0.85',
         textShadow: '0 1px 5px rgba(0,0,0,0.2)',
-        marginTop: '10px'
+        marginTop: '15px'
       }}>
         جميع الحقوق محفوظة © ثمار البحر 2026
       </div>
@@ -242,7 +267,7 @@ const Home: React.FC = () => {
 const featureCardStyle = {
   backgroundColor: 'rgba(255, 255, 255, 0.92)',
   borderRadius: '15px',
-  padding: '16px',
+  padding: '14px',
   textAlign: 'center' as const,
   boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
   border: '1px solid rgba(255, 255, 255, 0.4)'
