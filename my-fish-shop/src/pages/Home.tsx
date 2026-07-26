@@ -10,35 +10,59 @@ const Home = () => {
   ];
 
   return (
-    <div style={{ textAlign: 'center', direction: 'rtl', fontFamily: "'Segoe UI', sans-serif", backgroundColor: '#f8fafc', paddingBottom: '50px' }}>
+    <div style={{ textAlign: 'center', direction: 'rtl', fontFamily: "'Segoe UI', sans-serif", backgroundColor: '#f0f9ff', paddingBottom: '50px', minHeight: '100vh' }}>
       
-      {/* البانر مع تدرج ألوان للعنوان */}
-      <div style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%)', color: 'white', padding: '80px 20px', marginBottom: '40px' }}>
-        <div style={{ width: '120px', height: '120px', backgroundColor: '#ffffff', borderRadius: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+      {/* البانر مع تدرج ألوان بحري فاتح ومشرق */}
+      <div style={{ 
+        background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%)', 
+        color: 'white', 
+        padding: '80px 20px', 
+        marginBottom: '40px',
+        boxShadow: '0 10px 30px rgba(14, 165, 233, 0.2)'
+      }}>
+        <div style={{ 
+          width: '120px', 
+          height: '120px', 
+          backgroundColor: '#ffffff', 
+          borderRadius: '50%', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          margin: '0 auto 20px', 
+          boxShadow: '0 10px 25px rgba(0,0,0,0.15)' 
+        }}>
           <img src={logo} alt="Logo" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
         </div>
-        <h1 style={{ fontSize: '3rem', margin: '0', fontWeight: '800', background: 'linear-gradient(to right, #ffffff, #e0f2fe)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <h1 style={{ 
+          fontSize: '3rem', 
+          margin: '0', 
+          fontWeight: '800', 
+          background: 'linear-gradient(to right, #ffffff, #e0f2fe)', 
+          WebkitBackgroundClip: 'text', 
+          WebkitTextFillColor: 'transparent',
+          textShadow: '0 2px 10px rgba(0,0,0,0.1)'
+        }}>
           ثمار البحر
         </h1>
-        <p style={{ fontSize: '1.2rem', marginTop: '10px', opacity: 0.9 }}>طعم التميز.. نأتيكم بأجود الأسماك الطازجة</p>
+        <p style={{ fontSize: '1.2rem', marginTop: '10px', color: '#e0f2fe', fontWeight: '500' }}>طعم التميز.. نأتيكم بأجود الأسماك الطازجة</p>
       </div>
 
-      {/* الفروع (تم إضافة فرع جدة هنا) */}
+      {/* الفروع (الرياض، جدة، القطيف) */}
       <div style={{ padding: '20px', marginBottom: '40px' }}>
-        <h2 style={{ color: '#1e293b', marginBottom: '25px' }}>اختر فرعك للبدء</h2>
+        <h2 style={{ color: '#0369a1', marginBottom: '25px', fontWeight: '700' }}>اختر فرعك للبدء</h2>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
-          <Link to="/riyadh" style={{ padding: '15px 40px', backgroundColor: '#0ea5e9', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', transition: '0.3s' }}>فرع الرياض</Link>
-          <Link to="/jeddah" style={{ padding: '15px 40px', backgroundColor: '#0284c7', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', transition: '0.3s' }}>فرع جدة</Link>
-          <Link to="/qatif" style={{ padding: '15px 40px', backgroundColor: '#334155', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', transition: '0.3s' }}>فرع القطيف</Link>
+          <Link to="/riyadh" style={{ padding: '15px 40px', backgroundColor: '#0ea5e9', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(14,165,233,0.3)', transition: '0.3s' }}>فرع الرياض</Link>
+          <Link to="/jeddah" style={{ padding: '15px 40px', backgroundColor: '#0284c7', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(2,132,199,0.3)', transition: '0.3s' }}>فرع جدة</Link>
+          <Link to="/qatif" style={{ padding: '15px 40px', backgroundColor: '#0369a1', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(3,105,161,0.3)', transition: '0.3s' }}>فرع القطيف</Link>
         </div>
       </div>
 
       {/* الميزات المصغرة */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '0 20px', flexWrap: 'wrap', marginBottom: '60px' }}>
         {features.map((item, i) => (
-          <div key={i} style={{ padding: '25px', borderRadius: '20px', width: '140px', backgroundColor: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
+          <div key={i} style={{ padding: '25px', borderRadius: '20px', width: '140px', backgroundColor: '#fff', boxShadow: '0 4px 15px rgba(14,165,233,0.08)', border: '1px solid #e0f2fe' }}>
             <div style={{ fontSize: '2rem', marginBottom: '10px' }}>{item.icon}</div>
-            <div style={{ fontSize: '0.9rem', fontWeight: '600', color: '#475569' }}>{item.text}</div>
+            <div style={{ fontSize: '0.9rem', fontWeight: '600', color: '#0369a1' }}>{item.text}</div>
           </div>
         ))}
       </div>
@@ -53,32 +77,32 @@ const Home = () => {
         }}>
           
           {/* كارت من نحن */}
-          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
-            <h3 style={{ color: '#0ea5e9', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 20px rgba(14,165,233,0.06)', border: '1px solid #bae6fd' }}>
+            <h3 style={{ color: '#0284c7', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span>🐟</span> من نحن
             </h3>
-            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
+            <p style={{ color: '#334155', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
               متجر ثمار البحر، وجهتك الأولى لأفضل وأفخر أنواع الأسماك الطازجة والمأكولات البحرية المنتقاة بعناية فائقة من بحارنا لتصل إلى مائدتك يومياً بأعلى معايير الجودة والنظافة.
             </p>
           </div>
 
           {/* كارت لماذا نحن */}
-          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0' }}>
-            <h3 style={{ color: '#0ea5e9', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 20px rgba(14,165,233,0.06)', border: '1px solid #bae6fd' }}>
+            <h3 style={{ color: '#0284c7', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span>⭐</span> لماذا نحن
             </h3>
-            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
+            <p style={{ color: '#334155', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
               نتميز بالتوصيل السريع ضمن حافظات مبردة تحافظ على النضارة الكاملة، مع التطهير والتعقيم المستمر لضمان سلامتك، وأسعار تنافسية تضمن لك أفضل قيمة.
             </p>
           </div>
 
           {/* كارت اتصل بنا مع زر الخريطة */}
-          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 20px rgba(14,165,233,0.06)', border: '1px solid #bae6fd', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
-              <h3 style={{ color: '#0ea5e9', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <h3 style={{ color: '#0284c7', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span>📞</span> اتصل بنا
               </h3>
-              <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
+              <p style={{ color: '#334155', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
                 نسعد بخدمتكم وتلبية طلباتكم على مدار الساعة عبر فروعنا المتاحة في الرياض وجدة والقطيف، أو من خلال خدمة الواتساب المتاحة دائماً لخدمتكم بكل فخر.
               </p>
             </div>
@@ -99,7 +123,7 @@ const Home = () => {
                   textDecoration: 'none', 
                   fontSize: '0.9rem', 
                   fontWeight: 'bold',
-                  boxShadow: '0 4px 10px rgba(14, 165, 233, 0.3)',
+                  boxShadow: '0 4px 12px rgba(14, 165, 233, 0.3)',
                   transition: '0.3s'
                 }}
               >
@@ -125,7 +149,7 @@ const Home = () => {
           padding: '15px',
           borderRadius: '50%',
           fontSize: '30px',
-          boxShadow: '0 4px 15px rgba(37, 211, 102, 0.4)',
+          boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
           zIndex: 1000,
           textDecoration: 'none',
           display: 'flex',
@@ -142,4 +166,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;
