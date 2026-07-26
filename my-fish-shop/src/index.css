@@ -1,7 +1,5 @@
-/* تثبيت الجذر ومنع أي تمرير زائد أو بياض خارج الحدود */
 html {
-  background-color: #0077b6;
-  overscroll-behavior-y: none; /* بيقفل الحركة اللي بتعمل بياض فوق وتحت في الموبايل */
+  background-color: #0077b6; /* لون خلفية يغطي أي ارتداد للموبايل */
 }
 
 body, #root {
@@ -11,7 +9,6 @@ body, #root {
   width: 100%;
   min-height: 100dvh;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
 }
 
 * {
