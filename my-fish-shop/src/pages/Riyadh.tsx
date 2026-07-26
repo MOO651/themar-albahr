@@ -28,7 +28,7 @@ const Riyadh = () => {
   return (
     <div style={{ 
       minHeight: "calc(100vh - 70px)",
-      background: "linear-gradient(180deg, #03045e 0%, #0077b6 50%, #48cae4 100%)",
+      background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
       padding: "40px 20px", 
       textAlign: "center", 
       direction: "rtl",
@@ -39,7 +39,7 @@ const Riyadh = () => {
         fontSize: "2.8rem", 
         fontWeight: "900", 
         marginBottom: "30px",
-        textShadow: "0 3px 15px rgba(0,0,0,0.3)"
+        textShadow: "0 3px 15px rgba(0,0,0,0.2)"
       }}>
         منتجات فرع الرياض 🏛️
       </h1>
@@ -51,7 +51,7 @@ const Riyadh = () => {
           style={{ 
             padding: "12px 30px", 
             backgroundColor: activeTab === "frozen" ? "#ffffff" : "rgba(255, 255, 255, 0.15)", 
-            color: activeTab === "frozen" ? "#03045e" : "#ffffff", 
+            color: activeTab === "frozen" ? "#0077b6" : "#ffffff", 
             border: "1px solid rgba(255, 255, 255, 0.3)", 
             borderRadius: "50px", 
             cursor: "pointer", 
@@ -68,7 +68,7 @@ const Riyadh = () => {
           style={{ 
             padding: "12px 30px", 
             backgroundColor: activeTab === "fresh" ? "#ffffff" : "rgba(255, 255, 255, 0.15)", 
-            color: activeTab === "fresh" ? "#03045e" : "#ffffff", 
+            color: activeTab === "fresh" ? "#0077b6" : "#ffffff", 
             border: "1px solid rgba(255, 255, 255, 0.3)", 
             borderRadius: "50px", 
             cursor: "pointer", 
@@ -94,11 +94,11 @@ const Riyadh = () => {
             width: "100%",
             maxWidth: "450px",
             borderRadius: "50px",
-            backgroundColor: "rgba(255, 255, 255, 0.9)",
-            border: "1px solid rgba(255, 255, 255, 0.5)",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            border: "1px solid rgba(255, 255, 255, 0.6)",
             outline: "none",
             fontSize: "1.05rem",
-            color: "#03045e",
+            color: "#0077b6",
             boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
             textAlign: "right",
             fontFamily: "'Tajawal', 'Segoe UI', sans-serif"

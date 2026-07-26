@@ -98,7 +98,7 @@ const Cart = () => {
       }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px', borderBottom: `2px solid ${accentColor}`, paddingBottom: '12px' }}>
-            <h2 style={{ color: '#03045e', fontSize: '22px', fontWeight: '900', margin: 0 }}>
+            <h2 style={{ color: '#0077b6', fontSize: '22px', fontWeight: '900', margin: 0 }}>
               {title}
             </h2>
             <span style={{ backgroundColor: accentColor, color: '#fff', borderRadius: '50%', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 'bold', boxShadow: '0 4px 10px rgba(0,0,0,0.15)' }}>
@@ -118,24 +118,24 @@ const Cart = () => {
                 {items.map((item: any) => (
                   <div key={item.id} style={{ padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ fontWeight: '800', color: '#03045e', fontSize: '15px' }}>{item.name}</div>
+                      <div style={{ fontWeight: '800', color: '#0077b6', fontSize: '15px' }}>{item.name}</div>
                       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <button onClick={() => handleQuantityChange(branch, item.id, -1)} style={{ border:'none', cursor:'pointer', width:'30px', height:'30px', borderRadius:'8px', backgroundColor: '#0077b6', color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>-</button>
-                        <span style={{ fontSize: '16px', fontWeight: 'bold', minWidth: '20px', textAlign: 'center', color: '#03045e' }}>{item.quantity}</span>
+                        <span style={{ fontSize: '16px', fontWeight: 'bold', minWidth: '20px', textAlign: 'center', color: '#0077b6' }}>{item.quantity}</span>
                         <button onClick={() => handleQuantityChange(branch, item.id, 1)} style={{ border:'none', cursor:'pointer', width:'30px', height:'30px', borderRadius:'8px', backgroundColor: '#0077b6', color: 'white', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>+</button>
                       </div>
                     </div>
                     <input 
                       type="text" 
                       placeholder="ملاحظة إضافية (تنظيف، تقطيع...)" 
-                      style={{ width: '100%', marginTop: '8px', padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', outline: 'none', backgroundColor: '#f8fafc', color: '#03045e' }} 
+                      style={{ width: '100%', marginTop: '8px', padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', outline: 'none', backgroundColor: '#f8fafc', color: '#0077b6' }} 
                       onChange={(e) => setNotes({...notes, [item.id]: e.target.value})}
                     />
                   </div>
                 ))}
               </div>
 
-              <div style={{ marginTop: '15px', padding: '14px', backgroundColor: '#f1f5f9', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '16px', fontWeight: 'bold', color: '#03045e' }}>
+              <div style={{ marginTop: '15px', padding: '14px', backgroundColor: '#f1f5f9', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '16px', fontWeight: 'bold', color: '#0077b6' }}>
                 <span>الإجمالي:</span>
                 <span style={{ color: accentColor, fontSize: '20px', fontWeight: '900' }}>{total} ر.س</span>
               </div>
@@ -145,21 +145,21 @@ const Cart = () => {
                   type="text" 
                   placeholder="الاسم الكريم *" 
                   value={customer.name} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#03045e' }} 
+                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6' }} 
                   onChange={(e) => setCustomer({...customer, name: e.target.value})} 
                 />
                 <input 
                   type="text" 
                   placeholder="رقم الجوال *" 
                   value={customer.phone} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#03045e' }} 
+                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6' }} 
                   onChange={(e) => setCustomer({...customer, phone: e.target.value})} 
                 />
                 <input 
                   type="text" 
                   placeholder="العنوان بالتفصيل *" 
                   value={customer.address} 
-                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#03045e' }} 
+                  style={{ padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '13px', backgroundColor: '#fff', color: '#0077b6' }} 
                   onChange={(e) => setCustomer({...customer, address: e.target.value})} 
                 />
               </div>
@@ -200,7 +200,7 @@ const Cart = () => {
   return (
     <div style={{ 
       minHeight: "calc(100vh - 70px)",
-      background: "linear-gradient(180deg, #03045e 0%, #0077b6 50%, #48cae4 100%)",
+      background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
       padding: "40px 20px", 
       direction: 'rtl',
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif"
@@ -216,9 +216,9 @@ const Cart = () => {
           gap: "25px", 
           alignItems: 'start' 
         }}>
-          {renderSection(riyadhItems, 'riyadh', "سلة الرياض", "#023e8a")}
-          {renderSection(qatifItems, 'qatif', "سلة القطيف", "#0077b6")}
-          {renderSection(jeddahItems, 'jeddah', "سلة جدة", "#0096c7")}
+          {renderSection(riyadhItems, 'riyadh', "سلة الرياض", "#0077b6")}
+          {renderSection(qatifItems, 'qatif', "سلة القطيف", "#0096c7")}
+          {renderSection(jeddahItems, 'jeddah', "سلة جدة", "#48cae4")}
         </div>
       </div>
     </div>
