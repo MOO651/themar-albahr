@@ -6,7 +6,7 @@ import ProductCard from "../components/ProductCard";
 const Jeddah = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("frozen");
-  const [searchTerm, setSearchTerm] = useState<string>(""); // حالة البحث
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     // جلب منتجات جدة (المجمدات والطازج) فقط من Firebase
@@ -28,62 +28,96 @@ const Jeddah = () => {
   });
 
   return (
-    <div style={{ padding: "20px", textAlign: "center", direction: "rtl" }}>
-      <h1>منتجات فرع جدة</h1>
+    <div style={{ 
+      minHeight: "calc(100vh - 70px)",
+      background: "linear-gradient(180deg, #03045e 0%, #0077b6 50%, #48cae4 100%)",
+      padding: "40px 20px", 
+      textAlign: "center", 
+      direction: "rtl",
+      fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
+      color: "white"
+    }}>
+      <h1 style={{ 
+        fontSize: "2.8rem", 
+        fontWeight: "900", 
+        marginBottom: "30px",
+        textShadow: "0 3px 15px rgba(0,0,0,0.3)"
+      }}>
+        منتجات فرع جدة ⚓
+      </h1>
 
       {/* أزرار التنقل (التبويبات) */}
-      <div style={{ marginBottom: "20px" }}>
+      <div style={{ marginBottom: "25px", display: "flex", justifyContent: "center", gap: "15px", flexWrap: "wrap" }}>
         <button 
           onClick={() => setActiveTab("frozen")}
           style={{ 
-            margin: "0 10px", padding: "12px 25px", 
-            backgroundColor: activeTab === "frozen" ? "#0ea5e9" : "#cbd5e1", 
-            color: "white", border: "none", borderRadius: "50px", cursor: "pointer", fontSize: "16px", fontWeight: "bold", transition: "0.3s" 
+            padding: "12px 30px", 
+            backgroundColor: activeTab === "frozen" ? "#ffffff" : "rgba(255, 255, 255, 0.15)", 
+            color: activeTab === "frozen" ? "#03045e" : "#ffffff", 
+            border: "1px solid rgba(255, 255, 255, 0.3)", 
+            borderRadius: "50px", 
+            cursor: "pointer", 
+            fontSize: "1.1rem", 
+            fontWeight: "bold", 
+            boxShadow: activeTab === "frozen" ? "0 8px 20px rgba(0,0,0,0.2)" : "none",
+            transition: "all 0.3s ease" 
           }}
         >
-          المجمدات
+          ❄️ المجمدات
         </button>
         <button 
           onClick={() => setActiveTab("fresh")}
           style={{ 
-            margin: "0 10px", padding: "12px 25px", 
-            backgroundColor: activeTab === "fresh" ? "#0ea5e9" : "#cbd5e1", 
-            color: "white", border: "none", borderRadius: "50px", cursor: "pointer", fontSize: "16px", fontWeight: "bold", transition: "0.3s" 
+            padding: "12px 30px", 
+            backgroundColor: activeTab === "fresh" ? "#ffffff" : "rgba(255, 255, 255, 0.15)", 
+            color: activeTab === "fresh" ? "#03045e" : "#ffffff", 
+            border: "1px solid rgba(255, 255, 255, 0.3)", 
+            borderRadius: "50px", 
+            cursor: "pointer", 
+            fontSize: "1.1rem", 
+            fontWeight: "bold", 
+            boxShadow: activeTab === "fresh" ? "0 8px 20px rgba(0,0,0,0.2)" : "none",
+            transition: "all 0.3s ease" 
           }}
         >
-          الطازج
+          🐟 الطازج
         </button>
       </div>
 
       {/* خانة البحث */}
-      <div style={{ marginBottom: "30px" }}>
+      <div style={{ marginBottom: "40px" }}>
         <input
           type="text"
-          placeholder="ابحث داخل القسم الحالي..."
+          placeholder="ابحث داخل القسم الحالي... 🔍"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
-            padding: "12px 20px",
+            padding: "14px 24px",
             width: "100%",
-            maxWidth: "400px",
+            maxWidth: "450px",
             borderRadius: "50px",
-            border: "1px solid #cbd5e1",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            border: "1px solid rgba(255, 255, 255, 0.5)",
             outline: "none",
-            fontSize: "1rem",
-            boxShadow: "0 2px 5px rgba(0,0,0,0.02)",
-            textAlign: "right"
+            fontSize: "1.05rem",
+            color: "#03045e",
+            boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+            textAlign: "right",
+            fontFamily: "'Tajawal', 'Segoe UI', sans-serif"
           }}
         />
       </div>
 
       {/* عرض المنتجات المفلترة */}
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px", maxWidth: "1200px", margin: "0 auto" }}>
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
             <ProductCard key={p.id} product={p} branch="jeddah" />
           ))
         ) : (
-          <p style={{ color: "#64748b", marginTop: "20px", width: "100%" }}>عذراً، لم نجد أي منتج مطابق للبحث في هذا القسم.</p>
+          <p style={{ color: "#e0fbfc", marginTop: "30px", width: "100%", fontSize: "1.2rem", fontWeight: "600" }}>
+            عذراً، لم نجد أي منتج مطابق للبحث في هذا القسم. 🌊
+          </p>
         )}
       </div>
     </div>

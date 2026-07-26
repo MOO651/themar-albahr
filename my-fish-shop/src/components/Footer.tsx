@@ -1,17 +1,22 @@
 const Footer = () => {
   return (
     <footer style={{ 
-      backgroundColor: '#f1f5f9', 
+      backgroundColor: 'rgba(3, 4, 94, 0.9)', 
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
       padding: '30px 20px', 
-      marginTop: '40px', 
+      marginTop: 'auto', 
       fontSize: '0.9rem', 
-      color: '#64748b',
-      borderTop: '1px solid #e2e8f0',
+      color: '#e0fbfc',
+      borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+      boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.2)',
       textAlign: 'center',
-      direction: 'rtl'
+      direction: 'rtl',
+      fontFamily: "'Tajawal', 'Segoe UI', sans-serif"
     }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        {/* زر موقعنا على الخريطة المضاف حديثاً */}
+        
+        {/* زر موقعنا على الخريطة */}
         <div style={{ marginBottom: '15px' }}>
           <a 
             href="https://maps.app.goo.gl/bdbDFUZYofukC1Zf8" 
@@ -20,24 +25,31 @@ const Footer = () => {
             style={{ 
               display: 'inline-flex', 
               alignItems: 'center', 
-              gap: '6px', 
-              padding: '8px 16px', 
-              backgroundColor: '#0ea5e9', 
+              gap: '8px', 
+              padding: '10px 20px', 
+              backgroundColor: '#0077b6', 
               color: 'white', 
-              borderRadius: '6px', 
+              borderRadius: '50px', 
               textDecoration: 'none', 
-              fontSize: '13px', 
-              fontWeight: 'bold' 
+              fontSize: '14px', 
+              fontWeight: 'bold',
+              boxShadow: '0 4px 15px rgba(0, 119, 182, 0.4)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              transition: 'all 0.3s ease'
             }}
           >
             📍 موقعنا على الخريطة (فرع القطيف)
           </a>
         </div>
 
-        <div style={{ fontSize: '0.8rem' }}>
-          <p style={{ margin: '5px 0' }}>جميع الحقوق محفوظة © 2026 - شركة ثمار البحر</p>
-          <p style={{ margin: '5px 0' }}>السجل التجاري: 123456789 | الرقم الضريبي: 300xxxxxxx</p>
+        {/* بيانات الحقوق والسجل */}
+        <div style={{ fontSize: '0.85rem', opacity: '0.9' }}>
+          <p style={{ margin: '6px 0' }}>جميع الحقوق محفوظة © 2026 - شركة ثمار البحر</p>
+          <p style={{ margin: '6px 0', fontSize: '0.8rem', color: '#48cae4' }}>
+            السجل التجاري: 123456789 | الرقم الضريبي: 300xxxxxxx
+          </p>
         </div>
+
       </div>
     </footer>
   );
