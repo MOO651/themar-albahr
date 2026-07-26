@@ -38,7 +38,7 @@ const Qatif = () => {
       position: "relative"
     }}>
       <style>{`
-        /* تحسين التجاوب للشاشات الصغيرة والموبايل */
+        /* تحسين التجاوب للشاشات الصغيرة والموبايل وتوسيط الكروت */
         @media (max-width: 768px) {
           .branch-title {
             font-size: 1.8rem !important;
@@ -49,9 +49,20 @@ const Qatif = () => {
             box-sizing: border-box !important;
           }
           .search-input {
-            width: 100% !important;
-            max-width: 100% !important;
+            width: 90% !important;
+            max-width: 90% !important;
+            margin: 0 auto !important;
             box-sizing: border-box !important;
+            display: block !important;
+          }
+          .products-grid {
+            grid-template-columns: 1fr !important;
+            justify-items: center !important;
+          }
+          .product-card, .card {
+            width: 92% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
           }
         }
       `}</style>
@@ -129,7 +140,7 @@ const Qatif = () => {
       </div>
 
       {/* عرض المنتجات المفلترة شبكياً */}
-      <div style={{ 
+      <div className="products-grid" style={{ 
         display: "grid", 
         gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", 
         gap: "20px", 

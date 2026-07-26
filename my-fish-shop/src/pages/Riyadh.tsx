@@ -35,7 +35,7 @@ const Riyadh = () => {
       maxWidth: "100vw",
       overflowX: "hidden",
       background: "linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)",
-      padding: "20px 10px 90px 10px", // مسافة من تحت عشان الزر العائم ما يداريش المنتجات
+      padding: "20px 10px 90px 10px",
       textAlign: "center", 
       direction: "rtl",
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
@@ -65,14 +65,26 @@ const Riyadh = () => {
             box-sizing: border-box !important;
           }
           .search-input {
-            width: 100% !important;
-            max-width: 100% !important;
+            width: 90% !important;
+            max-width: 90% !important;
+            margin: 0 auto !important;
             box-sizing: border-box !important;
+            display: block !important;
+          }
+          /* توسيط كروت المنتجات على الموبايل نهائياً */
+          .products-grid {
+            grid-template-columns: 1fr !important;
+            justify-items: center !important;
+          }
+          .product-card, .card {
+            width: 92% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
           }
         }
       `}</style>
 
-      {/* زر عائم سريع وثابت أسفل الشاشة للوصول السريع للسلة في أي وقت */}
+      {/* زر عائم سريع وثابت أسفل الشاشة للوصول السريع للسلة */}
       <div style={{
         position: "fixed",
         bottom: "20px",
@@ -182,7 +194,7 @@ const Riyadh = () => {
         />
       </div>
 
-      <div style={{ 
+      <div className="products-grid" style={{ 
         display: "grid", 
         gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", 
         gap: "20px", 
