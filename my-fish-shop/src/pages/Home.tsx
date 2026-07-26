@@ -80,7 +80,7 @@ const Home: React.FC = () => {
     <div style={{
       position: 'relative',
       minHeight: 'calc(100vh - 70px)',
-      background: 'linear-gradient(180deg, #03045e 0%, #0077b6 50%, #48cae4 100%)',
+      background: 'linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%)',
       overflow: 'hidden',
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
       direction: 'rtl',
@@ -95,24 +95,24 @@ const Home: React.FC = () => {
       <OceanElements />
 
       {/* المحتوى الرئيسي */}
-      <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', width: '100%', maxWidth: '900px', margin: 'auto 0' }}>
+      <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', width: '100%', maxWidth: '900px', margin: '20px 0' }}>
         
         <h1 style={{
-          fontSize: '3.5rem',
+          fontSize: '3.2rem',
           fontWeight: '900',
           marginBottom: '15px',
           textShadow: '0 3px 15px rgba(0,0,0,0.3)',
           letterSpacing: '1px'
         }}>
-          أهلاً بكم في ثمار البحر
+          أهلاً بكم في ثمار البحر 🌊
         </h1>
 
         <p style={{
-          fontSize: '1.5rem',
+          fontSize: '1.25rem',
           fontWeight: '600',
           lineHeight: '1.6',
-          marginBottom: '40px',
-          opacity: '0.9',
+          marginBottom: '35px',
+          opacity: '0.95',
           textShadow: '0 2px 10px rgba(0,0,0,0.2)'
         }}>
           اكتشفوا تشكيلتنا الواسعة من أجود الأسماك والمأكولات البحرية الطازجة،<br />
@@ -120,26 +120,28 @@ const Home: React.FC = () => {
         </p>
 
         <h3 style={{
-          fontSize: '1.8rem',
+          fontSize: '1.5rem',
           marginBottom: '25px',
           fontWeight: '700',
-          color: '#caf0f8'
+          color: '#e0fbfc'
         }}>
           اختر الفرع الأقرب إليك للبدء
         </h3>
 
+        {/* أزرار الفروع */}
         <div style={{
           display: 'flex',
           justifyContent: 'center',
-          gap: '25px',
-          flexWrap: 'wrap'
+          gap: '20px',
+          flexWrap: 'wrap',
+          marginBottom: '40px'
         }}>
           <Link to="/riyadh" className="pearl-btn" style={{
-            padding: '16px 35px',
+            padding: '14px 30px',
             borderRadius: '50px',
             background: 'rgba(255, 255, 255, 0.95)',
-            color: '#03045e',
-            fontSize: '1.2rem',
+            color: '#0077b6',
+            fontSize: '1.1rem',
             fontWeight: 'bold',
             textDecoration: 'none',
             boxShadow: '0 10px 25px rgba(0, 119, 182, 0.3)',
@@ -147,17 +149,17 @@ const Home: React.FC = () => {
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
-            gap: '10px'
+            gap: '8px'
           }}>
             🏛️ فرع الرياض
           </Link>
 
           <Link to="/jeddah" className="pearl-btn" style={{
-            padding: '16px 35px',
+            padding: '14px 30px',
             borderRadius: '50px',
             background: 'rgba(255, 255, 255, 0.95)',
-            color: '#03045e',
-            fontSize: '1.2rem',
+            color: '#0077b6',
+            fontSize: '1.1rem',
             fontWeight: 'bold',
             textDecoration: 'none',
             boxShadow: '0 10px 25px rgba(0, 119, 182, 0.3)',
@@ -165,17 +167,17 @@ const Home: React.FC = () => {
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
-            gap: '10px'
+            gap: '8px'
           }}>
             ⚓ فرع جدة
           </Link>
 
           <Link to="/qatif" className="pearl-btn" style={{
-            padding: '16px 35px',
+            padding: '14px 30px',
             borderRadius: '50px',
             background: 'rgba(255, 255, 255, 0.95)',
-            color: '#03045e',
-            fontSize: '1.2rem',
+            color: '#0077b6',
+            fontSize: '1.1rem',
             fontWeight: 'bold',
             textDecoration: 'none',
             boxShadow: '0 10px 25px rgba(0, 119, 182, 0.3)',
@@ -183,10 +185,37 @@ const Home: React.FC = () => {
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
-            gap: '10px'
+            gap: '8px'
           }}>
             🌴 فرع القطيف
           </Link>
+        </div>
+
+        {/* قسم مميزات المتجر (لإكمال الصفحة وملء الفراغات بأسلوب فخم) */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '15px',
+          maxWidth: '850px',
+          margin: '0 auto'
+        }}>
+          <div style={featureCardStyle}>
+            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🐟</div>
+            <h4 style={{ margin: '5px 0', fontSize: '1.05rem', color: '#0077b6' }}>طازج يومياً</h4>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: '#555' }}>نختار لك أجود الأسماك بعناية فائقة.</p>
+          </div>
+
+          <div style={featureCardStyle}>
+            <div style={{ fontSize: '28px', marginBottom: '8px' }}>✂️</div>
+            <h4 style={{ margin: '5px 0', fontSize: '1.05rem', color: '#0077b6' }}>تنظيف وتقطيع</h4>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: '#555' }}>تجهيز الأسماك حسب رغبتك مجاناً.</p>
+          </div>
+
+          <div style={featureCardStyle}>
+            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🚀</div>
+            <h4 style={{ margin: '5px 0', fontSize: '1.05rem', color: '#0077b6' }}>توصيل سريع</h4>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: '#555' }}>نوصل طلبك محافظاً على جودته وبرودته.</p>
+          </div>
         </div>
 
       </div>
@@ -196,17 +225,27 @@ const Home: React.FC = () => {
         position: 'relative',
         zIndex: 3,
         color: '#e0fbfc',
-        fontSize: '0.9rem',
+        fontSize: '0.85rem',
         fontWeight: '500',
-        opacity: '0.8',
+        opacity: '0.85',
         textShadow: '0 1px 5px rgba(0,0,0,0.2)',
-        marginTop: '20px'
+        marginTop: '10px'
       }}>
         جميع الحقوق محفوظة © ثمار البحر 2026
       </div>
 
     </div>
   );
+};
+
+// ستايل كروت المميزات المضافة
+const featureCardStyle = {
+  backgroundColor: 'rgba(255, 255, 255, 0.92)',
+  borderRadius: '15px',
+  padding: '16px',
+  textAlign: 'center' as const,
+  boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
+  border: '1px solid rgba(255, 255, 255, 0.4)'
 };
 
 export default Home;
