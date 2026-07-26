@@ -1,167 +1,181 @@
-import logo from '../assets/logo.png';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png'; // تأكد من مسار اللوجو الصحيح عندك
 
 const Home = () => {
-  const features = [
-    { icon: '🐟', text: 'جودة عالية' },
-    { icon: '✨', text: 'نظافة وتعقيم' },
-    { icon: '🚚', text: 'توصيل سريع' },
-    { icon: '💎', text: 'أسعار تنافسية' }
-  ];
-
   return (
-    <div style={{ textAlign: 'center', direction: 'rtl', fontFamily: "'Segoe UI', sans-serif", backgroundColor: '#f0f9ff', paddingBottom: '50px', minHeight: '100vh' }}>
+    <div style={{
+      position: "relative",
+      minHeight: "100vh",
+      // خلفية بحرية فيروزية فاتحة ومشرقة
+      background: "linear-gradient(135deg, #00b4d8 0%, #48cae4 50%, #90e0ef 100%)",
+      overflow: "hidden",
+      fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
+      direction: "rtl",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "30px 20px"
+    }}>
       
-      {/* البانر مع تدرج ألوان بحري فاتح ومشرق */}
-      <div style={{ 
-        background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%)', 
-        color: 'white', 
-        padding: '80px 20px', 
-        marginBottom: '40px',
-        boxShadow: '0 10px 30px rgba(14, 165, 233, 0.2)'
+      {/* طبقة إضاءة شفافة لفتح الصورة وإعطاء إشراقة بحرية */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        background: "radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(0,180,216,0.1) 100%)",
+        pointerEvents: "none",
+        zIndex: 1
+      }}></div>
+
+      {/* شريط التنقل العلوي (Navbar المبدئي) */}
+      <div style={{
+        position: "relative",
+        zIndex: 3,
+        width: "100%",
+        maxWidth: "1100px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "10px 20px",
+        background: "rgba(255, 255, 255, 0.25)",
+        backdropFilter: "blur(10px)",
+        borderRadius: "50px",
+        border: "1px solid rgba(255, 255, 255, 0.4)",
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)"
       }}>
-        <div style={{ 
-          width: '120px', 
-          height: '120px', 
-          backgroundColor: '#ffffff', 
-          borderRadius: '50%', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          margin: '0 auto 20px', 
-          boxShadow: '0 10px 25px rgba(0,0,0,0.15)' 
-        }}>
-          <img src={logo} alt="Logo" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
+        <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+          <Link to="/" style={{ color: "#03045e", fontWeight: "bold", textDecoration: "none" }}>الرئيسية</Link>
+          <Link to="/riyadh" style={{ color: "#03045e", textDecoration: "none" }}>الرياض</Link>
+          <Link to="/jeddah" style={{ color: "#03045e", textDecoration: "none" }}>جدة</Link>
+          <Link to="/qatif" style={{ color: "#03045e", textDecoration: "none" }}>القطيف</Link>
         </div>
-        <h1 style={{ 
-          fontSize: '3rem', 
-          margin: '0', 
-          fontWeight: '800', 
-          background: 'linear-gradient(to right, #ffffff, #e0f2fe)', 
-          WebkitBackgroundClip: 'text', 
-          WebkitTextFillColor: 'transparent',
-          textShadow: '0 2px 10px rgba(0,0,0,0.1)'
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <Link to="/login" style={{ color: "#03045e", textDecoration: "none", fontWeight: "500" }}>تسجيل الدخول</Link>
+          <Link to="/cart" style={{ backgroundColor: "#0077b6", color: "white", padding: "8px 20px", borderRadius: "20px", textDecoration: "none", fontWeight: "bold" }}>السلة 🛒</Link>
+        </div>
+      </div>
+
+      {/* محتوى الصفحة الرئيسي */}
+      <div style={{ position: "relative", zIndex: 3, textAlign: "center", width: "100%", marginTop: "3vh" }}>
+        
+        {/* الشعار بإطار أبيض مضيء وفخم */}
+        <div style={{
+          background: "white",
+          width: "110px",
+          height: "110px",
+          borderRadius: "50%",
+          margin: "0 auto 20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+          border: "3px solid rgba(255,255,255,0.8)"
+        }}>
+          <img src={logo} alt="Logo" style={{ width: "65%", height: "65%", objectFit: "contain" }} />
+        </div>
+
+        {/* العنوان الرئيسي */}
+        <h1 style={{
+          color: "#03045e",
+          fontSize: "3rem",
+          fontWeight: "900",
+          marginBottom: "10px",
+          textShadow: "0 2px 10px rgba(255,255,255,0.6)"
         }}>
           ثمار البحر
         </h1>
-        <p style={{ fontSize: '1.2rem', marginTop: '10px', color: '#e0f2fe', fontWeight: '500' }}>طعم التميز.. نأتيكم بأجود الأسماك الطازجة</p>
-      </div>
 
-      {/* الفروع (الرياض، جدة، القطيف) */}
-      <div style={{ padding: '20px', marginBottom: '40px' }}>
-        <h2 style={{ color: '#0369a1', marginBottom: '25px', fontWeight: '700' }}>اختر فرعك للبدء</h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
-          <Link to="/riyadh" style={{ padding: '15px 40px', backgroundColor: '#0ea5e9', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(14,165,233,0.3)', transition: '0.3s' }}>فرع الرياض</Link>
-          <Link to="/jeddah" style={{ padding: '15px 40px', backgroundColor: '#0284c7', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(2,132,199,0.3)', transition: '0.3s' }}>فرع جدة</Link>
-          <Link to="/qatif" style={{ padding: '15px 40px', backgroundColor: '#0369a1', color: 'white', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(3,105,161,0.3)', transition: '0.3s' }}>فرع القطيف</Link>
-        </div>
-      </div>
-
-      {/* الميزات المصغرة */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '0 20px', flexWrap: 'wrap', marginBottom: '60px' }}>
-        {features.map((item, i) => (
-          <div key={i} style={{ padding: '25px', borderRadius: '20px', width: '140px', backgroundColor: '#fff', boxShadow: '0 4px 15px rgba(14,165,233,0.08)', border: '1px solid #e0f2fe' }}>
-            <div style={{ fontSize: '2rem', marginBottom: '10px' }}>{item.icon}</div>
-            <div style={{ fontSize: '0.9rem', fontWeight: '600', color: '#0369a1' }}>{item.text}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* أقسام المتجر التفصيلية (من نحن، لماذا نحن، اتصل بنا) */}
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px', marginBottom: '50px' }}>
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-          gap: '25px',
-          textAlign: 'right'
+        <p style={{
+          color: "#023e8a",
+          fontSize: "1.2rem",
+          fontWeight: "600",
+          letterSpacing: "1px",
+          marginBottom: "40px"
         }}>
-          
-          {/* كارت من نحن */}
-          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 20px rgba(14,165,233,0.06)', border: '1px solid #bae6fd' }}>
-            <h3 style={{ color: '#0284c7', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span>🐟</span> من نحن
-            </h3>
-            <p style={{ color: '#334155', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
-              متجر ثمار البحر، وجهتك الأولى لأفضل وأفخر أنواع الأسماك الطازجة والمأكولات البحرية المنتقاة بعناية فائقة من بحارنا لتصل إلى مائدتك يومياً بأعلى معايير الجودة والنظافة.
-            </p>
-          </div>
+          طعم التميز.. نأتيكم بأجود الأسماك الطازجة
+        </p>
 
-          {/* كارت لماذا نحن */}
-          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 20px rgba(14,165,233,0.06)', border: '1px solid #bae6fd' }}>
-            <h3 style={{ color: '#0284c7', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span>⭐</span> لماذا نحن
-            </h3>
-            <p style={{ color: '#334155', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
-              نتميز بالتوصيل السريع ضمن حافظات مبردة تحافظ على النضارة الكاملة، مع التطهير والتعقيم المستمر لضمان سلامتك، وأسعار تنافسية تضمن لك أفضل قيمة.
-            </p>
-          </div>
+        {/* أزرار فروع المتجر بتصميم الصدف الراقي والفاتح */}
+        <div>
+          <h3 style={{ color: "#03045e", marginBottom: "25px", fontWeight: "700", fontSize: "1.3rem" }}>
+            اختر فرعك للبدء
+          </h3>
 
-          {/* كارت اتصل بنا مع زر الخريطة */}
-          <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 4px 20px rgba(14,165,233,0.06)', border: '1px solid #bae6fd', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <div>
-              <h3 style={{ color: '#0284c7', marginBottom: '15px', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span>📞</span> اتصل بنا
-              </h3>
-              <p style={{ color: '#334155', fontSize: '0.95rem', lineHeight: '1.7', margin: 0 }}>
-                نسعد بخدمتكم وتلبية طلباتكم على مدار الساعة عبر فروعنا المتاحة في الرياض وجدة والقطيف، أو من خلال خدمة الواتساب المتاحة دائماً لخدمتكم بكل فخر.
-              </p>
-            </div>
-            
-            <div style={{ marginTop: '20px' }}>
-              <a 
-                href="https://maps.app.goo.gl/bdbDFUZYofukC1Zf8" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
-                  gap: '6px', 
-                  padding: '10px 18px', 
-                  backgroundColor: '#0ea5e9', 
-                  color: 'white', 
-                  borderRadius: '10px', 
-                  textDecoration: 'none', 
-                  fontSize: '0.9rem', 
-                  fontWeight: 'bold',
-                  boxShadow: '0 4px 12px rgba(14, 165, 233, 0.3)',
-                  transition: '0.3s'
-                }}
-              >
-                📍 موقعنا على الخريطة (فرع القطيف)
-              </a>
-            </div>
-          </div>
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            flexWrap: "wrap",
+            maxWidth: "700px",
+            margin: "0 auto"
+          }}>
+            <Link to="/riyadh" className="shell-btn" style={{
+              padding: "15px 35px",
+              borderRadius: "50px",
+              background: "rgba(255, 255, 255, 0.85)",
+              color: "#03045e",
+              fontSize: "1.1rem",
+              fontWeight: "bold",
+              textDecoration: "none",
+              boxShadow: "0 8px 25px rgba(0, 119, 182, 0.2)",
+              border: "1px solid rgba(255, 255, 255, 1)",
+              transition: "all 0.3s ease"
+            }}>
+              🐚 فرع الرياض
+            </Link>
 
+            <Link to="/jeddah" className="shell-btn" style={{
+              padding: "15px 35px",
+              borderRadius: "50px",
+              background: "rgba(255, 255, 255, 0.85)",
+              color: "#03045e",
+              fontSize: "1.1rem",
+              fontWeight: "bold",
+              textDecoration: "none",
+              boxShadow: "0 8px 25px rgba(0, 119, 182, 0.2)",
+              border: "1px solid rgba(255, 255, 255, 1)",
+              transition: "all 0.3s ease"
+            }}>
+              🐚 فرع جدة
+            </Link>
+
+            <Link to="/qatif" className="shell-btn" style={{
+              padding: "15px 35px",
+              borderRadius: "50px",
+              background: "rgba(255, 255, 255, 0.85)",
+              color: "#03045e",
+              fontSize: "1.1rem",
+              fontWeight: "bold",
+              textDecoration: "none",
+              boxShadow: "0 8px 25px rgba(0, 119, 182, 0.2)",
+              border: "1px solid rgba(255, 255, 255, 1)",
+              transition: "all 0.3s ease"
+            }}>
+              🐚 فرع القطيف
+            </Link>
+          </div>
         </div>
+
       </div>
 
-      {/* زر الواتساب العائم (Floating Button) */}
-      <a 
-        href="https://wa.me/966577972769" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        style={{
-          position: 'fixed',
-          bottom: '30px',
-          left: '30px',
-          backgroundColor: '#25D366',
-          color: 'white',
-          padding: '15px',
-          borderRadius: '50%',
-          fontSize: '30px',
-          boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
-          zIndex: 1000,
-          textDecoration: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: '0.3s'
-        }}
-        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-      >
-        💬
-      </a>
+      {/* تأثيرات تجميلية وحركة للأزرار */}
+      <style>{`
+        .shell-btn:hover {
+          background: #03045e !important;
+          color: #ffffff !important;
+          transform: translateY(-5px);
+          box-shadow: 0 12px 30px rgba(3, 4, 94, 0.3) !important;
+        }
+      `}</style>
+
+      {/* حقوق النشر */}
+      <div style={{ position: "relative", zIndex: 3, color: "#023e8a", fontSize: "0.9rem", fontWeight: "600", marginTop: "20px" }}>
+        جميع الحقوق محفوظة © ثمار البحر 2026
+      </div>
 
     </div>
   );
