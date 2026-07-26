@@ -34,11 +34,11 @@ const Navbar = () => {
 
   const linkStyle = {
     textDecoration: 'none',
-    color: '#0f172a',
+    color: '#ffffff',
     fontSize: '15px',
     fontWeight: '600',
     transition: 'all 0.3s ease',
-    padding: '6px 10px',
+    padding: '6px 12px',
     borderRadius: '8px'
   };
 
@@ -47,32 +47,49 @@ const Navbar = () => {
       display: 'flex', 
       justifyContent: 'space-between', 
       alignItems: 'center', 
-      padding: '15px 20px',
-      backgroundColor: '#ffffff',
-      boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+      padding: '12px 25px',
+      backgroundColor: 'rgba(3, 4, 94, 0.75)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
       position: 'sticky',
       top: 0,
       zIndex: 1000,
       flexWrap: 'wrap',
-      gap: '10px'
+      gap: '10px',
+      fontFamily: "'Tajawal', 'Segoe UI', sans-serif"
     }}>
       
+      {/* اللوجو والعنوان */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <img src={logo} alt="Logo" style={{ height: '45px', transition: 'transform 0.3s' }} />
-        <span style={{ fontSize: '22px', fontWeight: '800', color: '#0f172a', letterSpacing: '1px' }}>
-          ثمار <span style={{ color: '#0ea5e9' }}>البحر</span>
+        <div style={{
+          background: 'white',
+          width: '42px',
+          height: '42px',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
+        }}>
+          <img src={logo} alt="Logo" style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
+        </div>
+        <span style={{ fontSize: '20px', fontWeight: '850', color: '#ffffff', letterSpacing: '1px' }}>
+          ثمار <span style={{ color: '#48cae4' }}>البحر</span>
         </span>
       </div>
 
-      <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+      {/* الروابط وأزرار التحكم */}
+      <div style={{ display: 'flex', gap: '15px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Link to="/" style={linkStyle}>الرئيسية</Link>
         <Link to="/riyadh" style={linkStyle}>الرياض</Link>
         <Link to="/qatif" style={linkStyle}>القطيف</Link>
-        <Link to="/jeddah" style={linkStyle}>جدة</Link>
+        <Link to="/jeddah" style={linkStyle}>الجدة</Link>
         
         {customerPhone ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '8px' }}>
-            <span style={{ fontSize: '13px', color: '#334155', fontWeight: '600' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: 'rgba(255, 255, 255, 0.15)', padding: '5px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)' }}>
+            <span style={{ fontSize: '13px', color: '#e0fbfc', fontWeight: '600' }}>
               👤 <span dir="ltr">{customerPhone}</span>
             </span>
             <button
@@ -80,7 +97,7 @@ const Navbar = () => {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#ef4444',
+                color: '#ff6b6b',
                 fontSize: '12px',
                 cursor: 'pointer',
                 fontWeight: 'bold',
@@ -93,19 +110,23 @@ const Navbar = () => {
         ) : (
           <Link to="/login" style={{ 
             ...linkStyle, 
-            border: '1px solid #0ea5e9',
-            color: '#0ea5e9'
+            border: '1px solid #48cae4',
+            color: '#48cae4',
+            backgroundColor: 'rgba(72, 202, 228, 0.1)'
           }}>
             تسجيل الدخول
           </Link>
         )}
 
+        {/* سلة الشراء */}
         <Link to="/cart" style={{ 
           ...linkStyle, 
-          backgroundColor: '#0ea5e9', 
+          backgroundColor: '#0077b6', 
           color: 'white', 
-          padding: '6px 14px',
-          position: 'relative'
+          padding: '7px 16px',
+          position: 'relative',
+          boxShadow: '0 4px 15px rgba(0, 119, 182, 0.4)',
+          border: '1px solid rgba(255,255,255,0.2)'
         }}>
           السلة 🛒
           {totalItems > 0 && (
