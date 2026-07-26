@@ -1,16 +1,19 @@
-/* إعدادات جذلاوية لتثبيت لون الخلفية ومنع ظهور أي مساحة بيضاء على الموبايل */
-html, body, #root {
-  background-color: #0077b6 !important;
-  background: linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%) !important;
+/* تثبيت الجذر ومنع أي تمرير زائد أو بياض خارج الحدود */
+html {
+  background-color: #0077b6;
+  overscroll-behavior-y: none; /* بيقفل الحركة اللي بتعمل بياض فوق وتحت في الموبايل */
+}
+
+body, #root {
+  background: linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%);
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
-  box-sizing: border-box;
+  overscroll-behavior-y: none;
 }
 
-*, *::before, *::after {
+* {
   box-sizing: border-box;
 }
