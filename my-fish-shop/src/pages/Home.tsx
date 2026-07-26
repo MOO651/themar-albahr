@@ -1,13 +1,11 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png'; // تأكد من مسار اللوجو الصحيح عندك
+import logo from '../assets/logo.png';
 
 const Home = () => {
   return (
     <div style={{
       position: "relative",
       minHeight: "100vh",
-      // خلفية بحرية فيروزية فاتحة ومشرقة
       background: "linear-gradient(135deg, #00b4d8 0%, #48cae4 50%, #90e0ef 100%)",
       overflow: "hidden",
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
@@ -19,7 +17,7 @@ const Home = () => {
       padding: "30px 20px"
     }}>
       
-      {/* طبقة إضاءة شفافة لفتح الصورة وإعطاء إشراقة بحرية */}
+      {/* طبقة إضاءة شفافة لإعطاء إشراقة بحرية */}
       <div style={{
         position: "absolute",
         top: 0,
@@ -31,7 +29,7 @@ const Home = () => {
         zIndex: 1
       }}></div>
 
-      {/* شريط التنقل العلوي (Navbar المبدئي) */}
+      {/* شريط التنقل العلوي */}
       <div style={{
         position: "relative",
         zIndex: 3,
@@ -62,7 +60,7 @@ const Home = () => {
       {/* محتوى الصفحة الرئيسي */}
       <div style={{ position: "relative", zIndex: 3, textAlign: "center", width: "100%", marginTop: "3vh" }}>
         
-        {/* الشعار بإطار أبيض مضيء وفخم */}
+        {/* الشعار */}
         <div style={{
           background: "white",
           width: "110px",
@@ -99,7 +97,7 @@ const Home = () => {
           طعم التميز.. نأتيكم بأجود الأسماك الطازجة
         </p>
 
-        {/* أزرار فروع المتجر بتصميم الصدف الراقي والفاتح */}
+        {/* أزرار الفروع */}
         <div>
           <h3 style={{ color: "#03045e", marginBottom: "25px", fontWeight: "700", fontSize: "1.3rem" }}>
             اختر فرعك للبدء
@@ -162,7 +160,6 @@ const Home = () => {
 
       </div>
 
-      {/* تأثيرات تجميلية وحركة للأزرار */}
       <style>{`
         .shell-btn:hover {
           background: #03045e !important;
