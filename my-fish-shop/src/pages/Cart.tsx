@@ -7,7 +7,6 @@ const Cart = () => {
   const { riyadhItems, qatifItems, jeddahItems, updateQuantity, removeFromCart } = useContext(CartContext) as any;
   const [notes, setNotes] = useState<{ [key: string]: string }>({});
   
-  // فصل بيانات العميل لكل فرع لوحده تماماً
   const [riyadhCustomer, setRiyadhCustomer] = useState({ name: '', phone: '', address: '' });
   const [qatifCustomer, setQatifCustomer] = useState({ name: '', phone: '', address: '' });
   const [jeddahCustomer, setJeddahCustomer] = useState({ name: '', phone: '', address: '' });
@@ -34,7 +33,7 @@ const Cart = () => {
       await addDoc(collection(db, "orders"), {
         branch,
         items,
-        total,
+        total: Number(total.toFixed(2)),
         customerName: customer.name,
         customerPhone: customer.phone,
         customerAddress: customer.address,
@@ -47,9 +46,9 @@ const Cart = () => {
   };
 
   const sendToWhatsApp = (branch: string, items: any[], customer: any) => {
-    let phone = '966577972769'; // رقم الرياض
-    if (branch === 'qatif') phone = '966595273048'; // رقم القطيف
-    else if (branch === 'jeddah') phone = '966560350663'; // رقم جدة
+    let phone = '966577972769';
+    if (branch === 'qatif') phone = '966595273048';
+    else if (branch === 'jeddah') phone = '966560350663';
 
     const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -64,7 +63,7 @@ const Cart = () => {
       text += `\n- ${i.name} (x${i.quantity})${note}`;
     });
 
-    text += `\n\n💰 الإجمالي: ${total} ر.س`;
+    text += `\n\n💰 الإجمالي: ${total.toFixed(2)} ر.س`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -137,7 +136,7 @@ const Cart = () => {
 
               <div style={{ marginTop: '15px', padding: '14px', backgroundColor: '#f1f5f9', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '16px', fontWeight: 'bold', color: '#0077b6' }}>
                 <span>الإجمالي:</span>
-                <span style={{ color: accentColor, fontSize: '20px', fontWeight: '900' }}>{total} ر.س</span>
+                <span style={{ color: accentColor, fontSize: '20px', fontWeight: '900' }}>{total.toFixed(2)} ر.س</span>
               </div>
 
               <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
