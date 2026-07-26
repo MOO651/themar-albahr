@@ -14,7 +14,7 @@ function App() {
   return (
     <CartProvider>
       <Router>
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}>
           <Navbar />
           
           <main style={{ flex: 1 }}>

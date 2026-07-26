@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { CartProvider } from './context/CartContext';
+import './index.css'; // لو بتستورد ملف الستايل هنا
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <CartProvider>
-      <App />
-    </CartProvider>
+    <App />
   </React.StrictMode>
 );
