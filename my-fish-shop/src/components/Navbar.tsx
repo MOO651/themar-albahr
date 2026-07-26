@@ -36,156 +36,139 @@ const Navbar = () => {
       <style>{`
         .navbar-container {
           display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 10px 16px;
+          flex-direction: column;
+          padding: 8px 10px;
           background-color: rgba(3, 4, 94, 0.95);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-bottom: 1px solid rgba(255, 255, 255, 0.15);
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+          width: 100%;
+          box-sizing: border-box;
+          font-family: 'Tajawal', 'Segoe UI', sans-serif;
           position: sticky;
           top: 0;
           z-index: 1000;
-          font-family: 'Tajawal', 'Segoe UI', sans-serif;
-          width: 100%;
-          box-sizing: border-box;
         }
-        .nav-links-wrapper {
+        .navbar-main-row {
           display: flex;
-          gap: 10px;
+          justify-content: space-between;
           align-items: center;
-          flex-wrap: nowrap;
-          overflow-x: auto;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          padding: 2px 0;
+          width: 100%;
+          margin-bottom: 6px;
         }
-        .nav-links-wrapper::-webkit-scrollbar {
-          display: none;
+        .navbar-links-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          border-top: 1px solid rgba(255, 255, 255, 0.12);
+          padding-top: 6px;
         }
-        .nav-item {
+        .nav-link-item {
           text-decoration: none;
           color: #ffffff;
-          font-size: 13px;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          padding: 6px 10px;
-          border-radius: 8px;
+          font-size: 12px;
+          font-weight: 700;
+          padding: 4px 8px;
+          border-radius: 6px;
+          text-align: center;
+          flex: 1;
           white-space: nowrap;
         }
-        .nav-item:hover {
+        .nav-link-item:hover {
           background: rgba(255, 255, 255, 0.1);
         }
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
           .navbar-container {
-            padding: 8px 10px;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 10px 20px;
           }
-          .brand-title {
-            font-size: 15px !important;
+          .navbar-main-row {
+            margin-bottom: 0;
+            width: auto;
           }
-          .brand-logo-box {
-            width: 32px !important;
-            height: 32px !important;
+          .navbar-links-row {
+            border-top: none;
+            padding-top: 0;
+            width: auto;
+            gap: 12px;
           }
-          .nav-links-wrapper {
-            gap: 6px;
-          }
-          .nav-item {
-            font-size: 12px !important;
-            padding: 5px 8px !important;
+          .nav-link-item {
+            flex: unset;
+            font-size: 14px;
           }
         }
       `}</style>
 
       <nav className="navbar-container">
-        {/* اللوجو والعنوان */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', flexShrink: 0 }}>
-          <div className="brand-logo-box" style={{
-            background: 'white',
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
-          }}>
-            <img src={logo} alt="Logo" style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
-          </div>
-          <span className="brand-title" style={{ fontSize: '17px', fontWeight: '850', color: '#ffffff', letterSpacing: '0.3px', whiteSpace: 'nowrap' }}>
-            ثمار <span style={{ color: '#48cae4' }}>البحر</span>
-          </span>
-        </Link>
-
-        {/* الروابط كاملة ومنسقة أفقياً */}
-        <div className="nav-links-wrapper">
-          <Link to="/" className="nav-item">الرئيسية</Link>
-          <Link to="/riyadh" className="nav-item">الرياض</Link>
-          <Link to="/qatif" className="nav-item">القطيف</Link>
-          <Link to="/jeddah" className="nav-item">جدة</Link>
-          
-          {customerPhone ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', backgroundColor: 'rgba(255, 255, 255, 0.15)', padding: '4px 8px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', flexShrink: 0 }}>
-              <span style={{ fontSize: '11px', color: '#e0fbfc', fontWeight: '600' }} dir="ltr">
-                👤 {customerPhone}
-              </span>
-              <button
-                onClick={handleLogout}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#ff6b6b',
-                  fontSize: '11px',
-                  cursor: 'pointer',
-                  fontWeight: 'bold',
-                  padding: '1px 3px'
-                }}
-              >
-                خروج
-              </button>
-            </div>
-          ) : (
-            <Link to="/login" className="nav-item" style={{ 
-              border: '1px solid #48cae4',
-              color: '#48cae4',
-              backgroundColor: 'rgba(72, 202, 228, 0.1)',
-              flexShrink: 0
+        {/* السطر الأول: اللوجو واسم المتجر + أزرار الدخول والسلة */}
+        <div className="navbar-main-row">
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}>
+            <div style={{
+              background: 'white',
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
             }}>
-              دخول
-            </Link>
-          )}
-
-          {/* سلة الشراء */}
-          <Link to="/cart" style={{ 
-            textDecoration: 'none',
-            backgroundColor: '#0077b6', 
-            color: 'white', 
-            padding: '7px 12px',
-            borderRadius: '8px',
-            position: 'relative',
-            boxShadow: '0 3px 10px rgba(0, 119, 182, 0.4)',
-            border: '1px solid rgba(255,255,255,0.2)',
-            display: 'inline-flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '4px',
-            fontSize: '12px',
-            fontWeight: '600',
-            flexShrink: 0,
-            whiteSpace: 'nowrap'
-          }}>
-            السلة 🛒
-            {totalItems > 0 && (
-              <span style={{ 
-                position: 'absolute', top: '-6px', right: '-6px', 
-                backgroundColor: '#ef4444', color: 'white', borderRadius: '50%', 
-                padding: '1px 5px', fontSize: '10px', fontWeight: 'bold' 
-              }}>
-                {totalItems}
-              </span>
-            )}
+              <img src={logo} alt="Logo" style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
+            </div>
+            <span style={{ fontSize: '15px', fontWeight: '850', color: '#ffffff', whiteSpace: 'nowrap' }}>
+              ثمار <span style={{ color: '#48cae4' }}>البحر</span>
+            </span>
           </Link>
+
+          <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+            {customerPhone ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '3px', backgroundColor: 'rgba(255, 255, 255, 0.15)', padding: '3px 6px', borderRadius: '6px' }}>
+                <span style={{ fontSize: '10px', color: '#e0fbfc', fontWeight: '600' }} dir="ltr">
+                  👤 {customerPhone}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  style={{ background: 'none', border: 'none', color: '#ff6b6b', fontSize: '10px', cursor: 'pointer', fontWeight: 'bold' }}
+                >
+                  خروج
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" style={{ 
+                textDecoration: 'none', border: '1px solid #48cae4', color: '#48cae4',
+                backgroundColor: 'rgba(72, 202, 228, 0.1)', fontSize: '11px', padding: '4px 8px', borderRadius: '6px', fontWeight: '600'
+              }}>
+                دخول
+              </Link>
+            )}
+
+            <Link to="/cart" style={{ 
+              textDecoration: 'none', backgroundColor: '#0077b6', color: 'white', 
+              padding: '4px 9px', borderRadius: '6px', position: 'relative', fontSize: '11px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '3px'
+            }}>
+              السلة 🛒
+              {totalItems > 0 && (
+                <span style={{ 
+                  position: 'absolute', top: '-5px', right: '-5px', 
+                  backgroundColor: '#ef4444', color: 'white', borderRadius: '50%', 
+                  padding: '1px 4px', fontSize: '9px', fontWeight: 'bold' 
+                }}>
+                  {totalItems}
+                </span>
+              )}
+            </Link>
+          </div>
+        </div>
+
+        {/* السطر الثاني: الفروع والصفحة الرئيسية متساوية وموزعة بعرض الشاشة تماماً */}
+        <div className="navbar-links-row">
+          <Link to="/" className="nav-link-item">الرئيسية</Link>
+          <Link to="/riyadh" className="nav-link-item">الرياض</Link>
+          <Link to="/qatif" className="nav-link-item">القطيف</Link>
+          <Link to="/jeddah" className="nav-link-item">جدة</Link>
         </div>
       </nav>
     </>
