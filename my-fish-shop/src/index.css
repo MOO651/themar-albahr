@@ -1,0 +1,16 @@
+/* إعدادات جذلاوية لتثبيت لون الخلفية ومنع ظهور أي مساحة بيضاء على الموبايل */
+html, body, #root {
+  background-color: #0077b6 !important;
+  background: linear-gradient(180deg, #0077b6 0%, #0096c7 50%, #48cae4 100%) !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
