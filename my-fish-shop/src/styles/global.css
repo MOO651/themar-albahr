@@ -1,12 +1,12 @@
-/* ضبط العرض العام ومنع خروج أي عنصر عن حدود الشاشة */
-* {
+/* منع أي إزاحة أو تمدد أفقي نهائياً */
+*, *::before, *::after {
   box-sizing: border-box !important;
-  margin: 0;
-  padding: 0;
 }
 
 html, body {
-  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
   max-width: 100% !important;
   overflow-x: hidden !important;
   position: relative;
@@ -17,12 +17,14 @@ html, body {
 }
 
 #root {
-  width: 100%;
+  width: 100% !important;
   max-width: 100% !important;
   overflow-x: hidden !important;
+  margin: 0 auto;
 }
 
-/* ضمان عدم تجاوز الحاويات الرئيسية لعرض الشاشة */
-div, section, header, nav, main {
+/* التأكد من أن أي صورة أو جدول أو صندوق لا يتجاوز عرض الشاشة */
+img, video, canvas, svg {
   max-width: 100%;
+  height: auto;
 }
