@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png'; // تأكد من مسار اللوجو الصحيح لديك
+import logo from '../assets/logo.png';
 
-// مكون الأسماك والشعاب المرجانية المتحركة
-const OceanElements = () => (
+const OceanElements: React.FC = () => (
   <div style={{
     position: 'absolute',
     top: 0,
@@ -14,197 +13,192 @@ const OceanElements = () => (
     zIndex: 1,
     overflow: 'hidden'
   }}>
-    {/* تأثيرات حركة الأسماك - CSS Animation */}
     <style>{`
-      @keyframes swimRight {
-        0% { transform: translateX(-150px) translateY(0px); opacity: 0.7; }
-        50% { transform: translateX(50vw) translateY(30px); opacity: 1; }
-        100% { transform: translateX(110vw) translateY(-50px); opacity: 0.6; }
+      @keyframes fishPathA {
+        0% { transform: translate(10vw, 20vh) scaleX(1); }
+        25% { transform: translate(75vw, 30vh) scaleX(1); }
+        50% { transform: translate(85vw, 75vh) scaleX(-1); }
+        75% { transform: translate(15vw, 70vh) scaleX(-1); }
+        100% { transform: translate(10vw, 20vh) scaleX(1); }
       }
-      @keyframes swimLeft {
-        0% { transform: translateX(110vw) translateY(0px); opacity: 0.7; }
-        50% { transform: translateX(40vw) translateY(-20px); opacity: 1; }
-        100% { transform: translateX(-150px) translateY(40px); opacity: 0.6; }
+      @keyframes fishPathB {
+        0% { transform: translate(80vw, 65vh) scaleX(-1); }
+        25% { transform: translate(25vw, 80vh) scaleX(-1); }
+        50% { transform: translate(10vw, 25vh) scaleX(1); }
+        75% { transform: translate(70vw, 20vh) scaleX(1); }
+        100% { transform: translate(80vw, 65vh) scaleX(-1); }
       }
-      .fish-animated {
-        position: absolute;
-        font-size: 2rem;
-        animation: swimRight 15s infinite linear;
+      @keyframes fishPathC {
+        0% { transform: translate(45vw, 50vh) scaleX(1); }
+        33% { transform: translate(80vw, 40vh) scaleX(1); }
+        66% { transform: translate(20vw, 45vh) scaleX(-1); }
+        100% { transform: translate(45vw, 50vh) scaleX(1); }
       }
-      .fish-animated-left {
-        position: absolute;
-        font-size: 1.5rem;
-        animation: swimLeft 18s infinite linear;
-        animation-delay: 5s;
+      @keyframes fishPathD {
+        0% { transform: translate(30vw, 15vh) scaleX(1); }
+        50% { transform: translate(60vw, 85vh) scaleX(-1); }
+        100% { transform: translate(30vw, 15vh) scaleX(1); }
       }
-      .fish-group {
-        position: absolute;
-        width: 150px;
-        height: 100px;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-        border-radius: 50%;
-        animation: swimRight 25s infinite linear;
-        animation-delay: 2s;
+      .fish-node { 
+        position: absolute; 
+        will-change: transform; 
       }
-      .coral-reef {
-        position: absolute;
-        bottom: -20px;
-        font-size: 5rem;
-        opacity: 0.6;
-        filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
+      .path-a { animation: fishPathA 16s ease-in-out infinite; }
+      .path-b { animation: fishPathB 20s ease-in-out infinite; }
+      .path-c { animation: fishPathC 14s ease-in-out infinite; }
+      .path-d { animation: fishPathD 22s ease-in-out infinite; }
+      .pearl-btn:hover {
+        background: #ffffff !important;
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0, 119, 182, 0.4) !important;
       }
     `}</style>
 
-    {/* أسماك متحركة */}
-    <div className="fish-animated" style={{ top: '15%', fontSize: '3rem' }}>🐠</div>
-    <div className="fish-animated" style={{ top: '75%', fontSize: '2.5rem', animationDelay: '8s' }}>🐟</div>
-    <div className="fish-animated-left" style={{ top: '35%', fontSize: '4rem' }}>🐬</div>
-    <div className="fish-animated-left" style={{ top: '60%', fontSize: '1.8rem', animationDelay: '12s' }}>🐡</div>
+    <div className="fish-node path-a" style={{ fontSize: '3rem', top: 0, left: 0 }}>🐠</div>
+    <div className="fish-node path-b" style={{ fontSize: '2.5rem', top: 0, left: 0, animationDelay: '-2s' }}>🐟</div>
+    <div className="fish-node path-c" style={{ fontSize: '3.5rem', top: 0, left: 0, animationDelay: '-5s' }}>🐬</div>
+    <div className="fish-node path-d" style={{ fontSize: '2.2rem', top: 0, left: 0, animationDelay: '-8s' }}>🐡</div>
     
-    {/* مجموعة أسماك */}
-    <div className="fish-group" style={{ top: '20%', left: '10%' }}>
-      <span style={{ position: 'absolute', top: '20px', left: '40px', fontSize: '1.2rem' }}>🐟</span>
-      <span style={{ position: 'absolute', top: '50px', left: '70px', fontSize: '1.5rem' }}>🐠</span>
-      <span style={{ position: 'absolute', top: '30px', left: '100px', fontSize: '1.2rem' }}>🐟</span>
-    </div>
+    <div className="fish-node path-b" style={{ fontSize: '2.8rem', top: 0, left: 0, animationDelay: '-3s' }}>🦐</div>
+    <div className="fish-node path-a" style={{ fontSize: '2.1rem', top: 0, left: 0, animationDelay: '-7s' }}>🐟</div>
+    <div className="fish-node path-c" style={{ fontSize: '3.2rem', top: 0, left: 0, animationDelay: '-10s' }}>🐠</div>
+    <div className="fish-node path-d" style={{ fontSize: '3.8rem', top: 0, left: 0, animationDelay: '-4s' }}>🐳</div>
 
-    {/* شعاب مرجانية في الأسفل */}
-    <div className="coral-reef" style={{ left: '-50px', fontSize: '10rem' }}>🪸</div>
-    <div className="coral-reef" style={{ right: '10%', bottom: '-40px', fontSize: '15rem', opacity: 0.4 }}>🪸</div>
-    <div className="coral-reef" style={{ left: '25%', bottom: '-60px', fontSize: '8rem', opacity: 0.5 }}>🌿</div>
+    <div className="fish-node path-c" style={{ fontSize: '2.4rem', top: 0, left: 0, animationDelay: '-1s' }}>🐟</div>
+    <div className="fish-node path-d" style={{ fontSize: '2.6rem', top: 0, left: 0, animationDelay: '-6s' }}>🐠</div>
+    <div className="fish-node path-a" style={{ fontSize: '2.9rem', top: 0, left: 0, animationDelay: '-11s' }}>🐡</div>
+    <div className="fish-node path-b" style={{ fontSize: '3.1rem', top: 0, left: 0, animationDelay: '-9s' }}>🐬</div>
+
+    <div style={{ position: 'absolute', bottom: '-15px', right: '2%', fontSize: '9rem', opacity: 0.65, zIndex: 2 }}>🪸</div>
+    <div style={{ position: 'absolute', bottom: '-25px', left: '2%', fontSize: '11rem', opacity: 0.65, zIndex: 2 }}>🪸</div>
+    <div style={{ position: 'absolute', bottom: '-10px', right: '25%', fontSize: '7rem', opacity: 0.5, zIndex: 2 }}>🌿</div>
+    <div style={{ position: 'absolute', bottom: '-10px', left: '25%', fontSize: '7rem', opacity: 0.5, zIndex: 2 }}>🌿</div>
   </div>
 );
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <div style={{
-      position: "relative",
-      minHeight: "100vh",
-      background: "linear-gradient(180deg, #03045e 0%, #0077b6 50%, #48cae4 100%)", // خلفية زرقاء بحرية متدرجة
-      overflow: "hidden",
+      position: 'relative',
+      minHeight: '100vh',
+      background: 'linear-gradient(180deg, #03045e 0%, #0077b6 50%, #48cae4 100%)',
+      overflow: 'hidden',
       fontFamily: "'Tajawal', 'Segoe UI', sans-serif",
-      direction: "rtl",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      padding: "30px 20px",
-      color: "white"
+      direction: 'rtl',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '30px 20px',
+      color: 'white'
     }}>
       
-      {/* إضافة عنصر المحيط بالأسماك والشعاب */}
       <OceanElements />
 
-      {/* محتوى الصفحة الرئيسي */}
-      <div style={{ position: "relative", zIndex: 3, textAlign: "center", width: "100%", maxWidth: "900px" }}>
+      <div style={{ position: 'relative', zIndex: 3, textAlign: 'center', width: '100%', maxWidth: '900px' }}>
         
-        {/* الشعار بإطار أبيض مضيء وفخم */}
         <div style={{
-          background: "white",
-          width: "120px",
-          height: "120px",
-          borderRadius: "50%",
-          margin: "0 auto 20px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "0 15px 40px rgba(0,0,0,0.2)",
-          border: "4px solid rgba(255,255,255,0.9)"
+          background: 'white',
+          width: '120px',
+          height: '120px',
+          borderRadius: '50%',
+          margin: '0 auto 20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 15px 40px rgba(0,0,0,0.2)',
+          border: '4px solid rgba(255,255,255,0.9)'
         }}>
-          <img src={logo} alt="Logo" style={{ width: "70%", height: "70%", objectFit: "contain" }} />
+          <img src={logo} alt="Logo" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
         </div>
 
-        {/* العنوان الرئيسي */}
         <h1 style={{
-          fontSize: "3.5rem",
-          fontWeight: "900",
-          marginBottom: "15px",
-          textShadow: "0 3px 15px rgba(0,0,0,0.3)",
-          letterSpacing: "1px"
+          fontSize: '3.5rem',
+          fontWeight: '900',
+          marginBottom: '15px',
+          textShadow: '0 3px 15px rgba(0,0,0,0.3)',
+          letterSpacing: '1px'
         }}>
           أهلاً بكم في ثمار البحر
         </h1>
 
-        {/* الوصف */}
         <p style={{
-          fontSize: "1.5rem",
-          fontWeight: "600",
-          lineHeight: "1.6",
-          marginBottom: "50px",
-          opacity: "0.9",
-          textShadow: "0 2px 10px rgba(0,0,0,0.2)"
+          fontSize: '1.5rem',
+          fontWeight: '600',
+          lineHeight: '1.6',
+          marginBottom: '50px',
+          opacity: '0.9',
+          textShadow: '0 2px 10px rgba(0,0,0,0.2)'
         }}>
           اكتشفوا تشكيلتنا الواسعة من أجود الأسماك والمأكولات البحرية الطازجة،<br />
           تصلكم من بحارنا إلى مائدتكم بكل فخر.
         </p>
 
-        {/* عنوان الأزرار */}
         <h3 style={{
-          fontSize: "1.8rem",
-          marginBottom: "30px",
-          fontWeight: "700",
-          color: "#caf0f8"
+          fontSize: '1.8rem',
+          marginBottom: '30px',
+          fontWeight: '700',
+          color: '#caf0f8'
         }}>
           اختر الفرع الأقرب إليك للبدء
         </h3>
 
-        {/* أزرار الفروع بتصميم لؤلؤي */}
         <div style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "25px",
-          flexWrap: "wrap"
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '25px',
+          flexWrap: 'wrap'
         }}>
           <Link to="/riyadh" className="pearl-btn" style={{
-            padding: "18px 40px",
-            borderRadius: "50px",
-            background: "rgba(255, 255, 255, 0.95)",
-            color: "#03045e",
-            fontSize: "1.2rem",
-            fontWeight: "bold",
-            textDecoration: "none",
-            boxShadow: "0 10px 25px rgba(0, 119, 182, 0.3)",
-            border: "1px solid rgba(255, 255, 255, 1)",
-            transition: "all 0.3s ease",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px"
+            padding: '18px 40px',
+            borderRadius: '50px',
+            background: 'rgba(255, 255, 255, 0.95)',
+            color: '#03045e',
+            fontSize: '1.2rem',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            boxShadow: '0 10px 25px rgba(0, 119, 182, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 1)',
+            transition: 'all 0.3s ease',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
           }}>
             🏛️ فرع الرياض
           </Link>
 
           <Link to="/jeddah" className="pearl-btn" style={{
-            padding: "18px 40px",
-            borderRadius: "50px",
-            background: "rgba(255, 255, 255, 0.95)",
-            color: "#03045e",
-            fontSize: "1.2rem",
-            fontWeight: "bold",
-            textDecoration: "none",
-            boxShadow: "0 10px 25px rgba(0, 119, 182, 0.3)",
-            border: "1px solid rgba(255, 255, 255, 1)",
-            transition: "all 0.3s ease",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px"
+            padding: '18px 40px',
+            borderRadius: '50px',
+            background: 'rgba(255, 255, 255, 0.95)',
+            color: '#03045e',
+            fontSize: '1.2rem',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            boxShadow: '0 10px 25px rgba(0, 119, 182, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 1)',
+            transition: 'all 0.3s ease',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
           }}>
             ⚓ فرع جدة
           </Link>
 
           <Link to="/qatif" className="pearl-btn" style={{
-            padding: "18px 40px",
-            borderRadius: "50px",
-            background: "rgba(255, 255, 255, 0.95)",
-            color: "#03045e",
-            fontSize: "1.2rem",
-            fontWeight: "bold",
-            textDecoration: "none",
-            boxShadow: "0 10px 25px rgba(0, 119, 182, 0.3)",
-            border: "1px solid rgba(255, 255, 255, 1)",
-            transition: "all 0.3s ease",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px"
+            padding: '18px 40px',
+            borderRadius: '50px',
+            background: 'rgba(255, 255, 255, 0.95)',
+            color: '#03045e',
+            fontSize: '1.2rem',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            boxShadow: '0 10px 25px rgba(0, 119, 182, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 1)',
+            transition: 'all 0.3s ease',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
           }}>
             🌴 فرع القطيف
           </Link>
@@ -212,25 +206,15 @@ const Home = () => {
 
       </div>
 
-      {/* تأثيرات حركة الأزرار */}
-      <style>{`
-        .pearl-btn:hover {
-          background: #ffffff !important;
-          transform: translateY(-5px) scale(1.02);
-          box-shadow: 0 15px 30px rgba(0, 119, 182, 0.4) !important;
-        }
-      `}</style>
-
-      {/* حقوق النشر */}
       <div style={{
-        position: "relative",
+        position: 'relative',
         zIndex: 3,
-        color: "#e0fbfc",
-        fontSize: "0.9rem",
-        fontWeight: "500",
-        marginTop: "40px",
-        opacity: "0.8",
-        textShadow: "0 1px 5px rgba(0,0,0,0.2)"
+        color: '#e0fbfc',
+        fontSize: '0.9rem',
+        fontWeight: '500',
+        marginTop: '40px',
+        opacity: '0.8',
+        textShadow: '0 1px 5px rgba(0,0,0,0.2)'
       }}>
         جميع الحقوق محفوظة © ثمار البحر 2026
       </div>
